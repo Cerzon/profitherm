@@ -18,3 +18,18 @@ class StaticPage(models.Model):
 
     def __str__(self):
         return self.page_name
+
+
+class UserFeedback(models.Model):
+    is_published = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+    user_name = models.CharField(max_length=80)
+    user_email = models.EmailField()
+    message_header = models.CharField(max_length=160)
+    message_text = models.TextField()
+
+    class Meta():
+        ordering = ['-date_created']
+
+    def __str__(self):
+        return self.message_header
