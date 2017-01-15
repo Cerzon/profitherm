@@ -7,6 +7,7 @@ class StaticPage(models.Model):
     date_created = models.DateField(auto_now_add=True)
     order_num = models.SmallIntegerField()
     page_name = models.CharField(max_length=30)
+    page_title = models.CharField(max_length=120)
     meta_description = models.CharField(max_length=200)
     meta_keywords = models.CharField(max_length=160)
     page_content = models.TextField()

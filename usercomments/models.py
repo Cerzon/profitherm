@@ -8,3 +8,4 @@ class UserComment(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     is_published = models.BooleanField(default=False)
     comment_text = models.TextField()
+    reply_to = models.ForeignKey('self', on_delete=models.CASCADE)
