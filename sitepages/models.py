@@ -4,13 +4,11 @@ from django.db import models
 
 class StaticPage(models.Model):
     is_published = models.BooleanField(default=False)
-    date_created = models.DateField(auto_now_add=True)
     order_num = models.SmallIntegerField()
     page_name = models.CharField(max_length=30)
     page_title = models.CharField(max_length=120)
     meta_description = models.CharField(max_length=200)
     meta_keywords = models.CharField(max_length=160)
-    page_content = models.TextField()
     page_head = models.TextField()
     page_scripts = models.TextField()
 
@@ -21,19 +19,40 @@ class StaticPage(models.Model):
         return self.page_name
 
 
+class PageArticle (models.Model):
+    is_published = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+    order_on_page = models.SmallIntegerField(blank=True)
+    article_title = models.CharField(max_length=200)
+    article_content = models.TextField()
+    teaser_on_page = models.BooleanField(default=False)
+    static_page = models.ForeignKey(StaticPage, on_delete=models.SET_NULL, blank=True, null=True)
+
+    class Meta():
+        ordering = ['static_page', 'order_on_page', '-date_created']
+
+    def __str__(self):
+        return self.article_title
+
+
 class UserFeedback(models.Model):
     is_published = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     user_name = models.CharField(max_length=80)
     user_email = models.EmailField()
-    message_header = models.CharField(max_length=160)
-    message_text = models.TextField()
+    message_title = models.CharField(max_length=160, blank=True)
+    message_content = models.TextField()
+    teaser_on_page = models.BooleanField(default=False)
+    static_page = models.ForeignKey(StaticPage, on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta():
         ordering = ['-date_created']
 
     def __str__(self):
-        return self.message_header
+        if self.message_title:
+            return self.message_title
+        else:
+            return self.message_content[:60]
 
 
 class CalculationOrder(models.Model):
@@ -68,9 +87,10 @@ class ImageGallery(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     order_num = models.SmallIntegerField()
     gallery_name = models.CharField(max_length=40)
-    gallery_description = models.TextField()
-    gallery_styles = models.TextField()
-    gallery_scripts = models.TextField()
+    gallery_description = models.TextField(blank=True)
+    gallery_styles = models.TextField(blank=True)
+    gallery_scripts = models.TextField(blank=True)
+    static_page = models.ForeignKey(StaticPage, on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta():
         ordering = ['order_num']
