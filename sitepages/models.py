@@ -36,7 +36,7 @@ class PageArticle (models.Model):
 
     def getPageContent(self, **kwargs):
         content = self.article_content
-        if teaser_on_page:
+        if self.teaser_on_page:
             pass
         return content
 
