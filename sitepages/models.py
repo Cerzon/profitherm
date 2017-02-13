@@ -48,10 +48,7 @@ class Feedback(models.Model):
         ordering = ['-date_created']
 
     def __str__(self):
-        if self.title:
-            return self.title
-        else:
-            return self.content[:60]
+        return 'From %s at %s' % (self.user_name, self.date_created)
 
 
 class CalculationOrder(models.Model):
@@ -100,7 +97,7 @@ class ImageGallery(models.Model):
         ordering = ['order_num']
 
     def __str__(self):
-        return self.gallery_name
+        return self.name
 
 
 class ImagePlace(models.Model):
