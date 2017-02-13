@@ -5,67 +5,53 @@ from django.db import models
 class StaticPage(models.Model):
     is_published = models.BooleanField(default=False)
     order_num = models.SmallIntegerField()
-    page_name = models.CharField(max_length=30)
-    page_title = models.CharField(max_length=120)
-    page_description = models.CharField(max_length=200)
-    page_keywords = models.CharField(max_length=160)
-    page_head = models.TextField()
-    page_scripts = models.TextField()
+    name = models.CharField(max_length=30)
+    title = models.CharField(max_length=120)
+    description = models.CharField(max_length=200)
+    keywords = models.CharField(max_length=160)
+    head = models.TextField()
+    scripts = models.TextField()
 
     class Meta():
         ordering = ['order_num']
 
     def __str__(self):
-        return self.page_name
+        return self.name
 
 
-class PageArticle (models.Model):
+class Article (models.Model):
     is_published = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
-    article_title = models.CharField(max_length=200)
-    article_content = models.TextField()
+    title = models.CharField(max_length=200)
+    content = models.TextField()
     teaser_on_page = models.BooleanField(default=False)
+    styles = models.TextField(blank=True)
+    scripts = models.TextField(blank=True)
 
     class Meta():
         ordering = ['-date_created']
 
     def __str__(self):
-        return self.article_title
-
-    def get_page_content(self, **kwargs):
-        content = self.article_content
-        if self.teaser_on_page:
-            pass
-        return content
-
-    def get_full_content(self, **kwargs):
-        content = self.article_content
-        return content
+        return self.title
 
 
-class UserFeedback(models.Model):
+class Feedback(models.Model):
     is_published = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     user_name = models.CharField(max_length=80)
     user_email = models.EmailField()
-    message_title = models.CharField(max_length=160, blank=True)
-    message_content = models.TextField()
+    title = models.CharField(max_length=160, blank=True)
+    content = models.TextField()
     teaser_on_page = models.BooleanField(default=False)
 
     class Meta():
         ordering = ['-date_created']
 
     def __str__(self):
-        if self.message_title:
-            return self.message_title
+        if self.title:
+            return self.title
         else:
-            return self.message_content[:60]
-
-    def get_page_content(self, **kwargs):
-        pass
-
-    def get_full_content(self, **kwargs):
-        return self.message_content
+            return self.content[:60]
 
 
 class CalculationOrder(models.Model):
@@ -96,19 +82,19 @@ class CalculationOrder(models.Model):
 
 
 class Image(models.Model):
-    image_name = models.CharField(max_length=40)
-    image_path = models.FileField(upload_to='/images')
+    name = models.CharField(max_length=40)
+    path = models.FileField(upload_to='/images')
 
 
 class ImageGallery(models.Model):
     is_published = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     order_num = models.SmallIntegerField()
-    gallery_name = models.CharField(max_length=40)
-    gallery_title = models.CharField(max_length=200, blank=True)
-    gallery_description = models.TextField(blank=True)
-    gallery_styles = models.TextField(blank=True)
-    gallery_scripts = models.TextField(blank=True)
+    name = models.CharField(max_length=40)
+    title = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
+    styles = models.TextField(blank=True)
+    scripts = models.TextField(blank=True)
 
     class Meta():
         ordering = ['order_num']
@@ -132,12 +118,12 @@ class ImagePlace(models.Model):
 
 
 class PagePlace(models.Model):
-    static_page = models.ForeignKey(StaticPage, on_delete=models.CASCADE)
-    place_order = models.SmallIntegerField()
-    page_article = models.ForeignKey(PageArticle, on_delete=models.CASCADE, blank=True, null=True)
-    user_feedback = models.ForeignKey(UserFeedback, on_delete=models.CASCADE, blank=True, null=True)
-    image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE, blank=True, null=True)
+    page = models.ForeignKey(StaticPage, on_delete=models.CASCADE, related_name='placeholder')
+    order_num = models.SmallIntegerField()
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, blank=True, null=True, related_name='placeholder')
+    feedback = models.ForeignKey(Feedback, on_delete=models.CASCADE, blank=True, null=True, related_name='placeholder')
+    gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE, blank=True, null=True, related_name='placeholder')
 
     class Meta():
-        unique_together = ('static_page', 'place_order')
-        ordering = ['place_order']
+        unique_together = ('page', 'order_num')
+        ordering = ['order_num']
