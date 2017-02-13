@@ -34,6 +34,16 @@ class PageArticle (models.Model):
     def __str__(self):
         return self.article_title
 
+    def getPageContent(self, **kwargs):
+        content = self.article_content
+        if teaser_on_page:
+            pass
+        return content
+
+    def getFullContent(self, **kwargs):
+        content = self.article_content
+        return content
+
 
 class UserFeedback(models.Model):
     is_published = models.BooleanField(default=False)
