@@ -2,15 +2,27 @@ from django.db import models
 
 # Create your models here.
 
+class RenderTemplate(models.Model):
+    name = models.CharField(max_length=30)
+    body = models.TextField()
+
+    class Meta():
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
 class StaticPage(models.Model):
     is_published = models.BooleanField(default=False)
     order_num = models.PositiveSmallIntegerField()
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
     title = models.CharField(max_length=120)
     description = models.CharField(max_length=200)
     keywords = models.CharField(max_length=160)
     head = models.TextField()
     scripts = models.TextField()
+    render_template = models.ForeignKey(RenderTemplate, on_delete=models.SET_NULL)
 
     class Meta():
         ordering = ['order_num']
@@ -30,7 +42,7 @@ class Article (models.Model):
     scripts = models.TextField(blank=True)
 
     class Meta():
-        ordering = ['-date_created']
+        ordering = ['-date_modified']
 
     def __str__(self):
         return self.title
@@ -82,6 +94,11 @@ class CalculationOrder(models.Model):
 class Image(models.Model):
     name = models.CharField(max_length=40)
     path = models.FileField(upload_to='/images')
+    title = models.CharField(max_length=160)
+    description = models.CharField(max_length=200)
+    styles = models.TextField(blank=True)
+    scripts = models.TextField(blank=True)
+    render_template = models.ForeignKey(RenderTemplate, on_delete=models.SET_NULL)
 
 
 class ImageGallery(models.Model):
@@ -94,6 +111,7 @@ class ImageGallery(models.Model):
     description = models.TextField(blank=True)
     styles = models.TextField(blank=True)
     scripts = models.TextField(blank=True)
+    render_template = models.ForeignKey(RenderTemplate, on_delete=models.SET_NULL)
 
     class Meta():
         ordering = ['order_num']
