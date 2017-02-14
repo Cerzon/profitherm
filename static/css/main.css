@@ -1,0 +1,527 @@
+/*** Font ********************************************************************/
+
+@font-face {
+	font-family: 'PT Sans Narrow';
+	src: url('fonts/PTN57F_W.eot');
+	src:
+	     url('fonts/PTN57F_W.eot?#iefix') format('embedded-opentype'),
+	     url('fonts/PTN57F_W.woff') format('woff'),
+	     url('fonts/PTN57F_W.ttf') format('truetype'),
+	     url('fonts/PTN57F_W.svg#PTSans-Narrow') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'PT Sans Narrow';
+	src: url('fonts/PTN77F_W.eot');
+	src:
+	     url('fonts/PTN77F_W.eot?#iefix') format('embedded-opentype'),
+	     url('fonts/PTN77F_W.woff') format('woff'),
+	     url('fonts/PTN77F_W.ttf') format('truetype'),
+	     url('fonts/PTN77F_W.svg#PTSans-NarrowBold') format('svg');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'FontAwesome';
+	src: url('fonts/fontawesome-webfont.eot?v=4.7.0');
+	src: url('fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'),
+		url('fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'),
+		url('fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'),
+		url('fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'),
+		url('fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+} 
+
+/*** Normalize ***************************************************************/
+
+body, div, p, ul, ol, dl, figure, img, a img, li, h1, h2, h3, nav, section, article, header, main, aside, footer, form {
+    margin: 0;
+    padding: 0;
+	background-color: transparent;
+	background-image: none;
+	border: none;
+	display: block;
+}
+
+a, a img {
+	text-decoration: none;
+	border: none;
+}
+
+ul, ol, dl {
+	list-style: none;
+}
+
+a, em, strong, span {
+	display: inline;
+	color: inherit;
+}
+
+/*** Colors ******************************************************************/
+
+main p {
+	color: #4A4A4A;
+}
+
+main header {
+	color: #BA4A00;
+}
+
+aside {
+	background-color: rgba(0,0,0,0.27);
+}
+
+div#topimage-resize {
+	background-color: #000000;
+	background-image: url("img/headerimg.jpg");
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+#topcontacts {
+	color: #FFFFFF;
+}
+
+nav#topmenu {
+	background-color: #FF6600;
+}
+
+div#topimgveil {
+	background-image: url("img/veil02.png");
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+div#page-wrapper {
+	position: relative;
+	background-color: #FFFFFF;
+	background-image: url("img/bgline50.png");
+	background-position: left top;
+	background-repeat: repeat-x;
+}
+
+#leftsidebar header {
+	color: #FFFFFF;
+}
+
+footer#page-footer {
+	color: #FFFFFF;
+	background-color: rgba(0,0,0,0.8);
+}
+
+#page-footer aside {
+	background-color: transparent;
+}
+
+ul.centermenu {
+	color: #FFFFFF;
+}
+
+li.menu-item:hover {
+	color: #FFFFFF;
+	background-color: rgba(0,0,0,0.27);
+}
+
+@media only screen and (max-width: 2600px) {
+	div#topimgveil {
+		background-size: 100% 100%;
+	}
+}
+
+/*** Layout ******************************************************************/
+
+nav, figure, article, header {
+	overflow: hidden;
+}
+
+main, aside {
+	padding-bottom: 270px;
+	margin-bottom: -250px;
+}
+
+main {
+	flex: 1;
+	order: 2;
+}
+
+main article {
+	margin: 25px 30px 35px 30px;
+}
+
+aside {
+	padding-top: 50px;
+	width: 285px;
+}
+
+aside article {
+	margin: 10px 25px;
+}
+
+aside h1 {
+	padding-right: 20px;
+}
+
+aside p {
+	padding-left: 20px;
+}
+
+aside#leftsidebar {
+	order: 1;
+}
+
+aside#rightsidebar {
+	order: 3;
+}
+
+div#topimage-resize {
+	padding-bottom: 30%;
+	position: relative;
+}
+
+div#topimgveil {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding-bottom: 6%;
+	box-sizing: border-box;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+#logoimg, #topcontacts  {
+	margin: auto 0;
+	width: 50%;
+}
+
+#logoimg a {
+	margin-left: 40px;
+	display: block;
+	float: left;
+	max-width: 80%;
+}
+
+#logoimg a img {
+	max-width: 100%;
+}
+
+#topcontacts p {
+	margin: 0.25em;
+	margin-right: 60px;
+	text-align: right;
+}
+
+div#page-wrapper {
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+#leftsidebar header {
+	margin-top: -50px;
+	padding-top: 14px;
+	height: 36px;
+	text-align: center;
+}
+
+#leftsidebar i.fa-bars {
+	display: none;
+}
+
+nav#topmenu {
+	padding: 0 70px;
+}
+
+nav#secondmenu {
+	padding: 0 35px;
+}
+
+footer#page-footer {
+	height: 250px;
+	position: relative;
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+#page-footer aside {
+	margin: 0;
+	padding: 0;
+	display: flex;
+}
+
+#page-footer nav {
+	margin: 0;
+	padding-top: 15px;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+div#footercontacts {
+	margin: auto 0 auto 10%;
+}
+
+#footercontacts p {
+	padding: 0;
+}
+
+p#social {
+	padding: 0;
+	margin: auto;
+}
+
+ul.centermenu {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-around;
+	height: 50px;
+}
+
+ul.repeatmenu {
+	margin: 20px auto 0 auto;
+	display: flex;
+}
+
+li.menu-item a {
+	padding: 14px 25px;
+	white-space: nowrap;
+	display: block;
+}
+
+li.text-item {
+	margin: 0 6px;
+	white-space: nowrap;
+	display: inline;
+}
+
+li.text-item a {
+	display: inline;
+}
+
+.pinned {
+	margin-top: -10px;
+}
+
+p.copyright-info {
+	position: absolute;
+	bottom: 20px;
+	width: 100%;
+	text-align: center;
+}
+
+@media only screen and (max-width: 1260px) {
+	body {
+		min-width: 1010px;
+	}
+
+	aside#leftsidebar {
+		margin: 0;
+		padding: 0;
+		position: absolute;
+		width: auto;
+	}
+
+	#leftsidebar header {
+		display: none;
+	}
+
+	#leftsidebar i.fa-bars {
+		margin: 0;
+		padding: 9px 0 0 0;
+		width: 50px;
+		height: 41px;
+		display: block;
+		color: #FFFFFF;
+		font-size: 26px;
+		text-align: center;
+		cursor: pointer;
+	}
+
+	#leftsidebar nav {
+		display: none;
+		position: absolute;
+		background-color: #FFFFFF;
+	}
+
+	#leftsidebar ul.sidemenu {
+		background-color: rgba(0,0,0,0.27);
+	}
+
+	#leftsidebar:hover nav {
+		display: block;
+		box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+	}
+
+	nav#secondmenu {
+		padding-left: 85px;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	aside {
+		width: 340px;
+	}
+
+	div#topimage-resize {
+		padding-bottom: 450px;
+		background-size: auto;
+	}
+
+	div#topimgveil {
+		padding-bottom: 90px;
+	}
+	
+	#logoimg a {
+		margin-left: 5.3%;
+	}
+
+	#topcontacts p {
+		margin-right: 8%;
+	}
+
+	#leftsidebar header {
+		padding-top: 12px;
+		height: 38px;
+	}
+
+	li.menu-item a {
+		padding: 12px 25px;
+	}
+}
+
+@media only screen and (min-width: 1680px) {
+	aside {
+		width: 380px;
+	}
+
+	#leftsidebar header {
+		padding-top: 10px;
+		height: 40px;
+	}
+
+	li.menu-item a {
+		padding: 10px 25px;
+	}
+}
+
+/*** Fonts *******************************************************************/
+
+body {
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+aside {
+	font-family: 'PT Sans Narrow';
+}
+
+nav, #leftsidebar header {
+	font-family: 'PT Sans Narrow';
+	font-size: 18px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+aside h1 {
+	font-size: 16px;
+}
+
+#topcontacts {
+	font-size: 25px;
+/*	font-weight: bold;*/
+}
+
+#page-footer nav {
+	font-size: 16px;
+	font-weight: normal;
+}
+
+div#footercontacts {
+	font-size: 24px;
+}
+
+p#social {
+	font-size: 50px;
+}
+
+li.text-item a:hover {
+	text-decoration: underline;
+}
+
+p.copyright-info {
+	font-size: 14px;
+}
+
+.fa:before {
+	font-family: FontAwesome;
+	font-size: inherit;
+	font-style: normal;
+	font-weight: normal;
+	text-rendering: auto;
+	color: inherit;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.fa-bars:before {
+	content: "\f0c9";
+}
+
+.fa-phone:before {
+	margin-right: 10px;
+	content: "\f095";
+}
+
+.fa-cellular:before {
+	margin-right: 10px;
+	content: "\f10b";
+}
+
+.fa-envelope:before {
+	margin-right: 10px;
+	content: "\f0e0";
+}
+
+.fa-vk:before {
+	content: "\f189";
+}
+
+.fa-facebook:before {
+  content: "\f09a";
+}
+
+.fa-instagram:before {
+  content: "\f16d";
+}
+
+@media only screen and (max-width: 1260px) {
+	#topcontacts {
+		font-size: 22px;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	#topcontacts {
+		font-size: 28px;
+	}
+
+	nav, #leftsidebar header {
+		font-size: 22px;
+	}
+}
+
+@media only screen and (min-width: 1680px) {
+	#topcontacts {
+		font-size: 32px;
+	}
+
+	nav, #leftsidebar header {
+		font-size: 25px;
+	}
+}

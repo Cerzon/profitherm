@@ -4,7 +4,7 @@ from django.db import models
 
 class StaticPage(models.Model):
     is_published = models.BooleanField(default=False)
-    order_num = models.SmallIntegerField()
+    order_num = models.PositiveSmallIntegerField()
     name = models.CharField(max_length=30)
     title = models.CharField(max_length=120)
     description = models.CharField(max_length=200)
@@ -22,6 +22,7 @@ class StaticPage(models.Model):
 class Article (models.Model):
     is_published = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=200)
     content = models.TextField()
     teaser_on_page = models.BooleanField(default=False)
@@ -56,7 +57,7 @@ class CalculationOrder(models.Model):
     user_name = models.CharField(max_length=80)
     user_email = models.EmailField()
     user_phone = models.CharField(max_length=16)
-    heated_area = models.SmallIntegerField()
+    heated_area = models.PositiveSmallIntegerField()
     attachments = models.FileField(upload_to='/uploads/calc_order')
     radiator_heating = models.BooleanField(default=True)
     floor_heating = models.BooleanField(default=True)
@@ -86,7 +87,8 @@ class Image(models.Model):
 class ImageGallery(models.Model):
     is_published = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
-    order_num = models.SmallIntegerField()
+    date_modified = models.DateTimeField(auto_now=True)
+    order_num = models.PositiveSmallIntegerField()
     name = models.CharField(max_length=40)
     title = models.CharField(max_length=200, blank=True)
     description = models.TextField(blank=True)
@@ -102,7 +104,7 @@ class ImageGallery(models.Model):
 
 class ImagePlace(models.Model):
     gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
-    order_num = models.SmallIntegerField()
+    order_num = models.PositiveSmallIntegerField()
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
     description = models.CharField(max_length=200)
 
@@ -114,12 +116,10 @@ class ImagePlace(models.Model):
         return self.description
 
 
-class PagePlace(models.Model):
+class ContentPlace(models.Model):
     page = models.ForeignKey(StaticPage, on_delete=models.CASCADE, related_name='placeholder')
-    order_num = models.SmallIntegerField()
+    order_num = models.PositiveSmallIntegerField()
     article = models.ForeignKey(Article, on_delete=models.CASCADE, blank=True, null=True, related_name='placeholder')
-    feedback = models.ForeignKey(Feedback, on_delete=models.CASCADE, blank=True, null=True, related_name='placeholder')
-    gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE, blank=True, null=True, related_name='placeholder')
 
     class Meta():
         unique_together = ('page', 'order_num')

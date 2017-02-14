@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        {% block title %}<title>page title</title>{% endblock title %}
+        {% block head %}
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <meta name="viewport" content="width=360, initial-scale=0.5">
+        {% endblock head %}
+    </head>
+    <body>
+        <!-- начало шапка с верхним меню и картинкой -->
+        <header id="page-header">
+            <!-- начало верхнее меню -->
+            <nav id="topmenu">
+                <ul class="centermenu">
+                    {% block topmenu %}
+                    <li class="menu-item"><a href="#">Главная</a></li>
+                    <li class="menu-item"><a href="#">Цены</a></li>
+                    <li class="menu-item"><a href="#">Наши работы</a></li>
+                    <li class="menu-item"><a href="#">Статьи</a></li>
+                    <li class="menu-item"><a href="#">Отзывы</a></li>
+                    <li class="menu-item"><a href="#">Контакты</a></li>
+                    {% endblock topmenu %}
+                </ul>
+            </nav>
+            <!-- конец верхнее меню -->
+            <!-- начало верхняя картинка -->
+            <div id="topimage-resize">
+                <!-- начало затемнение, лого и контакты -->
+                <div id="topimgveil">
+                    <!-- начало логотип -->
+                    <div id="logoimg">
+                        <a href="/"><img src="img/logoimg.png" /></a>
+                    </div>
+                    <!-- конец логотип -->
+                    <!-- начало контакты -->
+                    <div id="topcontacts">
+                        <p class="fa fa-phone">+7 (499) 940 33 39</p>
+                        <p class="fa fa-cellular">+7 (903) 15 500 15</p>
+                        <p class="fa fa-envelope"><a href="mailto:info@profitherm.ru">info@profitherm.ru</a></p>
+                    </div>
+                    <!-- конец контакты -->
+                </div>
+                <!-- конец затемнение, лого и контакты -->
+            </div>
+            <!-- конец верхняя картинка -->
+        </header>
+        <!-- конец шапка с верхним меню и картинкой -->
+        <!-- начало основной блок страницы с меню и ушами -->
+        <div id="page-wrapper">
+            <!-- начало средняя часть, включая меню 2 этаж -->
+            <main>
+                <!-- начало меню 2 этаж -->
+                <nav id="secondmenu">
+                    <ul class="centermenu">
+                        {% block secondmenu %}
+                        <li class="menu-item"><a href="#">Отопление</a></li>
+                        <li class="menu-item"><a href="#">Водоснабжение</a></li>
+                        <li class="menu-item"><a href="#">Котельные</a></li>
+                        <li class="menu-item"><a href="#">Водоподготовка</a></li>
+                        {% endblock secondmenu %}
+                    </ul>
+                </nav>
+                <!-- конец меню 2 этаж -->
+                <!-- начало блок с контентом -->
+                {% block maincontent %}
+                <article>
+                    <header>
+                        <h1>Lorem Ipsum</h1>
+                    </header>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </article>
+                <article>
+                    <header>
+                        <h1>Lorem Ipsum</h1>
+                    </header>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </article>
+                {% endblock maincontent %}
+                <!-- конец блок с контентом -->
+            </main>
+            <!-- конец средняя часть, включая меню 2 этаж -->
+            <!-- начало левое ухо -->
+            <aside id="leftsidebar">
+                <header>Услуги</header>
+                <i class="fa fa-bars"></i>
+                <nav>
+                    <ul class="sidemenu">
+                        {% block servicemenu %}
+                        <li class="menu-item"><a href="#">Выезд специалиста</a></li>
+                        <li class="menu-item"><a href="#">Предварительный расчёт</a></li>
+                        <li class="menu-item"><a href="#">Проектирование</a></li>
+                        <li class="menu-item"><a href="#">Комплектация оборудования</a></li>
+                        <li class="menu-item"><a href="#">Монтаж и пусконаладка</a></li>
+                        {% endblock servicemenu %}
+                    </ul>
+                </nav>
+                {% block leftsidecontent %}
+                {% endblock leftsidecontent %}
+            </aside>
+            <!-- конец левое ухо -->
+            <!-- начало правое ухо -->
+            <aside id="rightsidebar">
+                <nav>
+                    <ul class="sidemenu">
+                        {% block whistlessneezes %}
+                        <li class="menu-item"><a href="#">Заказать расчёт бесплатно</a></li>
+                        <li class="menu-item"><a href="#">Заказать обратный звонок</a></li>
+                        <li class="menu-item"><a href="#">Калькуляторы</a></li>
+                        <li class="menu-item"><a href="#">Часто задаваемые вопросы</a></li>
+                        {% endblock whistlessneezes %}
+                    </ul>
+                </nav>
+                <!-- начало случайные FAQ -->
+                {% block rightsidecontent %}
+                <section class="pinned">
+                    <article>
+                        <header>
+                            <h1>Lorem Ipsum</h1>
+                        </header>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </article>
+                    <article>
+                        <header>
+                            <h1>Lorem Ipsum</h1>
+                        </header>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </article>
+                    <article>
+                        <header>
+                            <h1>Lorem Ipsum</h1>
+                        </header>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </article>
+                </section>
+                {% endblock rightsidecontent %}
+                <!-- конец случайные FAQ -->
+            </aside>
+            <!-- конец правое ухо -->
+        </div>
+        <!-- конец основной блок страницы с меню и ушами -->
+        <!-- начало подвал -->
+        <footer id="page-footer">
+            <aside>
+                <div id="footercontacts">
+                    <p>Москва<br />ул.Буракова, д.27, корп.3</p>
+                    <p class="fa fa-phone">+7 (499) 940 33 39</p>
+                    <p class="fa fa-cellular">+7 (903) 15 500 15</p>
+                    <p class="fa fa-envelope"><a href="mailto:info@profitherm.ru">info@profitherm.ru</a></p>
+                </div>
+            </aside>
+            <nav>
+                <ul class="repeatmenu">
+                    {% block repeattopmenu %}
+                    <li class="text-item"><a href="#">Главная</a></li>
+                    <li>|</li>
+                    <li class="text-item"><a href="#">Цены</a></li>
+                    <li>|</li>
+                    <li class="text-item"><a href="#">Наши работы</a></li>
+                    <li>|</li>
+                    <li class="text-item"><a href="#">Статьи</a></li>
+                    <li>|</li>
+                    <li class="text-item"><a href="#">Отзывы</a></li>
+                    <li>|</li>
+                    <li class="text-item"><a href="#">Контакты</a></li>
+                    {% endblock repeattopmenu %}
+                </ul>
+                <ul class="repeatmenu">
+                    {% block repeatsecondmenu %}
+                    <li class="text-item"><a href="#">Отопление</a></li>
+                    <li>|</li>
+                    <li class="text-item"><a href="#">Водоснабжение</a></li>
+                    <li>|</li>
+                    <li class="text-item"><a href="#">Котельные</a></li>
+                    <li>|</li>
+                    <li class="text-item"><a href="#">Водоподготовка</a></li>
+                    {% endblock repeatsecondmenu %}
+                </ul>
+            </nav>
+            <aside>
+                <p id="social"><a class="fa fa-vk" href="#"></a>&#160;<a class="fa fa-facebook" href="#"></a>&#160;<a class="fa fa-instagram" href="#"></a></p>
+            </aside>
+            <p class="copyright-info">Все права защищены &#169; 2005-2017 Компания &#171;ПрофиТерм&#187;</p>
+        </footer>
+        <!-- конец подвал -->
+    </body>
+</html>

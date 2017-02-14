@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from sitepages import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^(?P<page_name>\w+)/$', views.ComplexPage.as_view(), name='complexpage'),
 ]

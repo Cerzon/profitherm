@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }}{% endblock title %}
+
+{% block head %}
+{{ page.head|safe }}
+{% for style in styles %}
+<link rel="stylesheet" type="text/css" href="{{ style }}" />
+{% endfor %}
+{% for script in scripts %}
+<script type="text/javascript" src="{{ script }}"></script>
+{% endfor %}
+{% endblock head %}
+
+{% block topmenu %}
+<li class="menu-item"><a href="{% url 'complexpage' 'index' %}">Главная</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'price-list' %}">Цены</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'nashi-raboty' %}">Наши работы</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'articles' %}">Статьи</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'feedback' %}">Отзывы</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'contacts' %}">Контакты</a></li>
+{% endblock topmenu %}
+
+{% block secondmenu %}
+<li class="menu-item"><a href="{% url 'complexpage' 'otoplenie-zagorodnogo-doma' %}">Отопление</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'vodosnabzhenie-zagorodnogo-doma' %}">Водоснабжение</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'kotelnye' %}">Котельные</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'vodoochistka' %}">Водоподготовка</a></li>
+{% endblock secondmenu %}
+
+{% block maincontent %}
+{% endblock maincontent %}
+
+{% block servicemenu %}
+<li class="menu-item"><a href="{% url 'complexpage' 'object' %}">Выезд специалиста</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'raschet-otopleniya' %}">Предварительный расчёт</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'proektirovanie-inzhenernyh-system' %}">Проектирование</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'complektacia-oborudovania' %}">Комплектация оборудования</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'montage-inzhenernyh-system' %}">Монтаж и пусконаладка</a></li>
+{% endblock servicemenu %}
+
+{% block whistlessneezes %}
+<li class="menu-item"><a href="{% url 'complexpage' 'raschet-otopleniya' %}">Заказать расчёт бесплатно</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'callback' %}">Заказать обратный звонок</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'calculators' %}">Калькуляторы</a></li>
+<li class="menu-item"><a href="{% url 'complexpage' 'faq' %}">Часто задаваемые вопросы</a></li>
+{% endblock whistlessneezes %}
+
+{% block rightsidecontent %}
+{% endblock rightsidecontent %}
+
+{% block repeattopmenu %}
+{% endblock repeattopmenu %}
+
+{% block repeatsecondmenu %}
+{% endblock repeatsecondmenu %}
