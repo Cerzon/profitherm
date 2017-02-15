@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}{{ page.title }}{% endblock title %}
+{% block title %}{{ title }}{% endblock title %}
 
 {% block head %}
-{{ page.head|safe }}
+{{ head_tags|safe }}
+<meta name="description" content="{{ meta_description }}" />
+<meta name="keywords" content="{{ meta_keywords }}" />
 {% for style in styles %}
 <link rel="stylesheet" type="text/css" href="{{ style }}" />
 {% endfor %}

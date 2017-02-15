@@ -13,16 +13,22 @@ class RenderTemplate(models.Model):
         return self.name
 
 
-class StaticPage(models.Model):
+class Image(models.Model):
+    name = models.CharField(max_length=40)
+    path = models.FileField(upload_to='/images')
+
+    def __str__(self):
+        return self.name
+
+
+class ImageGallery(models.Model):
     is_published = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
     order_num = models.PositiveSmallIntegerField()
-    name = models.CharField(max_length=30, unique=True)
-    title = models.CharField(max_length=120)
-    description = models.CharField(max_length=200)
-    keywords = models.CharField(max_length=160)
-    head = models.TextField()
-    scripts = models.TextField()
-    render_template = models.ForeignKey(RenderTemplate, on_delete=models.SET_NULL)
+    name = models.CharField(max_length=40)
+    title = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
 
     class Meta():
         ordering = ['order_num']
@@ -31,21 +37,18 @@ class StaticPage(models.Model):
         return self.name
 
 
-class Article (models.Model):
-    is_published = models.BooleanField(default=False)
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-    title = models.CharField(max_length=200)
-    content = models.TextField()
-    teaser_on_page = models.BooleanField(default=False)
-    styles = models.TextField(blank=True)
-    scripts = models.TextField(blank=True)
+class ImageGalleryItem(models.Model):
+    image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
+    order_num = models.PositiveSmallIntegerField()
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    description = models.CharField(max_length=200, blank=True)
 
     class Meta():
-        ordering = ['-date_modified']
+        unique_together = ('gallery', 'order_num')
+        ordering = ['order_num']
 
     def __str__(self):
-        return self.title
+        return self.description
 
 
 class Feedback(models.Model):
@@ -91,27 +94,69 @@ class CalculationOrder(models.Model):
         return 'Order #%s from %s' % (self.pk, self.date_created)
 
 
-class Image(models.Model):
-    name = models.CharField(max_length=40)
-    path = models.FileField(upload_to='/images')
-    title = models.CharField(max_length=160)
-    description = models.CharField(max_length=200)
-    styles = models.TextField(blank=True)
-    scripts = models.TextField(blank=True)
-    render_template = models.ForeignKey(RenderTemplate, on_delete=models.SET_NULL)
-
-
-class ImageGallery(models.Model):
+class Article(models.Model):
     is_published = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    teaser_on_page = models.BooleanField(default=False)
+    styles = models.TextField(blank=True)
+    scripts = models.TextField(blank=True)
+
+    class Meta():
+        ordering = ['-date_modified']
+
+    def __str__(self):
+        return self.title
+
+
+class ArticleFigure(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
     order_num = models.PositiveSmallIntegerField()
-    name = models.CharField(max_length=40)
-    title = models.CharField(max_length=200, blank=True)
-    description = models.TextField(blank=True)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    title = models.CharField(max_length=120)
+    description = models.CharField(max_length=200, blank=True)
     styles = models.TextField(blank=True)
     scripts = models.TextField(blank=True)
     render_template = models.ForeignKey(RenderTemplate, on_delete=models.SET_NULL)
+
+    class Meta():
+        unique_together = ('article', 'order_num')
+        ordering = ['order_num']
+
+    def __str__(self):
+        return self.title
+
+
+class ArticleGallery(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    order_num = models.PositiveSmallIntegerField()
+    image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
+    styles = models.TextField(blank=True)
+    scripts = models.TextField(blank=True)
+    render_template = models.ForeignKey(RenderTemplate, on_delete=models.SET_NULL)
+
+    class Meta():
+        unique_together = ('article', 'order_num')
+        ordering = ['order_num']
+
+    def __str__(self):
+        return self.gallery.name
+
+
+class StaticPage(models.Model):
+    is_published = models.BooleanField(default=False)
+    order_num = models.PositiveSmallIntegerField()
+    name = models.CharField(max_length=30, unique=True)
+    title = models.CharField(max_length=120)
+    meta_description = models.CharField(max_length=200)
+    meta_keywords = models.CharField(max_length=160)
+    head_tags = models.TextField()
+    styles = models.TextField()
+    scripts = models.TextField()
+    render_template = models.ForeignKey(RenderTemplate, on_delete=models.SET_NULL)
+    articles = models.ManyToManyField(Article, through='PageArticle')
 
     class Meta():
         ordering = ['order_num']
@@ -120,24 +165,10 @@ class ImageGallery(models.Model):
         return self.name
 
 
-class ImagePlace(models.Model):
-    gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
+class PageArticle(models.Model):
+    static_page = models.ForeignKey(StaticPage, on_delete=models.CASCADE)
     order_num = models.PositiveSmallIntegerField()
-    image = models.ForeignKey(Image, on_delete=models.CASCADE)
-    description = models.CharField(max_length=200)
-
-    class Meta():
-        unique_together = ('gallery', 'order_num')
-        ordering = ['order_num']
-
-    def __str__(self):
-        return self.description
-
-
-class ContentPlace(models.Model):
-    page = models.ForeignKey(StaticPage, on_delete=models.CASCADE, related_name='placeholder')
-    order_num = models.PositiveSmallIntegerField()
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, blank=True, null=True, related_name='placeholder')
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
 
     class Meta():
         unique_together = ('page', 'order_num')
