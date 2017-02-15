@@ -13,44 +13,6 @@ class RenderTemplate(models.Model):
         return self.name
 
 
-class Image(models.Model):
-    name = models.CharField(max_length=40)
-    path = models.FileField(upload_to='/images')
-
-    def __str__(self):
-        return self.name
-
-
-class ImageGallery(models.Model):
-    is_published = models.BooleanField(default=False)
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-    order_num = models.PositiveSmallIntegerField()
-    name = models.CharField(max_length=40)
-    title = models.CharField(max_length=200, blank=True)
-    description = models.TextField(blank=True)
-
-    class Meta():
-        ordering = ['order_num']
-
-    def __str__(self):
-        return self.name
-
-
-class ImageGalleryItem(models.Model):
-    image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
-    order_num = models.PositiveSmallIntegerField()
-    image = models.ForeignKey(Image, on_delete=models.CASCADE)
-    description = models.CharField(max_length=200, blank=True)
-
-    class Meta():
-        unique_together = ('gallery', 'order_num')
-        ordering = ['order_num']
-
-    def __str__(self):
-        return self.description
-
-
 class Feedback(models.Model):
     is_published = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -94,6 +56,36 @@ class CalculationOrder(models.Model):
         return 'Order #%s from %s' % (self.pk, self.date_created)
 
 
+class ImageGallery(models.Model):
+    is_published = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    order_num = models.PositiveSmallIntegerField()
+    name = models.CharField(max_length=40)
+    title = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
+
+    class Meta():
+        ordering = ['order_num']
+
+    def __str__(self):
+        return self.name
+
+
+class Image(models.Model):
+    image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
+    order_num = models.PositiveSmallIntegerField()
+    file_name = models.ImageField(upload_to='images/')
+    description = models.CharField(max_length=200, blank=True)
+
+    class Meta():
+        unique_together = ('image_gallery', 'order_num')
+        ordering = ['order_num']
+
+    def __str__(self):
+        return self.description
+
+
 class Article(models.Model):
     is_published = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -103,6 +95,7 @@ class Article(models.Model):
     teaser_on_page = models.BooleanField(default=False)
     styles = models.TextField(blank=True)
     scripts = models.TextField(blank=True)
+    figures = models.ManyToManyField(ImageGallery, through='ArticleFigure')
 
     class Meta():
         ordering = ['-date_modified']
@@ -114,7 +107,7 @@ class Article(models.Model):
 class ArticleFigure(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     order_num = models.PositiveSmallIntegerField()
-    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
     description = models.CharField(max_length=200, blank=True)
     styles = models.TextField(blank=True)
@@ -127,22 +120,6 @@ class ArticleFigure(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class ArticleGallery(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    order_num = models.PositiveSmallIntegerField()
-    image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
-    styles = models.TextField(blank=True)
-    scripts = models.TextField(blank=True)
-    render_template = models.ForeignKey(RenderTemplate, on_delete=models.SET_NULL)
-
-    class Meta():
-        unique_together = ('article', 'order_num')
-        ordering = ['order_num']
-
-    def __str__(self):
-        return self.gallery.name
 
 
 class StaticPage(models.Model):

@@ -1,11 +1,11 @@
 from django.shortcuts import get_object_or_404, render
 from django.views import View
 from django.template import Template, Context
-from .models import Article, ArticleFigure, ArticleGallery, Image, ImageGallery, ImageGalleryItem, StaticPage, PageArticle
+from .models import Article, ArticleFigure, Image, ImageGallery, StaticPage, PageArticle
 
 # Create your views here.
 
-class ComplexPage(View):
+class InfoPage(View):
     template = 'pages/combinepage.html'
 
     def get(self, request, page_name):
@@ -23,16 +23,17 @@ class ComplexPage(View):
         # получить список всех статей на странице
         # цикл перебора статей страницы
             # пополнение styles и scripts стилями и скриптами статьи
-            # получаем список галерей
-            # если список не пустой, создаём переменную для хранения всех галерей
-            # перебор прицепленных галерей статьи
-                # получение данных галереи через ArticleGallery
-                # пополнение styles и scripts стилями и скриптами галереи
-                # создание шаблона галереи из article_gallery.render_template
-                # создание контекста с данными состава галереи: image из images через ImageGalleryItem
-                # рендер галереи
-                # добавляем в переменную со списком галерей результаты рендера
-            # получаем список иллюстраций
-            # если список не пустой, создаём переменную для хранения иллюстраций
-            # перебор иллюстраций
-                # получение данных иллюстрации через ArticleFigure
+            # если НЕ 'показывать на странице тизер'
+                # получаем список иллюстраций/галерей
+                # если список не пустой, создаём переменную для хранения всех иллюстраций/галерей
+                # перебор прицепленных иллюстраций/галерей статьи
+                    # получение данных галереи через ArticleFigure
+                    # пополнение styles и scripts стилями и скриптами галереи
+                    # создание шаблона галереи из article_figure.render_template
+                    # создание контекста с данными состава галереи: image из image_set
+                    # рендер галереи
+                    # добавляем в переменную со списком иллюстраций/галерей результаты рендера
+            # создание контекста со списком рендереных иллюстраций/галлерей
+            # создание шаблона из контента статьи
+            # рендер статьи
+            # добавляем в переменную со списком статей
