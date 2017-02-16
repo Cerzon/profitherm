@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class RenderTemplate(models.Model):
+class DeployTemplate(models.Model):
     name = models.CharField(max_length=30)
     body = models.TextField()
 
@@ -14,7 +14,7 @@ class RenderTemplate(models.Model):
 
 
 class Feedback(models.Model):
-    is_published = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
     date_created = models.DateTimeField(auto_now_add=True)
     user_name = models.CharField(max_length=80)
     user_email = models.EmailField()
@@ -35,7 +35,7 @@ class CalculationOrder(models.Model):
     user_email = models.EmailField()
     user_phone = models.CharField(max_length=16)
     heated_area = models.PositiveSmallIntegerField()
-    attachments = models.FileField(upload_to='/uploads/calc_order')
+    attachments = models.FileField(upload_to='uploads/calc_order/')
     radiator_heating = models.BooleanField(default=True)
     floor_heating = models.BooleanField(default=True)
     water_supply = models.BooleanField(default=True)
@@ -57,7 +57,7 @@ class CalculationOrder(models.Model):
 
 
 class ImageGallery(models.Model):
-    is_published = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     order_num = models.PositiveSmallIntegerField()
@@ -73,9 +73,22 @@ class ImageGallery(models.Model):
 
 
 class Image(models.Model):
+    name = models.SlugField()
+    file_name = models.ImageField(upload_to='images/')
+    description = models.CharField(max_length=200, blank=True)
+
+    class Meta():
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class GalleryItem(models.Model):
     image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
     order_num = models.PositiveSmallIntegerField()
-    file_name = models.ImageField(upload_to='images/')
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    title = models.CharField(max_length=80, blank=True)
     description = models.CharField(max_length=200, blank=True)
 
     class Meta():
@@ -83,22 +96,24 @@ class Image(models.Model):
         ordering = ['order_num']
 
     def __str__(self):
-        return self.description
+        return self.image.name
 
 
 class Article(models.Model):
-    is_published = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=200)
     content = models.TextField()
     teaser_on_page = models.BooleanField(default=False)
-    styles = models.TextField(blank=True)
-    scripts = models.TextField(blank=True)
+    styles = models.TextField(blank=True, help_text='Можно указать несколько файлов стилей. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
+    scripts = models.TextField(blank=True, help_text='Можно указать несколько файлов скриптов. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
     figures = models.ManyToManyField(ImageGallery, through='ArticleFigure')
 
     class Meta():
         ordering = ['-date_modified']
+        verbose_name = 'статья'
+        verbose_name_plural = 'статьи'
 
     def __str__(self):
         return self.title
@@ -112,7 +127,7 @@ class ArticleFigure(models.Model):
     description = models.CharField(max_length=200, blank=True)
     styles = models.TextField(blank=True)
     scripts = models.TextField(blank=True)
-    render_template = models.ForeignKey(RenderTemplate, on_delete=models.SET_NULL)
+    deploy_template = models.ForeignKey(DeployTemplate, on_delete=models.SET_NULL, null=True)
 
     class Meta():
         unique_together = ('article', 'order_num')
@@ -123,16 +138,16 @@ class ArticleFigure(models.Model):
 
 
 class StaticPage(models.Model):
-    is_published = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
     order_num = models.PositiveSmallIntegerField()
     name = models.CharField(max_length=30, unique=True)
     title = models.CharField(max_length=120)
     meta_description = models.CharField(max_length=200)
     meta_keywords = models.CharField(max_length=160)
-    head_tags = models.TextField()
-    styles = models.TextField()
-    scripts = models.TextField()
-    render_template = models.ForeignKey(RenderTemplate, on_delete=models.SET_NULL)
+    head_tags = models.TextField(blank=True)
+    styles = models.TextField(blank=True)
+    scripts = models.TextField(blank=True)
+    deploy_template = models.ForeignKey(DeployTemplate, on_delete=models.SET_NULL, null=True)
     articles = models.ManyToManyField(Article, through='PageArticle')
 
     class Meta():
@@ -148,5 +163,5 @@ class PageArticle(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
 
     class Meta():
-        unique_together = ('page', 'order_num')
+        unique_together = ('static_page', 'order_num')
         ordering = ['order_num']

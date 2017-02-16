@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.views import View
 from django.template import Template, Context
-from .models import Article, ArticleFigure, Image, ImageGallery, StaticPage, PageArticle
+from .models import Article, ArticleFigure, Image, ImageGallery, GalleryItem, StaticPage, PageArticle
 
 # Create your views here.
 
@@ -12,13 +12,17 @@ class InfoPage(View):
         # получим запрошенную страницу
         static_page = get_object_or_404(StaticPage, name=page_name)
         # списки стилей и скриптов для пополнения в дальнейшем
-        styles = static_page.styles.split('\n')
-        scripts = static_page.scripts.split('\n')
+        styles = list()
+        scripts = list()
+        s = static_page.styles.strip()
+        if s: styles = s.split('\r\n')
+        s = static_page.scripts.strip()
+        if s: scripts = s.split('\n')
         # данные для шапки страницы
-        title = static_page.title
-        head_tags = static_page.head_tags
-        meta_description = static_page.meta_description
-        meta_keywords = static_page.meta_keywords
+        title = static_page.title.strip()
+        head_tags = static_page.head_tags.strip()
+        meta_description = static_page.meta_description.strip()
+        meta_keywords = static_page.meta_keywords.strip()
         # собираем контент
         # получить список всех статей на странице
         # цикл перебора статей страницы
@@ -37,3 +41,13 @@ class InfoPage(View):
             # создание шаблона из контента статьи
             # рендер статьи
             # добавляем в переменную со списком статей
+        context_dict = {
+            'title' : title,
+            'styles' : styles,
+            'scripts' : scripts,
+            'head_tags' : head_tags,
+            'meta_description' : meta_description,
+            'meta_keywords' : meta_keywords,
+            'page_content' : 'Greetings!'
+            }
+        return render(request, self.template, context_dict)

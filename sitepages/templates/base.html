@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
     <head>
         <meta charset="utf-8" />
-        {% block title %}<title>page title</title>{% endblock title %}
+        <title>{% block title %}page title{% endblock title %}</title>
         {% block head %}
-        <link rel="stylesheet" type="text/css" href="style.css" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
         <meta name="viewport" content="width=360, initial-scale=0.5">
         {% endblock head %}
     </head>
@@ -14,14 +15,12 @@
             <!-- начало верхнее меню -->
             <nav id="topmenu">
                 <ul class="centermenu">
-                    {% block topmenu %}
-                    <li class="menu-item"><a href="#">Главная</a></li>
-                    <li class="menu-item"><a href="#">Цены</a></li>
-                    <li class="menu-item"><a href="#">Наши работы</a></li>
-                    <li class="menu-item"><a href="#">Статьи</a></li>
-                    <li class="menu-item"><a href="#">Отзывы</a></li>
-                    <li class="menu-item"><a href="#">Контакты</a></li>
-                    {% endblock topmenu %}
+                    <li class="menu-item"><a href="{% url 'info_page' 'index' %}">Главная</a></li>
+                    <li class="menu-item"><a href="{% url 'info_page' 'price-list' %}">Цены</a></li>
+                    <li class="menu-item"><a href="{% url 'info_page' 'nashi-raboty' %}">Наши работы</a></li>
+                    <li class="menu-item"><a href="{% url 'info_page' 'articles' %}">Статьи</a></li>
+                    <li class="menu-item"><a href="{% url 'info_page' 'feedback' %}">Отзывы</a></li>
+                    <li class="menu-item"><a href="{% url 'info_page' 'contacts' %}">Контакты</a></li>
                 </ul>
             </nav>
             <!-- конец верхнее меню -->
@@ -31,7 +30,7 @@
                 <div id="topimgveil">
                     <!-- начало логотип -->
                     <div id="logoimg">
-                        <a href="/"><img src="img/logoimg.png" /></a>
+                        <a href="/"><img src="{% static 'img/logoimg.png' %}'" /></a>
                     </div>
                     <!-- конец логотип -->
                     <!-- начало контакты -->
@@ -54,12 +53,10 @@
                 <!-- начало меню 2 этаж -->
                 <nav id="secondmenu">
                     <ul class="centermenu">
-                        {% block secondmenu %}
-                        <li class="menu-item"><a href="#">Отопление</a></li>
-                        <li class="menu-item"><a href="#">Водоснабжение</a></li>
-                        <li class="menu-item"><a href="#">Котельные</a></li>
-                        <li class="menu-item"><a href="#">Водоподготовка</a></li>
-                        {% endblock secondmenu %}
+                        <li class="menu-item"><a href="{% url 'info_page' 'otoplenie-zagorodnogo-doma' %}">Отопление</a></li>
+                        <li class="menu-item"><a href="{% url 'info_page' 'vodosnabzhenie-zagorodnogo-doma' %}">Водоснабжение</a></li>
+                        <li class="menu-item"><a href="{% url 'info_page' 'kotelnye' %}">Котельные</a></li>
+                        <li class="menu-item"><a href="{% url 'info_page' 'vodoochistka' %}">Водоподготовка</a></li>
                     </ul>
                 </nav>
                 <!-- конец меню 2 этаж -->
@@ -87,13 +84,11 @@
                 <i class="fa fa-bars"></i>
                 <nav>
                     <ul class="sidemenu">
-                        {% block servicemenu %}
-                        <li class="menu-item"><a href="#">Выезд специалиста</a></li>
-                        <li class="menu-item"><a href="#">Предварительный расчёт</a></li>
-                        <li class="menu-item"><a href="#">Проектирование</a></li>
-                        <li class="menu-item"><a href="#">Комплектация оборудования</a></li>
-                        <li class="menu-item"><a href="#">Монтаж и пусконаладка</a></li>
-                        {% endblock servicemenu %}
+                        <li class="menu-item"><a href="{% url 'info_page' 'object' %}">Выезд специалиста</a></li>
+                        <li class="menu-item"><a href="{% url 'info_page' 'raschet-otopleniya' %}">Предварительный расчёт</a></li>
+                        <li class="menu-item"><a href="{% url 'info_page' 'proektirovanie-inzhenernyh-system' %}">Проектирование</a></li>
+                        <li class="menu-item"><a href="{% url 'info_page' 'complektacia-oborudovania' %}">Комплектация оборудования</a></li>
+                        <li class="menu-item"><a href="{% url 'info_page' 'montage-inzhenernyh-system' %}">Монтаж и пусконаладка</a></li>
                     </ul>
                 </nav>
                 {% block leftsidecontent %}
@@ -104,12 +99,10 @@
             <aside id="rightsidebar">
                 <nav>
                     <ul class="sidemenu">
-                        {% block whistlessneezes %}
-                        <li class="menu-item"><a href="#">Заказать расчёт бесплатно</a></li>
-                        <li class="menu-item"><a href="#">Заказать обратный звонок</a></li>
-                        <li class="menu-item"><a href="#">Калькуляторы</a></li>
-                        <li class="menu-item"><a href="#">Часто задаваемые вопросы</a></li>
-                        {% endblock whistlessneezes %}
+                        <li class="menu-item"><a href="{% url 'info_page' 'raschet_otopleniya' %}">Заказать расчёт бесплатно</a></li>
+                        <li class="menu-item"><a href="{% url 'info_page' 'callback' %}">Заказать обратный звонок</a></li>
+                        <li class="menu-item"><a href="{% url 'info_page' 'calculators' %}">Калькуляторы</a></li>
+                        <li class="menu-item"><a href="{% url 'info_page' 'faq' %}">Часто задаваемые вопросы</a></li>
                     </ul>
                 </nav>
                 <!-- начало случайные FAQ -->
@@ -152,30 +145,26 @@
             </aside>
             <nav>
                 <ul class="repeatmenu">
-                    {% block repeattopmenu %}
-                    <li class="text-item"><a href="#">Главная</a></li>
+                    <li class="text-item"><a href="{% url 'info_page' 'index' %}">Главная</a></li>
                     <li>|</li>
-                    <li class="text-item"><a href="#">Цены</a></li>
+                    <li class="text-item"><a href="{% url 'info_page' 'price-list' %}">Цены</a></li>
                     <li>|</li>
-                    <li class="text-item"><a href="#">Наши работы</a></li>
+                    <li class="text-item"><a href="{% url 'info_page' 'nashi-raboty' %}">Наши работы</a></li>
                     <li>|</li>
-                    <li class="text-item"><a href="#">Статьи</a></li>
+                    <li class="text-item"><a href="{% url 'info_page' 'articles' %}">Статьи</a></li>
                     <li>|</li>
-                    <li class="text-item"><a href="#">Отзывы</a></li>
+                    <li class="text-item"><a href="{% url 'info_page' 'feedback' %}">Отзывы</a></li>
                     <li>|</li>
-                    <li class="text-item"><a href="#">Контакты</a></li>
-                    {% endblock repeattopmenu %}
+                    <li class="text-item"><a href="{% url 'info_page' 'contacts' %}">Контакты</a></li>
                 </ul>
                 <ul class="repeatmenu">
-                    {% block repeatsecondmenu %}
-                    <li class="text-item"><a href="#">Отопление</a></li>
+                    <li class="text-item"><a href="{% url 'info_page' 'otoplenie-zagorodnogo-doma' %}">Отопление</a></li>
                     <li>|</li>
-                    <li class="text-item"><a href="#">Водоснабжение</a></li>
+                    <li class="text-item"><a href="{% url 'info_page' 'vodosnabzhenie-zagorodnogo-doma' %}">Водоснабжение</a></li>
                     <li>|</li>
-                    <li class="text-item"><a href="#">Котельные</a></li>
+                    <li class="text-item"><a href="{% url 'info_page' 'kotelnye' %}">Котельные</a></li>
                     <li>|</li>
-                    <li class="text-item"><a href="#">Водоподготовка</a></li>
-                    {% endblock repeatsecondmenu %}
+                    <li class="text-item"><a href="{% url 'info_page' 'vodoochistka' %}">Водоподготовка</a></li>
                 </ul>
             </nav>
             <aside>

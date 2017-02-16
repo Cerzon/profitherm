@@ -1,58 +1,25 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}{{ title }}{% endblock title %}
 
 {% block head %}
-{{ head_tags|safe }}
-<meta name="description" content="{{ meta_description }}" />
-<meta name="keywords" content="{{ meta_keywords }}" />
-{% for style in styles %}
-<link rel="stylesheet" type="text/css" href="{{ style }}" />
-{% endfor %}
-{% for script in scripts %}
-<script type="text/javascript" src="{{ script }}"></script>
-{% endfor %}
+    {% if head_tags %}{{ head_tags|safe }}{% endif %}
+    <meta name="description" content="{{ meta_description|default:'description' }}" />
+    <meta name="keywords" content="{{ meta_keywords|default:'keywords' }}" />
+    {% if styles %}
+        {% for style in styles %}
+        <link rel="stylesheet" type="text/css" href="{% static style %}" />
+        {% endfor %}
+    {% endif %}
+    {% if scripts %}
+        {% for script in scripts %}
+        <script type="text/javascript" src="{{ script }}"></script>
+        {% endfor %}
+    {% endif %}
 {% endblock head %}
 
-{% block topmenu %}
-<li class="menu-item"><a href="{% url 'info_page' 'index' %}">Главная</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'price-list' %}">Цены</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'nashi-raboty' %}">Наши работы</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'articles' %}">Статьи</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'feedback' %}">Отзывы</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'contacts' %}">Контакты</a></li>
-{% endblock topmenu %}
-
-{% block secondmenu %}
-<li class="menu-item"><a href="{% url 'info_page' 'otoplenie-zagorodnogo-doma' %}">Отопление</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'vodosnabzhenie-zagorodnogo-doma' %}">Водоснабжение</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'kotelnye' %}">Котельные</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'vodoochistka' %}">Водоподготовка</a></li>
-{% endblock secondmenu %}
-
 {% block maincontent %}
+{{ page_content|safe }}
 {% endblock maincontent %}
-
-{% block servicemenu %}
-<li class="menu-item"><a href="{% url 'info_page' 'object' %}">Выезд специалиста</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'raschet-otopleniya' %}">Предварительный расчёт</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'proektirovanie-inzhenernyh-system' %}">Проектирование</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'complektacia-oborudovania' %}">Комплектация оборудования</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'montage-inzhenernyh-system' %}">Монтаж и пусконаладка</a></li>
-{% endblock servicemenu %}
-
-{% block whistlessneezes %}
-<li class="menu-item"><a href="{% url 'info_page' 'raschet-otopleniya' %}">Заказать расчёт бесплатно</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'callback' %}">Заказать обратный звонок</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'calculators' %}">Калькуляторы</a></li>
-<li class="menu-item"><a href="{% url 'info_page' 'faq' %}">Часто задаваемые вопросы</a></li>
-{% endblock whistlessneezes %}
-
-{% block rightsidecontent %}
-{% endblock rightsidecontent %}
-
-{% block repeattopmenu %}
-{% endblock repeattopmenu %}
-
-{% block repeatsecondmenu %}
-{% endblock repeatsecondmenu %}

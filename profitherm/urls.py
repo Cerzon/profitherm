@@ -20,5 +20,5 @@ from sitepages import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.InfoPage.as_view(), {'page_name' : 'index'}),
-    url(r'^(?P<page_name>\w+)/$', views.InfoPage.as_view(), name='info_page'),
+    url(r'^(?P<page_name>[\-\w]+)/$', views.InfoPage.as_view(), name='info_page'),
 ]
