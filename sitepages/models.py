@@ -60,10 +60,10 @@ class ImageGallery(models.Model):
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    order_num = models.PositiveSmallIntegerField()
-    name = models.CharField(max_length=40)
+    order_num = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Для сортировки в админке')
+    name = models.CharField(max_length=80)
     title = models.CharField(max_length=200, blank=True)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True, verbose_name='Общее описание иллюстрации/галереи')
 
     class Meta():
         ordering = ['order_num']
@@ -103,9 +103,10 @@ class Article(models.Model):
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    title = models.CharField(max_length=200)
+    name = models.SlugField(max_length=80, verbose_name='Имя статьи (slug)', helt_text='Это название для отображения в адресной строке')
+    title = models.CharField(max_length=200, verbose_name='Заголовок')
     content = models.TextField()
-    teaser_on_page = models.BooleanField(default=False)
+    teaser_on_page = models.BooleanField(default=False, verbose_name='В списке выводить тизером', helt_text='В списке объёмные статьи отображаются тизером')
     styles = models.TextField(blank=True, help_text='Можно указать несколько файлов стилей. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
     scripts = models.TextField(blank=True, help_text='Можно указать несколько файлов скриптов. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
     figures = models.ManyToManyField(ImageGallery, through='ArticleFigure')
@@ -121,12 +122,11 @@ class Article(models.Model):
 
 class ArticleFigure(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    order_num = models.PositiveSmallIntegerField()
+    order_num = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Позиция отображения на странице')
     image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
-    title = models.CharField(max_length=120)
-    description = models.CharField(max_length=200, blank=True)
-    styles = models.TextField(blank=True)
-    scripts = models.TextField(blank=True)
+    title = models.CharField(max_length=120, verbose_name='Заголовок')
+    styles = models.TextField(blank=True, help_text='Можно указать несколько файлов стилей. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
+    scripts = models.TextField(blank=True, help_text='Можно указать несколько файлов скриптов. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
     deploy_template = models.ForeignKey(DeployTemplate, on_delete=models.SET_NULL, null=True)
 
     class Meta():
@@ -139,14 +139,14 @@ class ArticleFigure(models.Model):
 
 class StaticPage(models.Model):
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
-    order_num = models.PositiveSmallIntegerField()
-    name = models.CharField(max_length=30, unique=True)
-    title = models.CharField(max_length=120)
-    meta_description = models.CharField(max_length=200)
-    meta_keywords = models.CharField(max_length=160)
-    head_tags = models.TextField(blank=True)
-    styles = models.TextField(blank=True)
-    scripts = models.TextField(blank=True)
+    order_num = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Для сортировки в админке')
+    name = models.SlugField(max_length=80, unique=True, verbose_name='Имя статьи (slug)', help_text='Это название для отображения в адресной строке')
+    title = models.CharField(max_length=120, verbose_name='Заголовок страницы', help_text='Отображается в заголовке окна браузера')
+    meta_description = models.CharField(max_length=200, help_text='Содержимое параметра Content мета-тэга description')
+    meta_keywords = models.CharField(max_length=160, help_text='Содержимое параметра Content мета-тэга keywords')
+    head_tags = models.TextField(blank=True, help_text='HTML-тэги для размещения в разделе head страницы')
+    styles = models.TextField(blank=True, help_text='Можно указать несколько файлов стилей. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
+    scripts = models.TextField(blank=True, help_text='Можно указать несколько файлов скриптов. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
     deploy_template = models.ForeignKey(DeployTemplate, on_delete=models.SET_NULL, null=True)
     articles = models.ManyToManyField(Article, through='PageArticle')
 
