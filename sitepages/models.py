@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 # Create your models here.
 
@@ -103,7 +104,7 @@ class Article(models.Model):
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    name = models.SlugField(max_length=80, verbose_name='Имя статьи (slug)', help_text='Это название для отображения в адресной строке')
+    name = models.SlugField(max_length=80, unique=True, verbose_name='Имя статьи (slug)', default=datetime.today, help_text='Это название для отображения в адресной строке')
     title = models.CharField(max_length=200, verbose_name='Заголовок')
     content = models.TextField()
     teaser_on_page = models.BooleanField(default=False, verbose_name='В списке выводить тизером', help_text='В списке объёмные статьи отображаются тизером')
@@ -140,7 +141,7 @@ class ArticleFigure(models.Model):
 class StaticPage(models.Model):
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
     order_num = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Для сортировки в админке')
-    name = models.SlugField(max_length=80, unique=True, verbose_name='Имя статьи (slug)', help_text='Это название для отображения в адресной строке')
+    name = models.SlugField(max_length=80, unique=True, default=datetime.today, verbose_name='Имя статьи (slug)', help_text='Это название для отображения в адресной строке')
     title = models.CharField(max_length=120, verbose_name='Заголовок страницы', help_text='Отображается в заголовке окна браузера')
     meta_description = models.CharField(max_length=200, help_text='Содержимое параметра Content мета-тэга description')
     meta_keywords = models.CharField(max_length=160, help_text='Содержимое параметра Content мета-тэга keywords')
