@@ -4,7 +4,7 @@ from datetime import datetime
 # Create your models here.
 
 class DeployTemplate(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.SlugField(max_length=50)
     body = models.TextField()
 
     class Meta():
@@ -27,7 +27,7 @@ class Feedback(models.Model):
         ordering = ['-date_created']
 
     def __str__(self):
-        return 'From %s at %s' % (self.user_name, self.date_created)
+        return 'From {} at {}'.format(self.user_name, self.date_created)
 
 
 class CalculationOrder(models.Model):
@@ -54,20 +54,20 @@ class CalculationOrder(models.Model):
         ordering = ['-date_created']
 
     def __str__(self):
-        return 'Order #%s from %s' % (self.pk, self.date_created)
+        return 'Order #{} from {}'.format(self.pk, self.date_created)
 
 
 class ImageGallery(models.Model):
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    order_num = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Для сортировки в админке')
-    name = models.CharField(max_length=80)
+    position = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Для сортировки в админке')
+    name = models.SlugField(max_length=80)
     title = models.CharField(max_length=200, blank=True)
     description = models.TextField(blank=True, verbose_name='Общее описание иллюстрации/галереи')
 
     class Meta():
-        ordering = ['order_num']
+        ordering = ['position']
 
     def __str__(self):
         return self.name
@@ -87,17 +87,17 @@ class Image(models.Model):
 
 class GalleryItem(models.Model):
     image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
-    order_num = models.PositiveSmallIntegerField()
+    position = models.PositiveSmallIntegerField()
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
     title = models.CharField(max_length=80, blank=True)
     description = models.CharField(max_length=200, blank=True)
 
     class Meta():
-        unique_together = ('image_gallery', 'order_num')
-        ordering = ['order_num']
+        unique_together = ('image_gallery', 'position')
+        ordering = ('image_gallery', 'position')
 
     def __str__(self):
-        return self.image.name
+        return '{} / {} / {}'.format(self.image_gallery.name, self.position, self.image.name)
 
 
 class Article(models.Model):
@@ -123,7 +123,7 @@ class Article(models.Model):
 
 class ArticleFigure(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    order_num = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Позиция отображения на странице')
+    position = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Позиция отображения на странице')
     image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
     title = models.CharField(max_length=120, verbose_name='Заголовок')
     styles = models.TextField(blank=True, help_text='Можно указать несколько файлов стилей. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
@@ -131,8 +131,8 @@ class ArticleFigure(models.Model):
     deploy_template = models.ForeignKey(DeployTemplate, on_delete=models.SET_NULL, null=True)
 
     class Meta():
-        unique_together = ('article', 'order_num')
-        ordering = ['order_num']
+        unique_together = ('article', 'position')
+        ordering = ('article', 'position')
 
     def __str__(self):
         return self.title
@@ -140,7 +140,7 @@ class ArticleFigure(models.Model):
 
 class StaticPage(models.Model):
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
-    order_num = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Для сортировки в админке')
+    position = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Для сортировки в админке')
     name = models.SlugField(max_length=80, unique=True, default=datetime.today, verbose_name='Имя статьи (slug)', help_text='Это название для отображения в адресной строке')
     title = models.CharField(max_length=120, verbose_name='Заголовок страницы', help_text='Отображается в заголовке окна браузера')
     meta_description = models.CharField(max_length=200, help_text='Содержимое параметра Content мета-тэга description')
@@ -152,7 +152,7 @@ class StaticPage(models.Model):
     articles = models.ManyToManyField(Article, through='PageArticle')
 
     class Meta():
-        ordering = ['order_num']
+        ordering = ['position']
 
     def __str__(self):
         return self.name
@@ -160,9 +160,12 @@ class StaticPage(models.Model):
 
 class PageArticle(models.Model):
     static_page = models.ForeignKey(StaticPage, on_delete=models.CASCADE)
-    order_num = models.PositiveSmallIntegerField()
+    position = models.PositiveSmallIntegerField()
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
 
     class Meta():
-        unique_together = ('static_page', 'order_num')
-        ordering = ['order_num']
+        unique_together = ('static_page', 'position')
+        ordering = ('static_page', 'position')
+
+    def __str__(self):
+        return '{} / {} / {}'.format(self.static_page.name, self.position, self.article.name)
