@@ -95,6 +95,7 @@ class GalleryItem(models.Model):
     image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
     position = models.PositiveSmallIntegerField()
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=80, blank=True)
     description = models.CharField(max_length=200, blank=True)
 

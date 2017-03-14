@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views import View
 from django.template import Template, Context
@@ -11,6 +12,8 @@ class InfoPage(View):
     def get(self, request, page_name):
         # получим запрошенную страницу
         static_page = get_object_or_404(StaticPage, name=page_name)
+        if not static_page.is_published:
+            raise Http404("Page does not exist or not published yet")
         # списки стилей и скриптов для пополнения в дальнейшем
         styles = list()
         scripts = list()
