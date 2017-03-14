@@ -9,6 +9,8 @@ class DeployTemplate(models.Model):
 
     class Meta():
         ordering = ['name']
+        verbose_name = 'шаблон отображения'
+        verbose_name_plural = 'шаблоны отображения'
 
     def __str__(self):
         return self.name
@@ -68,6 +70,8 @@ class ImageGallery(models.Model):
 
     class Meta():
         ordering = ['position']
+        verbose_name = 'галерея изображений'
+        verbose_name_plural = 'галереи изображений'
 
     def __str__(self):
         return self.name
@@ -80,6 +84,8 @@ class Image(models.Model):
 
     class Meta():
         ordering = ['name']
+        verbose_name = 'картинка'
+        verbose_name_plural = 'картинки'
 
     def __str__(self):
         return self.name
@@ -95,6 +101,8 @@ class GalleryItem(models.Model):
     class Meta():
         unique_together = ('image_gallery', 'position')
         ordering = ('image_gallery', 'position')
+        verbose_name = 'элемент галереи'
+        verbose_name_plural = 'элементы галереи'
 
     def __str__(self):
         return '{} / {} / {}'.format(self.image_gallery.name, self.position, self.image.name)
@@ -128,11 +136,13 @@ class ArticleFigure(models.Model):
     title = models.CharField(max_length=120, verbose_name='Заголовок')
     styles = models.TextField(blank=True, help_text='Можно указать несколько файлов стилей. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
     scripts = models.TextField(blank=True, help_text='Можно указать несколько файлов скриптов. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
-    deploy_template = models.ForeignKey(DeployTemplate, on_delete=models.SET_NULL, null=True)
+    deploy_template = models.ForeignKey(DeployTemplate, on_delete=models.SET_NULL, null=True, verbose_name='Шаблон отображения')
 
     class Meta():
         unique_together = ('article', 'position')
         ordering = ('article', 'position')
+        verbose_name = 'изображение в статье'
+        verbose_name_plural = 'изображения в статье'
 
     def __str__(self):
         return self.title
@@ -148,11 +158,13 @@ class StaticPage(models.Model):
     head_tags = models.TextField(blank=True, help_text='HTML-тэги для размещения в разделе head страницы')
     styles = models.TextField(blank=True, help_text='Можно указать несколько файлов стилей. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
     scripts = models.TextField(blank=True, help_text='Можно указать несколько файлов скриптов. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
-    deploy_template = models.ForeignKey(DeployTemplate, on_delete=models.SET_NULL, null=True)
+    deploy_template = models.ForeignKey(DeployTemplate, on_delete=models.SET_NULL, null=True, verbose_name='Шаблон отображения')
     articles = models.ManyToManyField(Article, through='PageArticle')
 
     class Meta():
         ordering = ['position']
+        verbose_name = 'страница'
+        verbose_name_plural = 'страницы'
 
     def __str__(self):
         return self.name
@@ -166,6 +178,8 @@ class PageArticle(models.Model):
     class Meta():
         unique_together = ('static_page', 'position')
         ordering = ('static_page', 'position')
+        verbose_name = 'статья на странице'
+        verbose_name_plural = 'статьи на странице'
 
     def __str__(self):
         return '{} / {} / {}'.format(self.static_page.name, self.position, self.article.name)

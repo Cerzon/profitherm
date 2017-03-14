@@ -17,7 +17,7 @@ class InfoPage(View):
         s = static_page.styles.strip()
         if s: styles = s.split('\r\n')
         s = static_page.scripts.strip()
-        if s: scripts = s.split('\n')
+        if s: scripts = s.split('\r\n')
         # данные для шапки страницы
         title = static_page.title.strip()
         head_tags = static_page.head_tags.strip()
