@@ -1,6 +1,7 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views import View
+from django.db.models import Prefetch
 from django.template import Template, Context
 from .models import Article, ArticleFigure, Image, ImageGallery, GalleryItem, StaticPage, PageArticle
 
@@ -28,8 +29,24 @@ class InfoPage(View):
         meta_keywords = static_page.meta_keywords.strip()
         # собираем контент
         # получить список всех статей на странице
-        # цикл перебора статей страницы
-            # пополнение styles и scripts стилями и скриптами статьи
+        page_articles = static_page.articles.order_by('pagelink__position').select_related('figurelink')
+        if page_articles:
+            article_list = list()
+            # цикл перебора статей страницы
+            for article in page_articles:
+                # пополнение styles и scripts стилями и скриптами статьи
+                s = article.styles.strip()
+                if s:
+                    s = s.split('\r\n')
+                    for si in s:
+                        if not si in styles: styles.append(si)
+                s = article.scripts.strip()
+                if s:
+                    s = s.split('\r\n')
+                    for si in s:
+                        if not si in scripts: scripts.append(si)
+        else:
+            page_content = '<article><header><h2>На этой странице ничего нет</h2></header></article>'
             # если НЕ 'показывать на странице тизер'
                 # получаем список иллюстраций/галерей
                 # если список не пустой, создаём переменную для хранения всех иллюстраций/галерей
@@ -51,6 +68,6 @@ class InfoPage(View):
             'head_tags' : head_tags,
             'meta_description' : meta_description,
             'meta_keywords' : meta_keywords,
-            'page_content' : 'Greetings!'
+            'page_content' : page_content,
             }
         return render(request, self.template, context_dict)

@@ -127,13 +127,13 @@ class Article(models.Model):
         verbose_name_plural = 'статьи'
 
     def __str__(self):
-        return self.title
+        return '{} / {}'.format(self.name, self.title)
 
 
 class ArticleFigure(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='figurelink')
     position = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Позиция отображения на странице')
-    image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
+    image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE, related_name='figurelink')
     title = models.CharField(max_length=120, verbose_name='Заголовок')
     styles = models.TextField(blank=True, help_text='Можно указать несколько файлов стилей. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
     scripts = models.TextField(blank=True, help_text='Можно указать несколько файлов скриптов. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
@@ -172,9 +172,9 @@ class StaticPage(models.Model):
 
 
 class PageArticle(models.Model):
-    static_page = models.ForeignKey(StaticPage, on_delete=models.CASCADE)
+    static_page = models.ForeignKey(StaticPage, on_delete=models.CASCADE, related_name='pagelink')
     position = models.PositiveSmallIntegerField()
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='pagelink')
 
     class Meta():
         unique_together = ('static_page', 'position')
