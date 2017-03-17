@@ -159,7 +159,6 @@ class StaticPage(models.Model):
     head_tags = models.TextField(blank=True, help_text='HTML-тэги для размещения в разделе head страницы')
     styles = models.TextField(blank=True, help_text='Можно указать несколько файлов стилей. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
     scripts = models.TextField(blank=True, help_text='Можно указать несколько файлов скриптов. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
-    deploy_template = models.ForeignKey(DeployTemplate, on_delete=models.SET_NULL, null=True, verbose_name='Шаблон отображения')
     articles = models.ManyToManyField(Article, through='PageArticle')
 
     class Meta():
