@@ -15,11 +15,30 @@
     {% endif %}
     {% if scripts %}
         {% for script in scripts %}
-        <script type="text/javascript" src="{{ script }}"></script>
+        <script type="text/javascript" src="{% static script %}"></script>
         {% endfor %}
     {% endif %}
 {% endblock head %}
 
 {% block maincontent %}
-{{ page_content|safe }}
+
+{% autoescape off %}
+    
+    {% for article in articles %}
+        <article>
+            <header>
+                <h1>{{ article.title }}</h1>
+            </header>
+            
+            {% if article.teaser %}
+                {{ article.data|truncatewords_html:80|linebreaks }}
+            {% else %}
+                {{ article.data|linebreaks }}
+            {% endif %}
+            
+        </article>
+    {% endfor %}
+
+{% endautoescape on %}
+
 {% endblock maincontent %}
