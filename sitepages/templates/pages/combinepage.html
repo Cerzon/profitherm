@@ -31,9 +31,9 @@
             </header>
             
             {% if article.teaser %}
-                {{ article.data|truncatewords_html:80|linebreaks }}
+                {{ article.body|truncatewords_html:80|linebreaks }}
             {% else %}
-                {{ article.data|linebreaks }}
+                {{ article.body|linebreaks }}
             {% endif %}
             
         </article>

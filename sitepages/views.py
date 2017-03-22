@@ -1,9 +1,8 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views import View
-from django.db.models import Prefetch
 from django.template import Template, Context
-from .models import Article, ArticleFigure, Image, ImageGallery, GalleryItem, StaticPage, PageArticle
+from .models import Article, ArticlePicture, Image, ImageGallery, Figure, StaticPage, PageArticle
 
 # Create your views here.
 
@@ -45,9 +44,39 @@ class InfoPage(View):
                     s = s.split('\r\n')
                     for si in s:
                         if not si in scripts: scripts.append(si)
-                # цикл перебора изображений/галерей в статье
+                # получить список всех картинок на странице
+                pictures = article.pictures.order_by('picturelink__position').select_related('deploy_template')
+                if pictures:
+                    picture_list = list()
+                    # цикл перебора картинок в статье
+                    for picture in pictures:
+                        # пополнение styles и scripts стилями и скриптами картинки
+                        s = picture.styles.strip()
+                        if s:
+                            s = s.split('\r\n')
+                            for si in s:
+                                if not si in styles: styles.append(si)
+                        s = picture.scripts.strip()
+                        if s:
+                            s = s.split('\r\n')
+                            for si in s:
+                                if not si in scripts: scripts.append(si)
+                        figures = picture.figures.order_by('position').select_related('image')
+                        tpl = Template(picture.deploy_template.body)
+                        ctx = Context({'figures' : figures})
+                        picture_list.append(tpl.render(ctx))
+                tpl = Template(article.content)
+                ctx = Context({'pictures' : picture_list})
+                article_body = tpl.render(ctx)
+                article_list.append({
+                    'title' : article.title,
+                    'body' : article_body,
+                    'teaser' : article.teaser_on_page,
+                    'date_created' : article.date_created,
+                    'date_modified' : article.date_modified
+                })
         else:
-            page_content = '<article><header><h2>На этой странице ничего нет</h2></header></article>'
+            article_list = {'title' : 'На этой странице ничего нет'}
         context_dict = {
             'title' : title,
             'styles' : styles,
@@ -55,6 +84,6 @@ class InfoPage(View):
             'head_tags' : head_tags,
             'meta_description' : meta_description,
             'meta_keywords' : meta_keywords,
-            'page_content' : page_content,
+            'articles' : article_list,
             }
         return render(request, self.template, context_dict)

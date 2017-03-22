@@ -59,24 +59,6 @@ class CalculationOrder(models.Model):
         return 'Order #{} from {}'.format(self.pk, self.date_created)
 
 
-class ImageGallery(models.Model):
-    is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-    position = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Для сортировки в админке')
-    name = models.SlugField(max_length=80)
-    title = models.CharField(max_length=200, blank=True)
-    description = models.TextField(blank=True, verbose_name='Общее описание иллюстрации/галереи')
-
-    class Meta():
-        ordering = ['position']
-        verbose_name = 'галерея изображений'
-        verbose_name_plural = 'галереи изображений'
-
-    def __str__(self):
-        return self.name
-
-
 class Image(models.Model):
     name = models.SlugField()
     file_name = models.ImageField(upload_to='images/')
@@ -91,7 +73,28 @@ class Image(models.Model):
         return self.name
 
 
-class GalleryItem(models.Model):
+class ImageGallery(models.Model):
+    is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    position = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Для сортировки в админке')
+    name = models.SlugField(max_length=80)
+    title = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True, verbose_name='Общее описание иллюстрации/галереи')
+    styles = models.TextField(blank=True, help_text='Можно указать несколько файлов стилей. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
+    scripts = models.TextField(blank=True, help_text='Можно указать несколько файлов скриптов. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
+    deploy_template = models.ForeignKey(DeployTemplate, on_delete=models.SET_NULL, null=True, verbose_name='Шаблон отображения')
+
+    class Meta():
+        ordering = ['position']
+        verbose_name = 'галерея изображений'
+        verbose_name_plural = 'галереи изображений'
+
+    def __str__(self):
+        return self.name
+
+
+class Figure(models.Model):
     image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
     position = models.PositiveSmallIntegerField()
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
@@ -119,7 +122,7 @@ class Article(models.Model):
     teaser_on_page = models.BooleanField(default=False, verbose_name='В списке выводить тизером', help_text='В списке объёмные статьи отображаются тизером')
     styles = models.TextField(blank=True, help_text='Можно указать несколько файлов стилей. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
     scripts = models.TextField(blank=True, help_text='Можно указать несколько файлов скриптов. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
-    figures = models.ManyToManyField(ImageGallery, through='ArticleFigure')
+    pictures = models.ManyToManyField(ImageGallery, through='ArticlePicture')
 
     class Meta():
         ordering = ['-date_modified']
@@ -130,14 +133,10 @@ class Article(models.Model):
         return '{} / {}'.format(self.name, self.title)
 
 
-class ArticleFigure(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+class ArticlePicture(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='picturelink')
     position = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Позиция отображения на странице')
-    image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE, related_name='figurelink')
-    title = models.CharField(max_length=120, verbose_name='Заголовок')
-    styles = models.TextField(blank=True, help_text='Можно указать несколько файлов стилей. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
-    scripts = models.TextField(blank=True, help_text='Можно указать несколько файлов скриптов. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
-    deploy_template = models.ForeignKey(DeployTemplate, on_delete=models.SET_NULL, null=True, verbose_name='Шаблон отображения')
+    image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE, related_name='picturelink')
 
     class Meta():
         unique_together = ('article', 'position')
@@ -146,7 +145,7 @@ class ArticleFigure(models.Model):
         verbose_name_plural = 'изображения в статье'
 
     def __str__(self):
-        return self.title
+        return '{} / {} / {}'.format(self.article.name, self.position, self.image_gallery.name)
 
 
 class StaticPage(models.Model):
