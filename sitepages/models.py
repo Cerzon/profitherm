@@ -131,7 +131,7 @@ class Article(models.Model):
 
 
 class ArticleFigure(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='figurelink')
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
     position = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Позиция отображения на странице')
     image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE, related_name='figurelink')
     title = models.CharField(max_length=120, verbose_name='Заголовок')

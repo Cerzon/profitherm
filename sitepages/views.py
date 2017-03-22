@@ -29,7 +29,7 @@ class InfoPage(View):
         meta_keywords = static_page.meta_keywords.strip()
         # собираем контент
         # получить список всех статей на странице
-        page_articles = static_page.articles.order_by('pagelink__position').select_related('figurelink')
+        page_articles = static_page.articles.order_by('pagelink__position')
         if page_articles:
             article_list = list()
             # цикл перебора статей страницы
@@ -45,22 +45,9 @@ class InfoPage(View):
                     s = s.split('\r\n')
                     for si in s:
                         if not si in scripts: scripts.append(si)
+                # цикл перебора изображений/галерей в статье
         else:
             page_content = '<article><header><h2>На этой странице ничего нет</h2></header></article>'
-            # если НЕ 'показывать на странице тизер'
-                # получаем список иллюстраций/галерей
-                # если список не пустой, создаём переменную для хранения всех иллюстраций/галерей
-                # перебор прицепленных иллюстраций/галерей статьи
-                    # получение данных галереи через ArticleFigure
-                    # пополнение styles и scripts стилями и скриптами галереи
-                    # создание шаблона галереи из article_figure.render_template
-                    # создание контекста с данными состава галереи: image из image_set
-                    # рендер галереи
-                    # добавляем в переменную со списком иллюстраций/галерей результаты рендера
-            # создание контекста со списком рендереных иллюстраций/галлерей
-            # создание шаблона из контента статьи
-            # рендер статьи
-            # добавляем в переменную со списком статей
         context_dict = {
             'title' : title,
             'styles' : styles,
