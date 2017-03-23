@@ -7,7 +7,7 @@ from .models import Article, ArticlePicture, Image, ImageGallery, Figure, Static
 # Create your views here.
 
 class InfoPage(View):
-    template = 'pages/combinepage.html'
+    template = 'pages/infopage.html'
 
     def get(self, request, page_name):
         # получим запрошенную страницу
@@ -29,8 +29,8 @@ class InfoPage(View):
         # собираем контент
         # получить список всех статей на странице
         page_articles = static_page.articles.order_by('pagelink__position')
+        article_list = list()
         if page_articles:
-            article_list = list()
             # цикл перебора статей страницы
             for article in page_articles:
                 # пополнение styles и scripts стилями и скриптами статьи
@@ -46,8 +46,8 @@ class InfoPage(View):
                         if not si in scripts: scripts.append(si)
                 # получить список всех картинок на странице
                 pictures = article.pictures.order_by('picturelink__position').select_related('deploy_template')
+                picture_list = list()
                 if pictures:
-                    picture_list = list()
                     # цикл перебора картинок в статье
                     for picture in pictures:
                         # пополнение styles и scripts стилями и скриптами картинки
@@ -61,7 +61,7 @@ class InfoPage(View):
                             s = s.split('\r\n')
                             for si in s:
                                 if not si in scripts: scripts.append(si)
-                        figures = picture.figures.order_by('position').select_related('image')
+                        figures = Figure.objects.filter(image_gallery=picture).order_by('position').select_related('image')
                         tpl = Template(picture.deploy_template.body)
                         ctx = Context({'figures' : figures})
                         picture_list.append(tpl.render(ctx))

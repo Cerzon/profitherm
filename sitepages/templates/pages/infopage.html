@@ -22,8 +22,6 @@
 
 {% block maincontent %}
 
-{% autoescape off %}
-    
     {% for article in articles %}
         <article>
             <header>
@@ -31,14 +29,12 @@
             </header>
             
             {% if article.teaser %}
-                {{ article.body|truncatewords_html:80|linebreaks }}
+                {{ article.body|truncatewords_html:80 }}
             {% else %}
-                {{ article.body|linebreaks }}
+                {{ article.body }}
             {% endif %}
             
         </article>
     {% endfor %}
-
-{% endautoescape on %}
 
 {% endblock maincontent %}
