@@ -2,7 +2,8 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views import View
 from django.template import Template, Context
-from .models import Article, ArticlePicture, Image, ImageGallery, Figure, StaticPage, PageArticle
+from django.views.generic.edit import CreateView
+from .models import Article, ArticlePicture, Image, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder
 
 # Create your views here.
 
@@ -87,3 +88,25 @@ class InfoPage(View):
             'articles' : article_list,
             }
         return render(request, self.template, context_dict)
+
+
+class CalculationOrderAddView(CreateView):
+    model = CalculationOrder
+    fields = [
+        'user_name',
+        'user_email',
+        'user_phone',
+        'heated_area',
+        'attachments',
+        'radiator_heating',
+        'floor_heating',
+        'water_supply',
+        'water_treatment',
+        'sewerage',
+        'boilerplant',
+        'svc_project',
+        'svc_purchase',
+        'svc_assembly',
+        'svc_maintenance',
+        'svc_consulting'
+    ]

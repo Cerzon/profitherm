@@ -1,9 +1,14 @@
 from django import forms
+from .models import CalculationOrder, Feedback
 
 class CalculationOrderForm(forms.ModelForm):
-    pass
+    class Meta():
+        model = CalculationOrder
+        exclude = ['date_created']
 
 
 class FeedbackForm(forms.ModelForm):
-    pass
+    class Meta():
+        model = Feedback
+        fields = ['user_name', 'user_email', 'title', 'content']
     
