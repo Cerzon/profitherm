@@ -92,6 +92,7 @@ class InfoPage(View):
 
 class CalculationOrderAddView(CreateView):
     model = CalculationOrder
+    template_name = 'pages/calculationorder_form.html'
     fields = [
         'user_name',
         'user_email',
@@ -108,5 +109,6 @@ class CalculationOrderAddView(CreateView):
         'svc_purchase',
         'svc_assembly',
         'svc_maintenance',
-        'svc_consulting'
+        'svc_consulting',
+        'additional_info'
     ]

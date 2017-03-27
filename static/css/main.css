@@ -149,7 +149,7 @@ main {
 	order: 2;
 }
 
-main article {
+main article, main form {
 	margin: 25px 30px 35px 30px;
 }
 
