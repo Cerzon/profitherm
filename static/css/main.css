@@ -525,3 +525,22 @@ p.copyright-info {
 		font-size: 25px;
 	}
 }
+
+/*** Forms *******************************************************************/
+
+main input[type="text"],
+main input[type="email"],
+main input[type="number"] {
+	border: none;
+    background-color: lemonchiffon;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #4a4a4a;
+    font-size: 20px;
+    font-family: monospace;
+    text-indent: 10px;
+}
+
+form p {
+	margin: 15px 0;
+}

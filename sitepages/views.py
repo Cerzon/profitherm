@@ -4,6 +4,7 @@ from django.views import View
 from django.template import Template, Context
 from django.views.generic.edit import CreateView
 from .models import Article, ArticlePicture, Image, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder
+from .forms import CalculationOrderForm, FeedbackForm
 
 # Create your views here.
 
@@ -91,24 +92,5 @@ class InfoPage(View):
 
 
 class CalculationOrderAddView(CreateView):
-    model = CalculationOrder
+    form_class = CalculationOrderForm
     template_name = 'pages/calculationorder_form.html'
-    fields = [
-        'user_name',
-        'user_email',
-        'user_phone',
-        'heated_area',
-        'attachments',
-        'radiator_heating',
-        'floor_heating',
-        'water_supply',
-        'water_treatment',
-        'sewerage',
-        'boilerplant',
-        'svc_project',
-        'svc_purchase',
-        'svc_assembly',
-        'svc_maintenance',
-        'svc_consulting',
-        'additional_info'
-    ]
