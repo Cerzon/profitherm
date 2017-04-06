@@ -93,4 +93,13 @@ class InfoPage(View):
 
 class CalculationOrderAddView(CreateView):
     form_class = CalculationOrderForm
+    model = CalculationOrder
     template_name = 'pages/calculationorder_form.html'
+    success_url = '/raschet-otopleniya/success/'
+
+
+class CalculationOrderSuccess(View):
+    template = 'pages/order_success.html'
+
+    def get(self, request):
+        return render(request, self.template, {})
