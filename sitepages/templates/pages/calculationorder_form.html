@@ -3,7 +3,117 @@
 {% block maincontent %}
 <form action="" method="POST">
     {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Отправить" />
+    {{ form.non_field_errors }}
+    <fieldset>
+        <legend><span class="fieldset-position-legend">1</span>Персональные данные</legend>
+        <p class="form-textfield">
+            {{ form.user_name.errors }}
+            <label for="{{ form.user_name.id_for_label }}">Контактное лицо:</label>
+            {{ form.user_name }}
+        </p>
+        <p class="form-textfield">
+            {{ form.user_phone.errors }}
+            <label for="{{ form.user_phone.id_for_label }}">Телефон:</label>
+            {{ form.user_phone }}
+        </p>
+        <p class="form-textfield">
+            {{ form.user_email.errors }}
+            <label for="{{ form.user_email.id_for_label }}">Email:</label>
+            {{ form.user_email }}
+        </p>
+    </fieldset>
+    <fieldset>
+        <legend><span class="fieldset-position-legend">2</span>Информация об объекте</legend>
+        <p>
+            {{ form.object_type.errors }}
+            <label for="{{ form.object_type.id_for_label }}">Тип объекта:</label>
+            {{ form.object_type }}
+        </p>
+        <p>
+            {{ form.levels_amount.errors }}
+            <label for="{{ form.levels_amount.id_for_label }}">Кол-во этажей:</label>
+            {{ form.levels_amount }}
+        </p>
+        <p>
+            {{ form.heated_area.errors }}
+            <label for="{{ form.heated_area.id_for_label }}">Отапливаемая площадь:</label>
+            {{ form.heated_area }}
+        </p>
+    </fieldset>
+    <fieldset>
+        <legend><span class="fieldset-position-legend">3</span>Интересующие системы и услуги</legend>
+        <div class="multicolumn">
+            <div class="singlewidth">
+                <p>
+                    {{ form.radiator_heating.errors }}
+                    {{ form.radiator_heating }}
+                    <label for="{{ form.radiator_heating.id_for_label }}">Радиаторное отопление</label>
+                </p>
+                <p>
+                    {{ form.floor_heating.errors }}
+                    {{ form.floor_heating }}
+                    <label for="{{ form.floor_heating.id_for_label }}">Тёплые полы</label>
+                </p>
+                <p>
+                    {{ form.boilerplant.errors }}
+                    {{ form.boilerplant }}
+                    <label for="{{ form.boilerplant.id_for_label }}">Котельная</label>
+                </p>
+                <p>
+                    {{ form.water_supply.errors }}
+                    {{ form.water_supply }}
+                    <label for="{{ form.water_supply.id_for_label }}">Водоснабжение и канализация</label>
+                </p>
+                <p>
+                    {{ form.water_treatment.errors }}
+                    {{ form.water_treatment }}
+                    <label for="{{ form.water_treatment.id_for_label }}">Водоподготовка</label>
+                </p>
+            </div>
+            <div class="singlewidth">
+                <p>
+                    {{ form.svc_project.errors }}
+                    {{ form.svc_project }}
+                    <label for="{{ form.svc_project.id_for_label }}">Проектирование</label>
+                </p>
+                <p>
+                    {{ form.svc_purchase.errors }}
+                    {{ form.svc_purchase }}
+                    <label for="{{ form.svc_purchase.id_for_label }}">Комплектация</label>
+                </p>
+                <p>
+                    {{ form.svc_assembly.errors }}
+                    {{ form.svc_assembly }}
+                    <label for="{{ form.svc_assembly.id_for_label }}">Монтаж</label>
+                </p>
+                <p>
+                    {{ form.svc_reconstruction.errors }}
+                    {{ form.svc_reconstruction }}
+                    <label for="{{ form.svc_reconstruction.id_for_label }}">Реконструкция</label>
+                </p>
+                <p>
+                    {{ form.svc_consulting.errors }}
+                    {{ form.svc_consulting }}
+                    <label for="{{ form.svc_consulting.id_for_label }}">Консультация</label>
+                </p>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend><span class="fieldset-position-legend">4</span>Дополнительная информация</legend>
+        <p>
+            {{ form.attachments.errors }}
+            <label for="{{ form.attachments.id_for_label }}">Доп.материалы</label>
+            {{ form.attachments }}
+        </p>
+        <p class="form-textarea">
+            {{ form.additional_info.errors }}
+            <label for="{{ form.additional_info.id_for_label }}">Дополнительная информация</label>
+            {{ form.additional_info }}
+        </p>
+    </fieldset>
+    <p class="align-center">
+        <input type="submit" value="Отправить" />
+    </p>
 </form>
 {% endblock maincontent %}

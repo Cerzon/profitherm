@@ -33,23 +33,27 @@ class Feedback(models.Model):
 
 
 class CalculationOrder(models.Model):
+    OBJECT_TYPE_CHOICES = (
+        ('ctge', 'Загородный дом'),
+        ('flat', 'Квартира'),
+    )
     date_created = models.DateTimeField(auto_now_add=True)
     user_name = models.CharField(max_length=120, verbose_name='Контактное лицо')
-    user_email = models.EmailField(verbose_name='Адрес электронной почты')
     user_phone = models.CharField(max_length=16, verbose_name='Контактный телефон')
+    user_email = models.EmailField(verbose_name='Адрес электронной почты')
+    object_type = models.CharField(max_length=4, choices=OBJECT_TYPE_CHOICES, default='ctge', verbose_name='Тип объекта')
+    levels_amount = models.PositiveSmallIntegerField(verbose_name='Количество этажей', default=1)
     heated_area = models.PositiveSmallIntegerField(verbose_name='Отапливаемая площадь')
     attachments = models.FileField(upload_to='uploads/calc_order/', verbose_name='Дополнительные материалы', blank=True)
     radiator_heating = models.BooleanField(default=True, verbose_name='Радиаторное отопление')
     floor_heating = models.BooleanField(default=True, verbose_name='Польное отопление')
-    water_supply = models.BooleanField(default=True, verbose_name='Водоснабжение')
+    water_supply = models.BooleanField(default=True, verbose_name='Водоснабжение и канализация')
     water_treatment = models.BooleanField(default=False, verbose_name='Водоочистка')
-    sewerage = models.BooleanField(default=True, verbose_name='Система канализации')
     boilerplant = models.BooleanField(default=True, verbose_name='Котельная/ИТП')
     svc_project = models.BooleanField(default=True, verbose_name='Проектирование')
     svc_purchase = models.BooleanField(default=True, verbose_name='Комплектация')
     svc_assembly = models.BooleanField(default=True, verbose_name='Монтаж')
     svc_reconstruction = models.BooleanField(default=False, verbose_name='Реконструкция')
-    svc_maintenance = models.BooleanField(default=False, verbose_name='Сервисное обслуживание')
     svc_consulting = models.BooleanField(default=False, verbose_name='Консультация')
     additional_info = models.TextField(blank=True, verbose_name='Дополнительная информация')
 

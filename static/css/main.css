@@ -150,12 +150,16 @@ main {
 }
 
 main article, main form {
-	margin: 25px 30px 35px 30px;
+	margin: 25px 45px;
 }
 
 aside {
 	padding-top: 50px;
 	width: 285px;
+}
+
+aside nav {
+	margin-top: 1em;
 }
 
 aside article {
@@ -239,6 +243,7 @@ nav#topmenu {
 
 nav#secondmenu {
 	padding: 0 35px;
+	margin-bottom: 35px;
 }
 
 footer#page-footer {
@@ -314,6 +319,18 @@ p.copyright-info {
 	text-align: center;
 }
 
+div.multicolumn {
+	display: flex;
+}
+
+div.singlewidth {
+	flex: 1;
+}
+
+p.align-center {
+	text-align: center;
+}
+
 @media only screen and (max-width: 1260px) {
 	body {
 		min-width: 1010px;
@@ -343,6 +360,7 @@ p.copyright-info {
 	}
 
 	#leftsidebar nav {
+		margin-top: 0;
 		display: none;
 		position: absolute;
 		background-color: #FFFFFF;
@@ -541,6 +559,47 @@ main input[type="number"] {
     text-indent: 10px;
 }
 
+main input[type="submit"] {
+	padding: 10px 20px;
+    background-color: #ba4a00;
+    color: #FFFFFF;
+    margin: 5px auto;
+    border-color: #FFFFFF;
+    border-width: 6px;
+    border-style: double;
+    border-image: none;
+}
+
 form p {
 	margin: 15px 0;
+}
+
+main fieldset {
+	border: none;
+	padding-left: 70px;
+}
+
+main legend {
+	font-size: 25px;
+    font-weight: bold;
+    color: #ba4a00;
+    font-family: 'PT Sans Narrow';
+    position: relative;
+    left: -70px;
+}
+
+span.fieldset-position-legend {
+	margin-right: 0.3em;
+    padding: 0 0.4em;
+    font-size: 1.5em;
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 1em;
+    position: relative;
+    top: 0.6em;
+    color: rgba(0,0,0,0.5);
+}
+
+.form-textarea label {
+	display: block;
 }
