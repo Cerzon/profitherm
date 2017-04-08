@@ -4,8 +4,12 @@
     <head>
         <meta charset="utf-8" />
         <title>{% block title %}page title{% endblock title %}</title>
-        {% block head %}
+        {% block stylesheets %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+        {% endblock stylesheets %}
+        {% block scripts %}
+        {% endblock scripts %}
+        {% block head %}
         <meta name="viewport" content="width=360, initial-scale=0.5">
         {% endblock head %}
     </head>

@@ -4,20 +4,26 @@
 
 {% block title %}{{ title }}{% endblock title %}
 
-{% block head %}
-    {% if head_tags %}{{ head_tags|safe }}{% endif %}
-    <meta name="description" content="{{ meta_description|default:'description' }}" />
-    <meta name="keywords" content="{{ meta_keywords|default:'keywords' }}" />
+{% block stylesheets %}
     {% if styles %}
         {% for style in styles %}
         <link rel="stylesheet" type="text/css" href="{% static style %}" />
         {% endfor %}
     {% endif %}
+{% endblock stylesheets %}
+
+{% block scripts %}
     {% if scripts %}
         {% for script in scripts %}
         <script type="text/javascript" src="{% static script %}"></script>
         {% endfor %}
     {% endif %}
+{% endblock scripts %}
+
+{% block head %}
+    {% if head_tags %}{{ head_tags|safe }}{% endif %}
+    <meta name="description" content="{{ meta_description|default:'description' }}" />
+    <meta name="keywords" content="{{ meta_keywords|default:'keywords' }}" />
 {% endblock head %}
 
 {% block maincontent %}

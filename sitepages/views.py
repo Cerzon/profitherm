@@ -78,7 +78,7 @@ class InfoPage(View):
                     'date_modified' : article.date_modified
                 })
         else:
-            article_list = {'title' : 'На этой странице ничего нет'}
+            article_list = [{'title' : 'На этой странице ничего нет'}]
         context_dict = {
             'title' : title,
             'styles' : styles,

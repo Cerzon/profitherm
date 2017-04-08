@@ -63,16 +63,33 @@ a, em, strong, span {
 
 /*** Colors ******************************************************************/
 
-main p {
+main {
 	color: #4A4A4A;
 }
 
-main header {
+main header, main legend {
 	color: #BA4A00;
 }
 
 aside {
 	background-color: rgba(0,0,0,0.27);
+}
+
+main input[type="text"],
+main input[type="email"],
+main input[type="number"],
+textarea {
+	border: none;
+    background-color: lemonchiffon;
+}
+
+main input[type="submit"] {
+    background-color: #ba4a00;
+    color: #FFFFFF;
+    border-color: #FFFFFF;
+    border-width: 6px;
+    border-style: double;
+    border-image: none;
 }
 
 div#topimage-resize {
@@ -127,6 +144,17 @@ li.menu-item:hover {
 	background-color: rgba(0,0,0,0.27);
 }
 
+span.fieldset-position-legend {
+    color: rgba(0,0,0,0.5);
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 1em;
+}
+
+.errorlist {
+	color: #DD0000;
+}
+
 @media only screen and (max-width: 2600px) {
 	div#topimgveil {
 		background-size: 100% 100%;
@@ -172,6 +200,20 @@ aside h1 {
 
 aside p {
 	padding-left: 20px;
+}
+
+main fieldset {
+	border: none;
+	padding-left: 70px;
+}
+
+main legend {
+    position: relative;
+    left: -70px;
+}
+
+main input[type="submit"] {
+	padding: 10px 20px;
 }
 
 aside#leftsidebar {
@@ -312,6 +354,10 @@ li.text-item a {
 	margin-top: -10px;
 }
 
+.landed {
+	margin-bottom: -10px;
+}
+
 p.copyright-info {
 	position: absolute;
 	bottom: 20px;
@@ -319,16 +365,62 @@ p.copyright-info {
 	text-align: center;
 }
 
-div.multicolumn {
+.multi-column {
 	display: flex;
 }
 
-div.singlewidth {
+.single-width {
 	flex: 1;
 }
 
-p.align-center {
+.double-width {
+	flex: 2;
+}
+
+.triple-width {
+	flex: 3;
+}
+
+.quad-width {
+	flex: 4;
+}
+
+.align-center {
 	text-align: center;
+}
+
+.form-field {
+	margin: 15px 0;
+}
+
+.form-field.multi-column {
+	align-items: flex-end;
+}
+
+.form-field.multi-column, textarea {
+	border-bottom-style: dotted;
+	border-bottom-color: #4A4A4A;
+	border-bottom-width: 1px;
+}
+
+.wide-field input, .wide-field textarea {
+	width: 100%;
+}
+
+.form-textarea label {
+	margin-bottom: 0.3em;
+	display: block;
+}
+
+span.fieldset-position-legend {
+	margin-right: 0.3em;
+    padding: 0 0.4em;
+    position: relative;
+    top: 0.6em;
+}
+
+.errorlist {
+	margin-left: 20px;
 }
 
 @media only screen and (max-width: 1260px) {
@@ -450,6 +542,21 @@ aside h1 {
 	font-size: 16px;
 }
 
+main legend {
+	font-size: 25px;
+    font-weight: bold;
+    font-family: 'PT Sans Narrow';
+}
+
+main input[type="text"],
+main input[type="email"],
+main input[type="number"],
+textarea {
+    font-size: 18px;
+    font-family: monospace;
+    text-indent: 8px;
+}
+
 #topcontacts {
 	font-size: 25px;
 /*	font-weight: bold;*/
@@ -474,6 +581,14 @@ li.text-item a:hover {
 
 p.copyright-info {
 	font-size: 14px;
+}
+
+span.fieldset-position-legend {
+    font-size: 1.5em;
+}
+
+.errorlist {
+	font-size: 0.8em;
 }
 
 .fa:before {
@@ -544,62 +659,3 @@ p.copyright-info {
 	}
 }
 
-/*** Forms *******************************************************************/
-
-main input[type="text"],
-main input[type="email"],
-main input[type="number"] {
-	border: none;
-    background-color: lemonchiffon;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-color: #4a4a4a;
-    font-size: 20px;
-    font-family: monospace;
-    text-indent: 10px;
-}
-
-main input[type="submit"] {
-	padding: 10px 20px;
-    background-color: #ba4a00;
-    color: #FFFFFF;
-    margin: 5px auto;
-    border-color: #FFFFFF;
-    border-width: 6px;
-    border-style: double;
-    border-image: none;
-}
-
-form p {
-	margin: 15px 0;
-}
-
-main fieldset {
-	border: none;
-	padding-left: 70px;
-}
-
-main legend {
-	font-size: 25px;
-    font-weight: bold;
-    color: #ba4a00;
-    font-family: 'PT Sans Narrow';
-    position: relative;
-    left: -70px;
-}
-
-span.fieldset-position-legend {
-	margin-right: 0.3em;
-    padding: 0 0.4em;
-    font-size: 1.5em;
-    border-style: solid;
-    border-width: 5px;
-    border-radius: 1em;
-    position: relative;
-    top: 0.6em;
-    color: rgba(0,0,0,0.5);
-}
-
-.form-textarea label {
-	display: block;
-}
