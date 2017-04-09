@@ -61,7 +61,7 @@ a, em, strong, span {
 	color: inherit;
 }
 
-/*** Colors ******************************************************************/
+/*** Colors & Borders ********************************************************/
 
 main {
 	color: #4A4A4A;
@@ -144,6 +144,12 @@ li.menu-item:hover {
 	background-color: rgba(0,0,0,0.27);
 }
 
+.form-field.multi-column, textarea {
+	border-bottom-style: dotted;
+	border-bottom-color: #4A4A4A;
+	border-bottom-width: 1px;
+}
+
 span.fieldset-position-legend {
     color: rgba(0,0,0,0.5);
     border-style: solid;
@@ -179,6 +185,18 @@ main {
 
 main article, main form {
 	margin: 25px 45px;
+}
+
+main input[type="text"],
+main input[type="email"],
+main input[type="number"],
+textarea {
+	padding: 2px 6px;
+	box-sizing: border-box;
+}
+
+main label {
+	margin-right: 5px;
 }
 
 aside {
@@ -397,12 +415,6 @@ p.copyright-info {
 	align-items: flex-end;
 }
 
-.form-field.multi-column, textarea {
-	border-bottom-style: dotted;
-	border-bottom-color: #4A4A4A;
-	border-bottom-width: 1px;
-}
-
 .wide-field input, .wide-field textarea {
 	width: 100%;
 }
@@ -542,6 +554,11 @@ aside h1 {
 	font-size: 16px;
 }
 
+main h1 {
+	font-size: 20px;
+    font-weight: bold;
+}
+
 main legend {
 	font-size: 25px;
     font-weight: bold;
@@ -554,7 +571,7 @@ main input[type="number"],
 textarea {
     font-size: 18px;
     font-family: monospace;
-    text-indent: 8px;
+/*    text-indent: 8px;*/
 }
 
 #topcontacts {
