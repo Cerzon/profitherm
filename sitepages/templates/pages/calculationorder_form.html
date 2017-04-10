@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block maincontent %}
-<form action="" method="POST">
+<form enctype="multipart/form-data" action="" method="POST">
     {% csrf_token %}
     {{ form.non_field_errors }}
     <fieldset>
@@ -101,11 +101,13 @@
     </fieldset>
     <fieldset>
         <legend><span class="fieldset-position-legend">4</span>Дополнительная информация</legend>
+        {% comment %}
         {% if form.attachments.errors %}<div class="landed">{{ form.attachments.errors }}</div>{% endif %}
         <div class="form-field">
             <label for="{{ form.attachments.id_for_label }}">Доп.материалы:</label>
             {{ form.attachments }}
         </div>
+        {% endcomment %}
         {% if form.additional_info.errors %}<div class="landed">{{ form.additional_info.errors }}</div>{% endif %}
         <div class="form-field form-textarea">
             <label for="{{ form.additional_info.id_for_label }}">Дополнительная информация:</label>

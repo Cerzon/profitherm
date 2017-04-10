@@ -44,7 +44,7 @@ class CalculationOrder(models.Model):
     object_type = models.CharField(max_length=4, choices=OBJECT_TYPE_CHOICES, default='ctge', verbose_name='Тип объекта')
     levels_amount = models.PositiveSmallIntegerField(verbose_name='Количество этажей', default=1)
     heated_area = models.PositiveSmallIntegerField(verbose_name='Отапливаемая площадь')
-    attachments = models.FileField(upload_to='uploads/calc_order/', verbose_name='Дополнительные материалы', blank=True)
+    #attachments = models.FileField(upload_to='uploads/calc_order/tmp/', verbose_name='Дополнительные материалы', blank=True)
     radiator_heating = models.BooleanField(default=True, verbose_name='Радиаторное отопление')
     floor_heating = models.BooleanField(default=True, verbose_name='Польное отопление')
     water_supply = models.BooleanField(default=True, verbose_name='Водоснабжение и канализация')
@@ -62,6 +62,11 @@ class CalculationOrder(models.Model):
 
     def __str__(self):
         return 'Order #{} from {}'.format(self.pk, self.date_created)
+
+
+class Attachment(models.Model):
+    afile = models.FileField(upload_to='uploads/calc_order/tmp/', verbose_name='Дополнительные материалы')
+    calculation_order = models.ForeignKey(CalculationOrder, on_delete=models.CASCADE, related_name='attachments')
 
 
 class Image(models.Model):
@@ -156,7 +161,7 @@ class ArticlePicture(models.Model):
 class StaticPage(models.Model):
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
     position = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Для сортировки в админке')
-    name = models.SlugField(max_length=80, unique=True, default=datetime.today, verbose_name='Имя статьи (slug)', help_text='Это название для отображения в адресной строке')
+    name = models.SlugField(max_length=80, unique=True, default=datetime.today, verbose_name='Имя страницы (slug)', help_text='Это название для отображения в адресной строке')
     title = models.CharField(max_length=120, verbose_name='Заголовок страницы', help_text='Отображается в заголовке окна браузера')
     meta_description = models.CharField(max_length=200, help_text='Содержимое параметра Content мета-тэга description')
     meta_keywords = models.CharField(max_length=160, help_text='Содержимое параметра Content мета-тэга keywords')
