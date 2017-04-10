@@ -8,36 +8,36 @@
         <legend><span class="fieldset-position-legend">1</span>Персональные данные</legend>
         {% if form.user_name.errors %}<div class="landed">{{ form.user_name.errors }}</div>{% endif %}
         <div class="form-field multi-column">
-            <label for="{{ form.user_name.id_for_label }}" class="single-width">Контактное лицо:</label>
-            <div class="triple-width wide-field">{{ form.user_name }}</div>
+            <label for="{{ form.user_name.id_for_label }}" class="single-width required_field">Контактное лицо:</label>
+            <div class="triple-width wide-field{% if form.user_name.errors %} error_field{% endif %}">{{ form.user_name }}</div>
         </div>
         {% if form.user_phone.errors %}<div class="landed">{{ form.user_phone.errors }}</div>{% endif %}
         <div class="form-field multi-column">
-            <label for="{{ form.user_phone.id_for_label }}" class="single-width">Телефон:</label>
-            <div class="triple-width wide-field">{{ form.user_phone }}</div>
+            <label for="{{ form.user_phone.id_for_label }}" class="single-width required_field">Телефон:</label>
+            <div class="triple-width wide-field{% if form.user_phone.errors %} error_field{% endif %}">{{ form.user_phone }}</div>
         </div>
         {% if form.user_email.errors %}<div class="landed">{{ form.user_email.errors }}</div>{% endif %}
         <div class="form-field multi-column">
-            <label for="{{ form.user_email.id_for_label }}" class="single-width">Email:</label>
-            <div class="triple-width wide-field">{{ form.user_email }}</div>
+            <label for="{{ form.user_email.id_for_label }}" class="single-width required_field">Email:</label>
+            <div class="triple-width wide-field{% if form.user_email.errors %} error_field{% endif %}">{{ form.user_email }}</div>
         </div>
     </fieldset>
     <fieldset>
         <legend><span class="fieldset-position-legend">2</span>Информация об объекте</legend>
         {% if form.object_type.errors %}<div class="landed">{{ form.object_type.errors }}</div>{% endif %}
         <div class="form-field">
-            <label for="{{ form.object_type.id_for_label }}">Тип объекта:</label>
+            <label for="{{ form.object_type.id_for_label }}" class="required_field">Тип объекта:</label>
             {{ form.object_type }}
         </div>
         {% if form.levels_amount.errors %}<div class="landed">{{ form.levels_amount.errors }}</div>{% endif %}
         <div class="form-field multi-column">
-            <label for="{{ form.levels_amount.id_for_label }}" class="single-width">Кол-во этажей:</label>
-            <div class="double-width wide-field">{{ form.levels_amount }}</div>
+            <label for="{{ form.levels_amount.id_for_label }}" class="single-width required_field">Кол-во этажей:</label>
+            <div class="double-width wide-field{% if form.levels_amount.errors %} error_field{% endif %}">{{ form.levels_amount }}</div>
         </div>
         {% if form.heated_area.errors %}<div class="landed">{{ form.heated_area.errors }}</div>{% endif %}
         <div class="form-field multi-column">
-            <label for="{{ form.heated_area.id_for_label }}" class="single-width">Отапливаемая площадь:</label>
-            <div class="double-width wide-field">{{ form.heated_area }}</div>
+            <label for="{{ form.heated_area.id_for_label }}" class="single-width required_field">Отапливаемая площадь:</label>
+            <div class="double-width wide-field{% if form.heated_area.errors %} error_field{% endif %}">{{ form.heated_area }}</div>
         </div>
     </fieldset>
     <fieldset>
@@ -111,7 +111,7 @@
         {% if form.additional_info.errors %}<div class="landed">{{ form.additional_info.errors }}</div>{% endif %}
         <div class="form-field form-textarea">
             <label for="{{ form.additional_info.id_for_label }}">Дополнительная информация:</label>
-            <div class="wide-field">{{ form.additional_info }}</div>
+            <div class="wide-field{% if form.additional_info.errors %} error_field{% endif %}">{{ form.additional_info }}</div>
         </div>
     </fieldset>
     <p class="align-center">
