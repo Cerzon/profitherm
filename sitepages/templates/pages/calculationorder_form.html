@@ -101,21 +101,23 @@
     </fieldset>
     <fieldset>
         <legend><span class="fieldset-position-legend">4</span>Дополнительная информация</legend>
-        {% comment %}
-        {% if form.attachments.errors %}<div class="landed">{{ form.attachments.errors }}</div>{% endif %}
         <div class="form-field">
-            <label for="{{ form.attachments.id_for_label }}">Доп.материалы:</label>
-            {{ form.attachments }}
+            {% for form in upload_form %}
+                <div class="inline-form {{ upload_form.prefix }}">
+                    {{ form.id }}
+                    {% if form.afile.errors %}<div class="landed">{{ form.afile.errors }}</div>{% endif %}
+                    {{ form.afile }}
+                </div>
+            {% endfor %}
         </div>
-        {% endcomment %}
         {% if form.additional_info.errors %}<div class="landed">{{ form.additional_info.errors }}</div>{% endif %}
         <div class="form-field form-textarea">
             <label for="{{ form.additional_info.id_for_label }}">Дополнительная информация:</label>
             <div class="wide-field{% if form.additional_info.errors %} error_field{% endif %}">{{ form.additional_info }}</div>
         </div>
     </fieldset>
-    <p class="align-center">
+    <div class="form-field align-center">
         <input type="submit" value="Отправить" />
-    </p>
+    </div>
 </form>
 {% endblock maincontent %}

@@ -4,7 +4,7 @@ from django.views import View
 from django.template import Template, Context
 from django.views.generic.edit import CreateView
 from .models import Article, ArticlePicture, Image, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder
-from .forms import CalculationOrderForm, FeedbackForm
+from .forms import CalculationOrderForm, FeedbackForm, FileUploadFormSet
 
 # Create your views here.
 
@@ -96,6 +96,15 @@ class CalculationOrderAddView(CreateView):
     model = CalculationOrder
     template_name = 'pages/calculationorder_form.html'
     success_url = '/raschet-otopleniya/success/'
+
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        upload_form = FileUploadFormSet()
+        return self.render_to_response(
+            self.get_context_data(form=form, upload_form=upload_form)
+        )
 
 
 class CalculationOrderSuccess(View):

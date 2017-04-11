@@ -1,14 +1,16 @@
-from django import forms
-from .models import CalculationOrder, Feedback
+from django.forms import ModelForm, inlineformset_factory
+from .models import CalculationOrder, Feedback, Attachment
 
-class CalculationOrderForm(forms.ModelForm):
+class CalculationOrderForm(ModelForm):
     class Meta():
         model = CalculationOrder
         exclude = ['date_created']
 
 
-class FeedbackForm(forms.ModelForm):
+class FeedbackForm(ModelForm):
     class Meta():
         model = Feedback
         fields = ['user_name', 'user_email', 'title', 'content']
-    
+
+
+FileUploadFormSet = inlineformset_factory(CalculationOrder, Attachment, fields=('afile',), extra=5)
