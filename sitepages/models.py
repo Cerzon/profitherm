@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+import os
 
 # Create your models here.
 
@@ -78,8 +79,11 @@ class Attachment(models.Model):
         verbose_name = 'приложение к заказу'
         verbose_name_plural = 'приложения к заказам'
 
+    def filename(self):
+        return os.path.basename(self.afile.name)
+
     def __str__(self):
-        return 'Файл к заказу #{0} от {1} - {2}'.format(self.calculation_order.pk, self.calculation_order.date_created, self.afile.name)
+        return 'Файл {2} к заказу #{0} от {1}'.format(self.calculation_order.pk, self.calculation_order.date_created, self.filename())
 
 
 class Image(models.Model):
