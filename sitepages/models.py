@@ -44,7 +44,6 @@ class CalculationOrder(models.Model):
     object_type = models.CharField(max_length=4, choices=OBJECT_TYPE_CHOICES, default='ctge', verbose_name='Тип объекта')
     levels_amount = models.PositiveSmallIntegerField(verbose_name='Количество этажей', default=1)
     heated_area = models.PositiveSmallIntegerField(verbose_name='Отапливаемая площадь')
-    #attachments = models.FileField(upload_to='uploads/calc_order/tmp/', verbose_name='Дополнительные материалы', blank=True)
     radiator_heating = models.BooleanField(default=True, verbose_name='Радиаторное отопление')
     floor_heating = models.BooleanField(default=True, verbose_name='Польное отопление')
     water_supply = models.BooleanField(default=True, verbose_name='Водоснабжение и канализация')
@@ -59,14 +58,28 @@ class CalculationOrder(models.Model):
 
     class Meta():
         ordering = ['-date_created']
+        verbose_name = 'заказ на предварительный расчёт'
+        verbose_name_plural = 'заказы на предварительный расчёт'
 
     def __str__(self):
-        return 'Order #{} from {}'.format(self.pk, self.date_created)
+        return 'Заказ #{} от {}'.format(self.pk, self.date_created)
+
+
+def order_folder(instance, filename):
+    return 'uploads/calc_order/{0}/{1}'.format(instance.calculation_order.pk, filename)
 
 
 class Attachment(models.Model):
-    afile = models.FileField(upload_to='uploads/calc_order/tmp/', verbose_name='Дополнительные материалы')
+    afile = models.FileField(upload_to=order_folder, verbose_name='Дополнительные материалы')
     calculation_order = models.ForeignKey(CalculationOrder, on_delete=models.CASCADE, related_name='attachments')
+
+    class Meta():
+        ordering = ['calculation_order']
+        verbose_name = 'приложение к заказу'
+        verbose_name_plural = 'приложения к заказам'
+
+    def __str__(self):
+        return 'Файл к заказу #{0} от {1} - {2}'.format(self.calculation_order.pk, self.calculation_order.date_created, self.afile.name)
 
 
 class Image(models.Model):

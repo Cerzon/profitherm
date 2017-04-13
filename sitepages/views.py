@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.views import View
 from django.template import Template, Context
@@ -102,6 +102,27 @@ class CalculationOrderAddView(CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         upload_form = FileUploadFormSet()
+        return self.render_to_response(
+            self.get_context_data(form=form, upload_form=upload_form)
+        )
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        upload_form = FileUploadFormSet(self.request.POST, self.request.FILES)
+        if (form.is_valid() and upload_form.is_valid()):
+            return self.form_valid(form, upload_form)
+        else:
+            return self.form_invalid(form, upload_form)
+
+    def form_valid(self, form, upload_form):
+        self.object = form.save()
+        upload_form.instance = self.object
+        upload_form.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, upload_form):
         return self.render_to_response(
             self.get_context_data(form=form, upload_form=upload_form)
         )

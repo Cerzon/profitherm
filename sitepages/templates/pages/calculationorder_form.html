@@ -102,6 +102,7 @@
     <fieldset>
         <legend><span class="fieldset-position-legend">4</span>Дополнительная информация</legend>
         <div class="form-field">
+            {{ upload_form.management_form }}
             {% for form in upload_form %}
                 <div class="inline-form {{ upload_form.prefix }}">
                     {{ form.id }}
