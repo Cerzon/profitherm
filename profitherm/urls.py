@@ -20,6 +20,7 @@ from sitepages import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.InfoPage.as_view(), {'page_name' : 'index'}),
+    url(r'^articles/$', views.ArticleList.as_view(), name='article_list'),
     url(r'^raschet-otopleniya/$', views.CalculationOrderAddView.as_view(), name='calculation_order_add'),
     url(r'^raschet-otopleniya/success/$', views.CalculationOrderSuccess.as_view(), name='calculation_order_success'),
     url(r'^(?P<page_name>[\-\w]+)/$', views.InfoPage.as_view(), name='info_page'),

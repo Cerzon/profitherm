@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views import View
 from django.template import Template, Context
 from django.views.generic.edit import CreateView
-from .models import Article, ArticlePicture, Image, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder
+from .models import Article, ArticlePicture, Image, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment
 from .forms import CalculationOrderForm, FeedbackForm, FileUploadFormSet
 
 # Create your views here.
@@ -110,16 +110,17 @@ class CalculationOrderAddView(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        upload_form = FileUploadFormSet(self.request.POST, self.request.FILES)
+        upload_form = FileUploadFormSet(request.POST, request.FILES)
         if (form.is_valid() and upload_form.is_valid()):
-            return self.form_valid(form, upload_form)
+            return self.form_valid(request, form, upload_form)
         else:
             return self.form_invalid(form, upload_form)
 
-    def form_valid(self, form, upload_form):
+    def form_valid(self, request, form, upload_form):
         self.object = form.save()
         upload_form.instance = self.object
         upload_form.save()
+        request.session['order_success'] = self.object.pk
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, upload_form):
@@ -132,4 +133,32 @@ class CalculationOrderSuccess(View):
     template = 'pages/order_success.html'
 
     def get(self, request):
-        return render(request, self.template, {})
+        if request.session.get('order_success', False):
+            order = CalculationOrder.objects.select_related().get(pk=request.session['order_success'])
+            del request.session['order_success']
+            return render(request, self.template, {'order' : order})
+        else:
+            return HttpResponseRedirect('/')
+
+
+class ArticleList(View):
+    template = 'pages/infopage.html'
+
+    def get(self, request):
+        articles = Article.objects.filter(teaser_on_page=True)
+        article_list = list()
+        if articles:
+            for article in articles:
+                tpl = Template(article.content)
+                ctx = Context({})
+                article_body = tpl.render(ctx)
+                article_list.append({
+                    'title' : article.title,
+                    'body' : article_body,
+                    'teaser' : article.teaser_on_page,
+                    'date_created' : article.date_created,
+                    'date_modified' : article.date_modified
+                })
+        else:
+            article_list = [{'title' : 'Статей не найдено'}]
+        return render(request, self.template, {'articles' : article_list})

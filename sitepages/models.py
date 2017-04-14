@@ -30,12 +30,13 @@ class Feedback(models.Model):
         ordering = ['-date_created']
 
     def __str__(self):
-        return 'From {} at {}'.format(self.user_name, self.date_created)
+        return 'From {} at {}'.format(self.user_name, self.date_created.strftime('%d %b %Y'))
 
 
 class CalculationOrder(models.Model):
     OBJECT_TYPE_CHOICES = (
         ('ctge', 'Загородный дом'),
+        ('tnhs', 'Таунхаус'),
         ('flat', 'Квартира'),
     )
     date_created = models.DateTimeField(auto_now_add=True)
@@ -63,7 +64,30 @@ class CalculationOrder(models.Model):
         verbose_name_plural = 'заказы на предварительный расчёт'
 
     def __str__(self):
-        return 'Заказ #{} от {}'.format(self.pk, self.date_created)
+        return 'Заказ #{} от {}'.format(self.pk, self.date_created.strftime('%d %b %Y'))
+
+    def get_levels(self):
+        if self.levels_amount == 1: return '1 этаж'
+        if self.levels_amount in (2, 3, 4,): return str(self.levels_amount) + ' этажа'
+        return str(self.levels_amount) + ' этажей'
+
+    def get_systems(self):
+        systems_list = list()
+        if self.radiator_heating: systems_list.append('Радиаторное отопление')
+        if self.floor_heating: systems_list.append('Тёплые полы')
+        if self.water_supply: systems_list.append('Водоснабжение и канализация')
+        if self.water_treatment: systems_list.append('Водоподготовка')
+        if self.boilerplant: systems_list.append('Котельная')
+        return systems_list
+
+    def get_services(self):
+        services_list = list()
+        if self.svc_project: services_list.append('Проектирование')
+        if self.svc_purchase: services_list.append('Комплектация')
+        if self.svc_assembly: services_list.append('Монтаж')
+        if self.svc_reconstruction: services_list.append('Реконструкция')
+        if self.svc_consulting: services_list.append('Консультация')
+        return services_list
 
 
 def order_folder(instance, filename):
@@ -83,7 +107,7 @@ class Attachment(models.Model):
         return os.path.basename(self.afile.name)
 
     def __str__(self):
-        return 'Файл {2} к заказу #{0} от {1}'.format(self.calculation_order.pk, self.calculation_order.date_created, self.filename())
+        return 'К заказу #{0} от {1} / Файл {2}'.format(self.calculation_order.pk, self.calculation_order.date_created.strftime('%d %b %Y'), self.filename())
 
 
 class Image(models.Model):

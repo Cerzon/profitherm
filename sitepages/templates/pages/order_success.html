@@ -5,5 +5,32 @@
     <header>
         <h1>ЗПАЗИББА!</h1>
     </header>
+    <p>Ваш заказ на предварительный расчёт #{{ order.pk }} успешно сохранён. В ближайшее время с Вами свяжется инженер-проектировщик для ответа или уточнения деталей по Вашему заказу</p>
+    <p>Параметры Вашего заказа:</p>
+    <dl>
+        <dt>Контактное лицо:</dt>
+        <dd>{{ order.user_name }}</dd>
+        <dt>Телефон:</dt>
+        <dd>{{ order.user_phone }}</dd>
+        <dt>Email:</dt>
+        <dd>{{ order.user_email }}</dd>
+        <dt>Информация об объекте:</dt>
+        <dd>{{ order.get_object_type_display }}, {{ order.get_levels }}, отапливаемая площадь {{ order.heated_area }}&#160;м<sup>2</sup></dd>
+        {% if order.get_systems or order.get_services %}
+            <dt>Интересующие системы и услуги:</dt>
+            <dd>{{ order.get_systems|join:", " }}</dd>
+            <dd>{{ order.get_services|join:", " }}</dd>
+        {% endif %}
+        {% if order.additional_info %}
+            <dt>Дополнительная информация:</dt>
+            <dd>{{ order.additional_info }}</dd>
+        {% endif %}
+        {% if order.attachments.all %}
+            <dt>Приложенные файлы:</dt>
+            {% for attachment in order.attachments.all %}
+                <dd>{{ attachment.filename }}</dd>
+            {% endfor %}
+        {% endif %}
+    </dl>
 </article>
 {% endblock maincontent %}

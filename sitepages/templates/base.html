@@ -2,16 +2,18 @@
 {% load static %}
 <html>
     <head>
+        {% spaceless %}
         <meta charset="utf-8" />
         <title>{% block title %}page title{% endblock title %}</title>
-        {% block stylesheets %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+        {% block stylesheets %}
         {% endblock stylesheets %}
         {% block scripts %}
         {% endblock scripts %}
         {% block head %}
         <meta name="viewport" content="width=360, initial-scale=0.5">
         {% endblock head %}
+        {% endspaceless %}
     </head>
     <body>
         <!-- начало шапка с верхним меню и картинкой -->
@@ -155,7 +157,7 @@
                     <li>|</li>
                     <li class="text-item"><a href="{% url 'info_page' 'nashi-raboty' %}">Наши работы</a></li>
                     <li>|</li>
-                    <li class="text-item"><a href="{% url 'info_page' 'articles' %}">Статьи</a></li>
+                    <li class="text-item"><a href="{% url 'article_list' %}">Статьи</a></li>
                     <li>|</li>
                     <li class="text-item"><a href="{% url 'info_page' 'feedback' %}">Отзывы</a></li>
                     <li>|</li>
