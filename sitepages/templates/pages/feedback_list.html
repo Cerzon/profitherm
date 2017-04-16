@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block maincontent %}
+    {% for feedback in feedback_list %}
+        <article>
+            {% if feedback.title %}
+            <header class="article">
+                <h2>{{ feedback.title }}</h2>
+            </header>
+            {% endif %}
+            {{ feedback.content|safe }}
+            <footer class="article">
+                <section class="datetime">{{ feedback.date_created|date:"d.m.Y" }}</section>
+                <section class="author">{{ feedback.user_name }}{% if feedback.publish_email %} (<a href="mailto:{{ feedback.user_email }}">{{ feedback.user_email }}</a>){% endif %}</section>
+            </footer>
+        </article>
+    {% empty %}
+        <article>
+            <header><h1>Ни одного отзыва ещё не оставлено. Будьте первым!</h1></header>
+        </article>
+    {% endfor %}
+    <div class="align-center"><a href="{% url 'feedback_add' %}" class="">Оставить отзыв</a></div>
+{% endblock maincontent %}

@@ -144,7 +144,7 @@ li.menu-item:hover {
 	background-color: rgba(0,0,0,0.27);
 }
 
-.form-field.multi-column, textarea {
+.dotted-bottom {
 	border-bottom-style: dotted;
 	border-bottom-color: #4A4A4A;
 	border-bottom-width: 1px;
@@ -165,7 +165,7 @@ span.fieldset-position-legend {
     background-color: rgba(0,0,0,0.1);
 }
 
-.error_field {
+.error-field {
 	background-color: bisque;
 }
 
@@ -428,7 +428,7 @@ p.copyright-info {
 	width: 100%;
 }
 
-.form-textarea label {
+.label-above label {
 	margin-bottom: 0.3em;
 	display: block;
 }
@@ -618,7 +618,7 @@ span.fieldset-position-legend {
 	font-size: 0.8em;
 }
 
-.required_field {
+.required-field {
 	font-weight: bold;
 }
 

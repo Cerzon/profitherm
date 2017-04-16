@@ -10,7 +10,7 @@ class CalculationOrderForm(ModelForm):
 class FeedbackForm(ModelForm):
     class Meta():
         model = Feedback
-        fields = ['user_name', 'user_email', 'title', 'content']
+        fields = ['user_name', 'user_email', 'publish_email', 'title', 'content']
 
 
 FileUploadFormSet = inlineformset_factory(CalculationOrder, Attachment, fields=('afile',), extra=5)

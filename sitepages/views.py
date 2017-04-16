@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views import View
 from django.template import Template, Context
 from django.views.generic.edit import CreateView
-from .models import Article, ArticlePicture, Image, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment
+from .models import Article, ArticlePicture, Image, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback
 from .forms import CalculationOrderForm, FeedbackForm, FileUploadFormSet
 
 # Create your views here.
@@ -162,3 +162,25 @@ class ArticleList(View):
         else:
             article_list = [{'title' : 'Статей не найдено'}]
         return render(request, self.template, {'articles' : article_list})
+
+
+class FeedbackView(View):
+    template = 'pages/feedback_list.html'
+
+    def get(self, request):
+        feedback_list = Feedback.objects.filter(is_published=True)
+        return render(request, self.template, {'feedback_list' : feedback_list})
+
+
+class FeedbackAddView(CreateView):
+    form_class = FeedbackForm
+    model = Feedback
+    template_name = 'pages/feedback_add.html'
+    success_url = '/feedback/send/'
+
+
+class FeedbackSendView(View):
+    template = 'pages/feedback_success.html'
+
+    def get(self, request):
+        return render(request, self.template, {})

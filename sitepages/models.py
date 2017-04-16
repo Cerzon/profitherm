@@ -22,15 +22,17 @@ class Feedback(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     user_name = models.CharField(max_length=120, verbose_name='Ваше имя')
     user_email = models.EmailField(verbose_name='Адрес электронной почты')
+    publish_email = models.BooleanField(default=False, verbose_name='Отображать email')
     title = models.CharField(max_length=160, blank=True, verbose_name='Тема')
     content = models.TextField(verbose_name='Сообщение')
-    teaser_on_page = models.BooleanField(default=False)
 
     class Meta():
         ordering = ['-date_created']
+        verbose_name = 'отзыв'
+        verbose_name_plural = 'отзывы'
 
     def __str__(self):
-        return 'From {} at {}'.format(self.user_name, self.date_created.strftime('%d %b %Y'))
+        return '{1} от {0}'.format(self.user_name, self.date_created.strftime('%d %b %Y'))
 
 
 class CalculationOrder(models.Model):

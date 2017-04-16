@@ -27,20 +27,16 @@
 {% endblock head %}
 
 {% block maincontent %}
-
     {% for article in articles %}
         <article>
-            <header>
+            <header class="article">
                 <h1>{{ article.title }}</h1>
             </header>
-            
             {% if article.teaser %}
                 {{ article.body|truncatewords_html:80 }}
             {% else %}
                 {{ article.body }}
             {% endif %}
-            
         </article>
     {% endfor %}
-
 {% endblock maincontent %}
