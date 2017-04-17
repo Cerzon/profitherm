@@ -174,7 +174,7 @@ span.fieldset-position-legend {
 }
 
 ul.intext {
-    style: circle;
+    list-style: circle;
 }
 
 @media only screen and (max-width: 2600px) {
