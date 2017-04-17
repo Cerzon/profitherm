@@ -38,5 +38,28 @@
                 {{ article.body }}
             {% endif %}
         </article>
+    {% empty %}
+        <article>
+            <header class="article">
+                <h1>На этой странице ничего нет</h1>
+            </header>
+        </article>
     {% endfor %}
 {% endblock maincontent %}
+
+{% comment %}
+{% block rightsidecontent %}
+{% if faq_list %}
+<section class="pinned">
+{% for faq in faq_list %}
+    <article>
+        <header>
+            <h1>{% firstof faq.question_point faq.question_text|truncatewords:7 %}</h1>
+        </header>
+        {{ faq.answer_text|safe }}
+    </article>
+{% endfor %}
+</section>
+{% endif %}
+{% endblock rightsidecontent %}
+{% endcomment %}

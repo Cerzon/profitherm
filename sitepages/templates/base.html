@@ -107,13 +107,26 @@
                 <nav>
                     <ul class="sidemenu">
                         <li class="menu-item"><a href="{% url 'calculation_order_add' %}">Заказать расчёт бесплатно</a></li>
-                        <li class="menu-item"><a href="{% url 'callback_form' %}">Заказать обратный звонок</a></li>
-                        <li class="menu-item"><a href="{% url 'calculators_list' %}">Калькуляторы</a></li>
+                        <li class="menu-item"><a href="{# url 'callback_form' #}">Заказать обратный звонок</a></li>
+                        <li class="menu-item"><a href="{# url 'calculators_list' #}">Калькуляторы</a></li>
                         <li class="menu-item"><a href="{% url 'faq_list' %}">Часто задаваемые вопросы</a></li>
                     </ul>
                 </nav>
-                <!-- начало случайные FAQ -->
                 {% block rightsidecontent %}
+                <!-- начало случайные FAQ -->
+                    {% if faq_list %}
+                    <section class="pinned">
+                    {% for faq in faq_list %}
+                        <article>
+                            <header>
+                                <h1>{% firstof faq.question_point faq.question_text|truncatewords:7 %}</h1>
+                            </header>
+                            {{ faq.answer_text|safe }}
+                        </article>
+                    {% endfor %}
+                    </section>
+                    {% endif %}
+                {% comment %}
                 <section class="pinned">
                     <article>
                         <header>
@@ -134,8 +147,9 @@
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                     </article>
                 </section>
-                {% endblock rightsidecontent %}
+                {% endcomment %}
                 <!-- конец случайные FAQ -->
+                {% endblock rightsidecontent %}
             </aside>
             <!-- конец правое ухо -->
         </div>

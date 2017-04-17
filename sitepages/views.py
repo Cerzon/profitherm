@@ -78,7 +78,8 @@ class InfoPage(View):
                     'date_modified' : article.date_modified
                 })
         else:
-            article_list = [{'title' : 'На этой странице ничего нет'}]
+            article_list = None
+        faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         context_dict = {
             'title' : title,
             'styles' : styles,
@@ -87,6 +88,7 @@ class InfoPage(View):
             'meta_description' : meta_description,
             'meta_keywords' : meta_keywords,
             'articles' : article_list,
+            'faq_list' : faq_list,
             }
         return render(request, self.template, context_dict)
 
@@ -160,8 +162,9 @@ class ArticleList(View):
                     'date_modified' : article.date_modified
                 })
         else:
-            article_list = [{'title' : 'Статей не найдено'}]
-        return render(request, self.template, {'articles' : article_list})
+            article_list = None
+        faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
+        return render(request, self.template, {'articles' : article_list, 'faq_list' : faq_list})
 
 
 class FeedbackView(View):
@@ -169,7 +172,8 @@ class FeedbackView(View):
 
     def get(self, request):
         feedback_list = Feedback.objects.filter(is_published=True)
-        return render(request, self.template, {'feedback_list' : feedback_list})
+        faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
+        return render(request, self.template, {'feedback_list' : feedback_list, 'faq_list' : faq_list})
 
 
 class FeedbackAddView(CreateView):
@@ -191,7 +195,7 @@ class FrequentlyAskedQuestionListView(View):
 
     def get(self, request):
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='')
-        return render(request, self.template, {'faq_list': faq_list})
+        return render(request, self.template, {'faq_list' : faq_list})
 
 
 class FrequentlyAskedQuestionAddView(CreateView):
@@ -199,3 +203,10 @@ class FrequentlyAskedQuestionAddView(CreateView):
     model = FrequentlyAskedQuestion
     template_name = 'pages/faq_add.html'
     success_url = '/faq/send/'
+
+
+class FrequentlyAskedQuestionSendView(View):
+    template = 'pages/faq_success.html'
+
+    def get(self, request):
+        return render(request, self.template, {})

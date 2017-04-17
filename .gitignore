@@ -3,3 +3,4 @@
 static/*
 media/*
 */migrations/*
+profitherm/settings.py
