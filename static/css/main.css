@@ -1,39 +1,39 @@
 /*** Font ********************************************************************/
 
 @font-face {
-	font-family: 'PT Sans Narrow';
-	src: url('/static/fonts/PTN57F_W.eot');
-	src:
-	     url('/static/fonts/PTN57F_W.eot?#iefix') format('embedded-opentype'),
-	     url('/static/fonts/PTN57F_W.woff') format('woff'),
-	     url('/static/fonts/PTN57F_W.ttf') format('truetype'),
-	     url('/static/fonts/PTN57F_W.svg#PTSans-Narrow') format('svg');
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'PT Sans Narrow';
+    src: url('/static/fonts/PTN57F_W.eot');
+    src:
+         url('/static/fonts/PTN57F_W.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/PTN57F_W.woff') format('woff'),
+         url('/static/fonts/PTN57F_W.ttf') format('truetype'),
+         url('/static/fonts/PTN57F_W.svg#PTSans-Narrow') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-	font-family: 'PT Sans Narrow';
-	src: url('/static/fonts/PTN77F_W.eot');
-	src:
-	     url('/static/fonts/PTN77F_W.eot?#iefix') format('embedded-opentype'),
-	     url('/static/fonts/PTN77F_W.woff') format('woff'),
-	     url('/static/fonts/PTN77F_W.ttf') format('truetype'),
-	     url('/static/fonts/PTN77F_W.svg#PTSans-NarrowBold') format('svg');
-	font-weight: bold;
-	font-style: normal;
+    font-family: 'PT Sans Narrow';
+    src: url('/static/fonts/PTN77F_W.eot');
+    src:
+         url('/static/fonts/PTN77F_W.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/PTN77F_W.woff') format('woff'),
+         url('/static/fonts/PTN77F_W.ttf') format('truetype'),
+         url('/static/fonts/PTN77F_W.svg#PTSans-NarrowBold') format('svg');
+    font-weight: bold;
+    font-style: normal;
 }
 
 @font-face {
-	font-family: 'FontAwesome';
-	src: url('/static/fonts/fontawesome-webfont.eot?v=4.7.0');
-	src: url('/static/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'),
-		url('/static/fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'),
-		url('/static/fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'),
-		url('/static/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'),
-		url('/static/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'FontAwesome';
+    src: url('/static/fonts/fontawesome-webfont.eot?v=4.7.0');
+    src: url('/static/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'),
+        url('/static/fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'),
+        url('/static/fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'),
+        url('/static/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'),
+        url('/static/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 } 
 
 /*** Normalize ***************************************************************/
@@ -41,45 +41,45 @@
 body, div, p, ul, ol, dl, figure, img, a img, li, h1, h2, h3, nav, section, article, header, main, aside, footer, form {
     margin: 0;
     padding: 0;
-	background-color: transparent;
-	background-image: none;
-	border: none;
-	display: block;
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    display: block;
 }
 
 a, a img {
-	text-decoration: none;
-	border: none;
+    text-decoration: none;
+    border: none;
 }
 
 ul, ol, dl {
-	list-style: none;
+    list-style: none;
 }
 
 a, em, strong, span {
-	display: inline;
-	color: inherit;
+    display: inline;
+    color: inherit;
 }
 
 /*** Colors & Borders ********************************************************/
 
 main {
-	color: #4A4A4A;
+    color: #4A4A4A;
 }
 
 main header, main legend {
-	color: #BA4A00;
+    color: #BA4A00;
 }
 
 aside {
-	background-color: rgba(0,0,0,0.27);
+    background-color: rgba(0,0,0,0.27);
 }
 
 main input[type="text"],
 main input[type="email"],
 main input[type="number"],
 textarea {
-	border: none;
+    border: none;
     background-color: transparent;
 }
 
@@ -93,61 +93,61 @@ main input[type="submit"] {
 }
 
 div#topimage-resize {
-	background-color: #000000;
-	background-image: url("/static/img/headerimg.jpg");
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
+    background-color: #000000;
+    background-image: url("/static/img/headerimg.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #topcontacts {
-	color: #FFFFFF;
+    color: #FFFFFF;
 }
 
 nav#topmenu {
-	background-color: #FF6600;
+    background-color: #FF6600;
 }
 
 div#topimgveil {
-	background-image: url("/static/img/veil02.png");
-	background-position: center center;
-	background-repeat: no-repeat;
+    background-image: url("/static/img/veil02.png");
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 div#page-wrapper {
-	position: relative;
-	background-color: #FFFFFF;
-	background-image: url("/static/img/bgline50.png");
-	background-position: left top;
-	background-repeat: repeat-x;
+    position: relative;
+    background-color: #FFFFFF;
+    background-image: url("/static/img/bgline50.png");
+    background-position: left top;
+    background-repeat: repeat-x;
 }
 
 #leftsidebar header {
-	color: #FFFFFF;
+    color: #FFFFFF;
 }
 
 footer#page-footer {
-	color: #FFFFFF;
-	background-color: rgba(0,0,0,0.8);
+    color: #FFFFFF;
+    background-color: rgba(0,0,0,0.8);
 }
 
 #page-footer aside {
-	background-color: transparent;
+    background-color: transparent;
 }
 
 ul.centermenu {
-	color: #FFFFFF;
+    color: #FFFFFF;
 }
 
 li.menu-item:hover {
-	color: #FFFFFF;
-	background-color: rgba(0,0,0,0.27);
+    color: #FFFFFF;
+    background-color: rgba(0,0,0,0.27);
 }
 
 .dotted-bottom {
-	border-bottom-style: dotted;
-	border-bottom-color: #4A4A4A;
-	border-bottom-width: 1px;
+    border-bottom-style: dotted;
+    border-bottom-color: #4A4A4A;
+    border-bottom-width: 1px;
 }
 
 span.fieldset-position-legend {
@@ -158,7 +158,7 @@ span.fieldset-position-legend {
 }
 
 .errorlist {
-	color: #DD0000;
+    color: #DD0000;
 }
 
 .wide-field {
@@ -166,71 +166,71 @@ span.fieldset-position-legend {
 }
 
 .error-field {
-	background-color: bisque;
+    background-color: bisque;
 }
 
 @media only screen and (max-width: 2600px) {
-	div#topimgveil {
-		background-size: 100% 100%;
-	}
+    div#topimgveil {
+        background-size: 100% 100%;
+    }
 }
 
 /*** Layout ******************************************************************/
 
 nav, figure, article, header {
-	overflow: hidden;
+    overflow: hidden;
 }
 
 main, aside {
-	padding-bottom: 270px;
-	margin-bottom: -250px;
+    padding-bottom: 270px;
+    margin-bottom: -250px;
 }
 
 main {
-	flex: 1;
-	order: 2;
+    flex: 1;
+    order: 2;
 }
 
 main article, main form {
-	margin: 25px 45px;
+    margin: 25px 45px;
 }
 
 main input[type="text"],
 main input[type="email"],
 main input[type="number"],
 textarea {
-	padding: 2px 6px;
-	box-sizing: border-box;
+    padding: 2px 6px;
+    box-sizing: border-box;
 }
 
 main label {
-	margin-right: 5px;
+    margin-right: 5px;
 }
 
 aside {
-	padding-top: 50px;
-	width: 285px;
+    padding-top: 50px;
+    width: 285px;
 }
 
 aside nav {
-	margin-top: 1em;
+    margin-top: 1em;
 }
 
 aside article {
-	margin: 10px 25px;
+    margin: 10px 25px;
 }
 
 aside h1 {
-	padding-right: 20px;
+    padding-right: 20px;
 }
 
 aside p {
-	padding-left: 20px;
+    padding-left: 20px;
 }
 
 main fieldset {
-	border: none;
-	padding: 0 70px;
+    border: none;
+    padding: 0 70px;
 }
 
 main legend {
@@ -239,306 +239,306 @@ main legend {
 }
 
 main input[type="submit"] {
-	padding: 10px 20px;
+    padding: 10px 20px;
 }
 
 aside#leftsidebar {
-	order: 1;
+    order: 1;
 }
 
 aside#rightsidebar {
-	order: 3;
+    order: 3;
 }
 
 div#topimage-resize {
-	padding-bottom: 30%;
-	position: relative;
+    padding-bottom: 30%;
+    position: relative;
 }
 
 div#topimgveil {
-	position: absolute;
-	top: 0;
-	left: 0;
-	padding-bottom: 6%;
-	box-sizing: border-box;
-	height: 100%;
-	width: 100%;
-	display: flex;
-	flex-flow: row nowrap;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-bottom: 6%;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
 }
 
 #logoimg, #topcontacts  {
-	margin: auto 0;
-	width: 50%;
+    margin: auto 0;
+    width: 50%;
 }
 
 #logoimg a {
-	margin-left: 40px;
-	display: block;
-	float: left;
-	max-width: 80%;
+    margin-left: 40px;
+    display: block;
+    float: left;
+    max-width: 80%;
 }
 
 #logoimg a img {
-	max-width: 100%;
+    max-width: 100%;
 }
 
 #topcontacts p {
-	margin: 0.25em;
-	margin-right: 60px;
-	text-align: right;
-	white-space: nowrap;
+    margin: 0.25em;
+    margin-right: 60px;
+    text-align: right;
+    white-space: nowrap;
 }
 
 div#page-wrapper {
-	display: flex;
-	flex-flow: row nowrap;
+    display: flex;
+    flex-flow: row nowrap;
 }
 
 #leftsidebar header {
-	margin-top: -50px;
-	padding-top: 14px;
-	height: 36px;
-	text-align: center;
+    margin-top: -50px;
+    padding-top: 14px;
+    height: 36px;
+    text-align: center;
 }
 
 #leftsidebar i.fa-bars {
-	display: none;
+    display: none;
 }
 
 nav#topmenu {
-	padding: 0 70px;
+    padding: 0 70px;
 }
 
 nav#secondmenu {
-	padding: 0 35px;
-	margin-bottom: 35px;
+    padding: 0 35px;
+    margin-bottom: 35px;
 }
 
 footer#page-footer {
-	height: 250px;
-	position: relative;
-	display: flex;
-	flex-flow: row nowrap;
+    height: 250px;
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
 }
 
 #page-footer aside {
-	margin: 0;
-	padding: 0;
-	display: flex;
+    margin: 0;
+    padding: 0;
+    display: flex;
 }
 
 #page-footer nav {
-	margin: 0;
-	padding-top: 15px;
-	flex: 1;
-	display: flex;
-	flex-direction: column;
+    margin: 0;
+    padding-top: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 div#footercontacts {
-	margin: auto 0 auto 10%;
+    margin: auto 0 auto 10%;
 }
 
 #footercontacts p {
-	padding: 0;
+    padding: 0;
 }
 
 p#social {
-	padding: 0;
-	margin: auto;
+    padding: 0;
+    margin: auto;
 }
 
 ul.centermenu {
-	display: flex;
-	flex-flow: row nowrap;
-	justify-content: space-around;
-	height: 50px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    height: 50px;
 }
 
 ul.repeatmenu {
-	margin: 20px auto 0 auto;
-	display: flex;
+    margin: 20px auto 0 auto;
+    display: flex;
 }
 
 li.menu-item a {
-	padding: 14px 25px;
-	white-space: nowrap;
-	display: block;
+    padding: 14px 25px;
+    white-space: nowrap;
+    display: block;
 }
 
 li.text-item {
-	margin: 0 6px;
-	white-space: nowrap;
-	display: inline;
+    margin: 0 6px;
+    white-space: nowrap;
+    display: inline;
 }
 
 li.text-item a {
-	display: inline;
+    display: inline;
 }
 
 .pinned {
-	margin-top: -10px;
+    margin-top: -10px;
 }
 
 .landed {
-	margin-bottom: -10px;
+    margin-bottom: -10px;
 }
 
 p.copyright-info {
-	position: absolute;
-	bottom: 20px;
-	width: 100%;
-	text-align: center;
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
 }
 
 .multi-column {
-	display: flex;
+    display: flex;
 }
 
 .single-width {
-	flex: 1;
+    flex: 1;
 }
 
 .double-width {
-	flex: 2;
+    flex: 2;
 }
 
 .triple-width {
-	flex: 3;
+    flex: 3;
 }
 
 .quad-width {
-	flex: 4;
+    flex: 4;
 }
 
 .align-center {
-	text-align: center;
+    text-align: center;
 }
 
 .form-field {
-	margin: 15px 0;
+    margin: 15px 0;
 }
 
 .form-field.multi-column {
-	align-items: flex-end;
+    align-items: flex-end;
 }
 
 .wide-field input, .wide-field textarea {
-	width: 100%;
+    width: 100%;
 }
 
 .label-above label {
-	margin-bottom: 0.3em;
-	display: block;
+    margin-bottom: 0.3em;
+    display: block;
 }
 
 span.fieldset-position-legend {
-	margin-right: 0.3em;
+    margin-right: 0.3em;
     padding: 0 0.4em;
     position: relative;
     top: 0.6em;
 }
 
 .errorlist {
-	margin-left: 20px;
+    margin-left: 20px;
 }
 
 @media only screen and (max-width: 1260px) {
-	body {
-		min-width: 1010px;
-	}
+    body {
+        min-width: 1010px;
+    }
 
-	aside#leftsidebar {
-		margin: 0;
-		padding: 0;
-		position: absolute;
-		width: auto;
-		z-index: 999;
-	}
+    aside#leftsidebar {
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        width: auto;
+        z-index: 999;
+    }
 
-	#leftsidebar header {
-		display: none;
-	}
+    #leftsidebar header {
+        display: none;
+    }
 
-	#leftsidebar i.fa-bars {
-		margin: 0;
-		padding: 9px 0 0 0;
-		width: 50px;
-		height: 41px;
-		display: block;
-		color: #FFFFFF;
-		font-size: 26px;
-		text-align: center;
-		cursor: pointer;
-	}
+    #leftsidebar i.fa-bars {
+        margin: 0;
+        padding: 9px 0 0 0;
+        width: 50px;
+        height: 41px;
+        display: block;
+        color: #FFFFFF;
+        font-size: 26px;
+        text-align: center;
+        cursor: pointer;
+    }
 
-	#leftsidebar nav {
-		margin-top: 0;
-		display: none;
-		position: absolute;
-		background-color: #FFFFFF;
-	}
+    #leftsidebar nav {
+        margin-top: 0;
+        display: none;
+        position: absolute;
+        background-color: #FFFFFF;
+    }
 
-	#leftsidebar ul.sidemenu {
-		background-color: rgba(0,0,0,0.27);
-	}
+    #leftsidebar ul.sidemenu {
+        background-color: rgba(0,0,0,0.27);
+    }
 
-	#leftsidebar:hover nav {
-		display: block;
-		box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
-	}
+    #leftsidebar:hover nav {
+        display: block;
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+    }
 
-	nav#secondmenu {
-		padding-left: 85px;
-	}
+    nav#secondmenu {
+        padding-left: 85px;
+    }
 }
 
 @media only screen and (min-width: 1500px) {
-	aside {
-		width: 340px;
-	}
+    aside {
+        width: 340px;
+    }
 
-	div#topimage-resize {
-		padding-bottom: 450px;
-		background-size: auto;
-	}
+    div#topimage-resize {
+        padding-bottom: 450px;
+        background-size: auto;
+    }
 
-	div#topimgveil {
-		padding-bottom: 90px;
-	}
-	
-	#logoimg a {
-		margin-left: 5.3%;
-	}
+    div#topimgveil {
+        padding-bottom: 90px;
+    }
+    
+    #logoimg a {
+        margin-left: 5.3%;
+    }
 
-	#topcontacts p {
-		margin-right: 8%;
-	}
+    #topcontacts p {
+        margin-right: 8%;
+    }
 
-	#leftsidebar header {
-		padding-top: 12px;
-		height: 38px;
-	}
+    #leftsidebar header {
+        padding-top: 12px;
+        height: 38px;
+    }
 
-	li.menu-item a {
-		padding: 12px 25px;
-	}
+    li.menu-item a {
+        padding: 12px 25px;
+    }
 }
 
 @media only screen and (min-width: 1680px) {
-	aside {
-		width: 380px;
-	}
+    aside {
+        width: 380px;
+    }
 
-	#leftsidebar header {
-		padding-top: 10px;
-		height: 40px;
-	}
+    #leftsidebar header {
+        padding-top: 10px;
+        height: 40px;
+    }
 
-	li.menu-item a {
-		padding: 10px 25px;
-	}
+    li.menu-item a {
+        padding: 10px 25px;
+    }
 }
 
 /*** Fonts *******************************************************************/
@@ -550,27 +550,31 @@ body {
 }
 
 aside {
-	font-family: 'PT Sans Narrow';
+    font-family: 'PT Sans Narrow';
 }
 
 nav, #leftsidebar header {
-	font-family: 'PT Sans Narrow';
-	font-size: 18px;
-	font-weight: bold;
-	text-transform: uppercase;
+    font-family: 'PT Sans Narrow';
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 aside h1 {
-	font-size: 16px;
+    font-size: 16px;
 }
 
 main h1 {
-	font-size: 20px;
+    font-size: 20px;
     font-weight: bold;
 }
 
+main article p {
+    text-indent: 2em;
+}
+
 main legend {
-	font-size: 25px;
+    font-size: 25px;
     font-weight: bold;
     font-family: 'PT Sans Narrow';
 }
@@ -585,29 +589,29 @@ textarea {
 }
 
 #topcontacts {
-	font-size: 25px;
-/*	font-weight: bold;*/
+    font-size: 25px;
+/*    font-weight: bold;*/
 }
 
 #page-footer nav {
-	font-size: 16px;
-	font-weight: normal;
+    font-size: 16px;
+    font-weight: normal;
 }
 
 div#footercontacts {
-	font-size: 24px;
+    font-size: 24px;
 }
 
 p#social {
-	font-size: 50px;
+    font-size: 50px;
 }
 
 li.text-item a:hover {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 p.copyright-info {
-	font-size: 14px;
+    font-size: 14px;
 }
 
 span.fieldset-position-legend {
@@ -615,45 +619,45 @@ span.fieldset-position-legend {
 }
 
 .errorlist {
-	font-size: 0.8em;
+    font-size: 0.8em;
 }
 
 .required-field {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .fa:before {
-	font-family: FontAwesome;
-	font-size: inherit;
-	font-style: normal;
-	font-weight: normal;
-	text-rendering: auto;
-	color: inherit;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+    font-family: FontAwesome;
+    font-size: inherit;
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: auto;
+    color: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .fa-bars:before {
-	content: "\f0c9";
+    content: "\f0c9";
 }
 
 .fa-phone:before {
-	margin-right: 10px;
-	content: "\f095";
+    margin-right: 10px;
+    content: "\f095";
 }
 
 .fa-cellular:before {
-	margin-right: 10px;
-	content: "\f10b";
+    margin-right: 10px;
+    content: "\f10b";
 }
 
 .fa-envelope:before {
-	margin-right: 10px;
-	content: "\f0e0";
+    margin-right: 10px;
+    content: "\f0e0";
 }
 
 .fa-vk:before {
-	content: "\f189";
+    content: "\f189";
 }
 
 .fa-facebook:before {
@@ -665,28 +669,28 @@ span.fieldset-position-legend {
 }
 
 @media only screen and (max-width: 1260px) {
-	#topcontacts {
-		font-size: 22px;
-	}
+    #topcontacts {
+        font-size: 22px;
+    }
 }
 
 @media only screen and (min-width: 1500px) {
-	#topcontacts {
-		font-size: 28px;
-	}
+    #topcontacts {
+        font-size: 28px;
+    }
 
-	nav, #leftsidebar header {
-		font-size: 22px;
-	}
+    nav, #leftsidebar header {
+        font-size: 22px;
+    }
 }
 
 @media only screen and (min-width: 1680px) {
-	#topcontacts {
-		font-size: 32px;
-	}
+    #topcontacts {
+        font-size: 32px;
+    }
 
-	nav, #leftsidebar header {
-		font-size: 25px;
-	}
+    nav, #leftsidebar header {
+        font-size: 25px;
+    }
 }
 
