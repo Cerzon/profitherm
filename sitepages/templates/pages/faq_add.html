@@ -3,7 +3,27 @@
 {% block maincontent %}
 <form action="" method="POST">
     {% csrf_token %}
-    {{ form.as_ul }}
+    {{ form.non_field_errors }}
+    {% if form.user_name.errors %}<div class="landed">{{ form.user_name.errors }}</div>{% endif %}
+    <div class="form-field multi-column dotted-bottom">
+        <label for="{{ form.user_name.id_for_label }}" class="single-width">Ваше имя:</label>
+        <div class="triple-width wide-field{% if form.user_name.errors %} error-field{% endif %}">{{ form.user_name }}</div>
+    </div>
+    {% if form.user_email.errors %}<div class="landed">{{ form.user_email.errors }}</div>{% endif %}
+    <div class="form-field multi-column dotted-bottom">
+        <label for="{{ form.user_email.id_for_label }}" class="single-width">Ваш email:</label>
+        <div class="triple-width wide-field{% if form.user_email.errors %} error-field{% endif %}">{{ form.user_email }}</div>
+    </div>
+    {% if form.answer_email.errors %}<div class="landed">{{ form.answer_email.errors }}</div>{% endif %}
+    <div class="form-field{% if form.answer_email.errors %} error-field{% endif %}">
+        {{ form.answer_email }}
+        <label for="{{ form.answer_email.id_for_label }}">Отправить ответ на email</label>
+    </div>
+    {% if form.question_text.errors %}<div class="landed">{{ form.question_text.errors }}</div>{% endif %}
+    <div class="form-field label-above dotted-bottom">
+        <label for="{{ form.question_text.id_for_label }}" class="required-field">Ваш вопрос:</label>
+        <div class="wide-field{% if form.user_email.errors %} error-field{% endif %}">{{ form.question_text }}</div>
+    </div>
     <div class="form-field align-center"><input type="submit" value="Отправить" /></div>
 </form>
 {% endblock maincontent %}
