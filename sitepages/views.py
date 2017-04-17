@@ -3,8 +3,8 @@ from django.shortcuts import get_object_or_404, render
 from django.views import View
 from django.template import Template, Context
 from django.views.generic.edit import CreateView
-from .models import Article, ArticlePicture, Image, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback
-from .forms import CalculationOrderForm, FeedbackForm, FileUploadFormSet
+from .models import Article, ArticlePicture, Image, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
+from .forms import CalculationOrderForm, FeedbackForm, FileUploadFormSet, FrequentlyAskedQuestionForm
 
 # Create your views here.
 
@@ -184,3 +184,18 @@ class FeedbackSendView(View):
 
     def get(self, request):
         return render(request, self.template, {})
+
+
+class FrequentlyAskedQuestionListView(View):
+    template = 'pages/faq_list.html'
+
+    def get(self, request):
+        faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='')
+        return render(request, self.template, {'faq_list': faq_list})
+
+
+class FrequentlyAskedQuestionAddView(CreateView):
+    form_class = FrequentlyAskedQuestionForm
+    model = FrequentlyAskedQuestion
+    template_name = 'pages/faq_add.html'
+    success_url = '/faq/send/'

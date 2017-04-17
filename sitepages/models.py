@@ -1,6 +1,7 @@
-from django.db import models
 from datetime import datetime
 import os
+
+from django.db import models
 
 # Create your models here.
 
@@ -23,7 +24,7 @@ class Feedback(models.Model):
     user_name = models.CharField(max_length=120, verbose_name='Ваше имя')
     user_email = models.EmailField(verbose_name='Адрес электронной почты')
     publish_email = models.BooleanField(default=False, verbose_name='Отображать email')
-    title = models.CharField(max_length=160, blank=True, verbose_name='Тема')
+    title = models.CharField(max_length=160, blank=True, default='Отзыв', verbose_name='Тема')
     content = models.TextField(verbose_name='Сообщение')
 
     class Meta():
@@ -235,3 +236,21 @@ class PageArticle(models.Model):
 
     def __str__(self):
         return '{} / {} / {}'.format(self.static_page.name, self.position, self.article.name)
+
+
+class FrequentlyAskedQuestion(models.Model):
+    is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
+    date_created = models.DateTimeField(auto_now_add=True)
+    question_text = models.TextField(verbose_name='Развёрнутый вопрос')
+    question_point = models.CharField(max_length=160, blank=True, verbose_name='Смысл вопроса (он же заголовок)')
+    user_name = models.CharField(max_length=80, blank=True, verbose_name='Имя вопрошающего')
+    user_email = models.EmailField(blank=True, verbose_name='Email вопрошающего')
+    answer_email = models.BooleanField(default=False, verbose_name='Прислать ответ на email')
+    answer_text = models.TextField(blank=True, verbose_name='Текст ответа')
+
+    class Meta():
+        ordering = ('-date_created',)
+        verbose_name = 'ЧАВО'
+
+    def __str__(self):
+        return 'Вопрос от {0} / {1}'.format(self.date_created.strftime('%d %b %Y'), self.question_text[:40])
