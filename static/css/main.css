@@ -444,6 +444,21 @@ span.fieldset-position-legend {
     margin-left: 20px;
 }
 
+.datetime {
+    float: left;
+	margin-left: 0.4em;
+}
+
+.author {
+    float: right;
+    margin-right: 0.4em;
+}
+
+.author:before {
+    content: "\2014";
+    margin-right: 0.4em;
+}
+
 @media only screen and (max-width: 1260px) {
     body {
         min-width: 1010px;
