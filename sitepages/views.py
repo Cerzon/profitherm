@@ -112,7 +112,7 @@ class CalculationOrderAddView(CreateView):
         form = self.get_form(form_class)
         upload_form = FileUploadFormSet(self.request.POST, self.request.FILES)
         if (form.is_valid() and upload_form.is_valid()):
-            return self.form_valid(request, form, upload_form)
+            return self.form_valid(form, upload_form)
         else:
             return self.form_invalid(form, upload_form)
 
