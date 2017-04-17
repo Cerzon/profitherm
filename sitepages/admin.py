@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import StaticPage, Article, ArticlePicture, Image, ImageGallery, Figure, DeployTemplate, PageArticle, CalculationOrder, Attachment, Feedback
+from .models import StaticPage, Article, ArticlePicture, Image, ImageGallery, Figure, DeployTemplate, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
 
 # Register your models here.
 
@@ -14,3 +14,4 @@ admin.site.register(PageArticle)
 admin.site.register(CalculationOrder)
 admin.site.register(Attachment)
 admin.site.register(Feedback)
+admin.site.register(FrequentlyAskedQuestion)

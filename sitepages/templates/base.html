@@ -107,9 +107,9 @@
                 <nav>
                     <ul class="sidemenu">
                         <li class="menu-item"><a href="{% url 'calculation_order_add' %}">Заказать расчёт бесплатно</a></li>
-                        <li class="menu-item"><a href="{% url 'info_page' 'callback' %}">Заказать обратный звонок</a></li>
-                        <li class="menu-item"><a href="{% url 'info_page' 'calculators' %}">Калькуляторы</a></li>
-                        <li class="menu-item"><a href="{% url 'info_page' 'faq' %}">Часто задаваемые вопросы</a></li>
+                        <li class="menu-item"><a href="{% url 'callback_form' %}">Заказать обратный звонок</a></li>
+                        <li class="menu-item"><a href="{% url 'calculators_list' %}">Калькуляторы</a></li>
+                        <li class="menu-item"><a href="{% url 'faq_list' %}">Часто задаваемые вопросы</a></li>
                     </ul>
                 </nav>
                 <!-- начало случайные FAQ -->
@@ -160,7 +160,7 @@
                     <li>|</li>
                     <li class="text-item"><a href="{% url 'article_list' %}">Статьи</a></li>
                     <li>|</li>
-                    <li class="text-item"><a href="{% url 'info_page' 'feedback' %}">Отзывы</a></li>
+                    <li class="text-item"><a href="{% url 'feedback_list' %}">Отзывы</a></li>
                     <li>|</li>
                     <li class="text-item"><a href="{% url 'info_page' 'contacts' %}">Контакты</a></li>
                 </ul>

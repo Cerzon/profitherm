@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.InfoPage.as_view(), {'page_name' : 'index'}),
     url(r'^articles/$', views.ArticleList.as_view(), name='article_list'),
+    url(r'^faq/$', views.FrequentlyAskedQuestionListView.as_view(), name='faq_list'),
     url(r'^feedback/$', views.FeedbackView.as_view(), name='feedback_list'),
     url(r'^feedback/add/$', views.FeedbackAddView.as_view(), name='feedback_add'),
     url(r'^feedback/send/$', views.FeedbackSendView.as_view(), name='feedback_success'),

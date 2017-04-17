@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block maincontent %}
+{% for faq in faq_list %}
+    <article id="faq-{{ faq.id }}">
+        <header>
+            <h1>{% firstof faq.question_point faq.question_text %}</h1>
+        </header>
+        {{ faq.answer_text|safe }}
+    </article>
+{% empty %}
+    <article>
+        <header>
+            <h1>Не задано ещё ни одного вопроса.</h1>
+        </header>
+    </article>
+{% endfor %}
+<div class="align-center">
+    <a href="{% url 'faq_add' %}">Задать свой вопрос</a>
+</div>
+{% endblock maincontent %}
