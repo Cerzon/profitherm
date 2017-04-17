@@ -110,17 +110,17 @@ class CalculationOrderAddView(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        upload_form = FileUploadFormSet(request.POST, request.FILES)
+        upload_form = FileUploadFormSet(self.request.POST, self.request.FILES)
         if (form.is_valid() and upload_form.is_valid()):
             return self.form_valid(request, form, upload_form)
         else:
             return self.form_invalid(form, upload_form)
 
-    def form_valid(self, request, form, upload_form):
+    def form_valid(self, form, upload_form):
         self.object = form.save()
         upload_form.instance = self.object
         upload_form.save()
-        request.session['order_success'] = self.object.pk
+        self.request.session['order_success'] = self.object.pk
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, upload_form):
