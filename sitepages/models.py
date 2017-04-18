@@ -21,8 +21,8 @@ class DeployTemplate(models.Model):
 class Feedback(models.Model):
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
     date_created = models.DateTimeField(auto_now_add=True)
-    user_name = models.CharField(max_length=120, verbose_name='Ваше имя')
-    user_email = models.EmailField(verbose_name='Адрес электронной почты')
+    user_name = models.CharField(max_length=120, default='Аноним', verbose_name='Ваше имя')
+    user_email = models.EmailField(blank=True, verbose_name='Адрес электронной почты')
     publish_email = models.BooleanField(default=False, verbose_name='Отображать email')
     title = models.CharField(max_length=160, blank=True, default='Отзыв', verbose_name='Тема')
     content = models.TextField(verbose_name='Сообщение')

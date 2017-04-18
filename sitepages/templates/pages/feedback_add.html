@@ -11,13 +11,13 @@
         </div>
         {% if form.user_email.errors %}<div class="landed">{{ form.user_email.errors }}</div>{% endif %}
         <div class="form-field multi-column dotted-bottom">
-            <label for="{{ form.user_email.id_for_label }}" class="single-width required-field">Email:</label>
+            <label for="{{ form.user_email.id_for_label }}" class="single-width">Ваш email:</label>
             <div class="triple-width wide-field{% if form.user_email.errors %} error-field{% endif %}">{{ form.user_email }}</div>
         </div>
         {% if form.publish_email.errors %}<div class="landed">{{ form.publish_email.errors }}</div>{% endif %}
         <div class="form-field{% if form.publish_email.errors %} error-field{% endif %}">
             {{ form.publish_email }}
-            <label for="{{ form.publish_email.id_for_label }}" class="required-field">Показывать адрес email для всех</label>
+            <label for="{{ form.publish_email.id_for_label }}">Показывать адрес email для всех</label>
         </div>
         {% if form.title.errors %}<div class="landed">{{ form.title.errors }}</div>{% endif %}
         <div class="form-field label-above dotted-bottom">
