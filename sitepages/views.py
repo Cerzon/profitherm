@@ -1,4 +1,4 @@
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.views import View
@@ -98,7 +98,7 @@ class CalculationOrderAddView(CreateView):
     form_class = CalculationOrderForm
     model = CalculationOrder
     template_name = 'pages/calculationorder_form.html'
-    success_url = '/raschet-otopleniya/success/'
+    success_url = reverse_lazy('calculation_order_success')
 
     def get(self, request, *args, **kwargs):
         self.object = None
@@ -181,7 +181,7 @@ class FeedbackAddView(CreateView):
     form_class = FeedbackForm
     model = Feedback
     template_name = 'pages/feedback_add.html'
-    success_url = '/feedback/send/'
+    success_url = reverse_lazy('feedback_success')
 
 
 class FeedbackSendView(View):
@@ -203,7 +203,7 @@ class FrequentlyAskedQuestionAddView(CreateView):
     form_class = FrequentlyAskedQuestionForm
     model = FrequentlyAskedQuestion
     template_name = 'pages/faq_add.html'
-    success_url = '/faq/send/'
+    success_url = reverse_lazy('faq_success')
 
 
 class FrequentlyAskedQuestionSendView(View):

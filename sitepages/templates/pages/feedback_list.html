@@ -16,7 +16,7 @@
         </article>
     {% empty %}
         <article>
-            <header><h1>Ни одного отзыва ещё не оставлено. Будьте первым!</h1></header>
+            <header><h1 class="align-center">Ни одного отзыва ещё не оставлено. Будьте первым!</h1></header>
         </article>
     {% endfor %}
     <div class="align-center form-field"><a href="{% url 'feedback_add' %}" class="button main-submit">Оставить отзыв</a></div>
