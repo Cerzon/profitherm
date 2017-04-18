@@ -83,15 +83,6 @@ textarea {
     background-color: transparent;
 }
 
-main input[type="submit"] {
-    background-color: #ba4a00;
-    color: #FFFFFF;
-    border-color: #FFFFFF;
-    border-width: 6px;
-    border-style: double;
-    border-image: none;
-}
-
 div#topimage-resize {
     background-color: #000000;
     background-image: url("/static/img/headerimg.jpg");
@@ -163,6 +154,15 @@ span.fieldset-position-legend {
 
 .wide-field {
     background-color: rgba(0,0,0,0.1);
+}
+
+.main-submit {
+    background-color: #ba4a00;
+    color: #FFFFFF;
+    border-color: #FFFFFF;
+    border-width: 6px;
+    border-style: double;
+    border-image: none;
 }
 
 .error-field {
@@ -253,10 +253,6 @@ main fieldset {
 main legend {
     position: relative;
     left: -70px;
-}
-
-main input[type="submit"] {
-    padding: 10px 20px;
 }
 
 aside#leftsidebar {
@@ -455,6 +451,11 @@ span.fieldset-position-legend {
     padding: 0 0.4em;
     position: relative;
     top: 0.6em;
+}
+
+.button {
+    padding: 10px 20px;
+    display: block;
 }
 
 .errorlist {

@@ -24,7 +24,7 @@
         <label for="{{ form.question_text.id_for_label }}" class="required-field">Ваш вопрос:</label>
         <div class="wide-field{% if form.user_email.errors %} error-field{% endif %}">{{ form.question_text }}</div>
     </div>
-    <div class="form-field align-center"><input type="submit" value="Отправить" /></div>
+    <div class="form-field align-center"><input type="submit" value="Отправить" class="button main-submit" /></div>
 </form>
 {% endblock maincontent %}
 
