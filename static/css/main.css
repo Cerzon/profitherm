@@ -599,10 +599,9 @@ aside h1 {
 }
 
 main h1 {
-    font-size: 22px;
+    font-size: 16px;
     font-weight: bold;
-    text-transform: lowercase;
-    font-variant: small-caps;
+    text-transform: uppercase;
 }
 
 main article p {
