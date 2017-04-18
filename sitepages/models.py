@@ -7,7 +7,13 @@ from django.db import models
 
 class DeployTemplate(models.Model):
     name = models.SlugField(max_length=50)
-    body = models.TextField()
+    body = models.TextField(help_text="""Шаблон пишется с использованием языка шаблонов Django.
+        Шаблону передаётся список figures, содержаший элементы галареи,
+        один или несколько. Поля элемента: position*, title, description, date_added*,
+        image* с полями file_name* (тип FileField), name* (SlugField), description.
+        Отмеченные звездочками поля обязательны и точно заполнены значениями.
+        Во избежание появления нежелательных пробелов и пустых строк рекомендуется 
+        заключать весь шаблон в тэги {% spaceless %}{% endspaceless %}.""")
 
     class Meta():
         ordering = ['name']
@@ -251,6 +257,7 @@ class FrequentlyAskedQuestion(models.Model):
     class Meta():
         ordering = ('-date_created',)
         verbose_name = 'ЧАВО'
+        verbose_name_plural = 'ЧАВО'
 
     def __str__(self):
         return 'Вопрос от {0} / {1}'.format(self.date_created.strftime('%d %b %Y'), self.question_text[:40])
