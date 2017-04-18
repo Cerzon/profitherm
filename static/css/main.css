@@ -163,6 +163,7 @@ span.fieldset-position-legend {
     border-width: 6px;
     border-style: double;
     border-image: none;
+    border-radius: 1em;
 }
 
 .error-field {
@@ -598,8 +599,10 @@ aside h1 {
 }
 
 main h1 {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
+    text-transform: lowercase;
+    font-variant: small-caps;
 }
 
 main article p {
