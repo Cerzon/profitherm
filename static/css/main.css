@@ -455,7 +455,7 @@ span.fieldset-position-legend {
 
 .button {
     padding: 10px 20px;
-    display: block;
+    display: inline-block;
 }
 
 .errorlist {
