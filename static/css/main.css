@@ -661,6 +661,10 @@ span.fieldset-position-legend {
     font-weight: bold;
 }
 
+.button {
+    text-transform: uppercase;
+}
+
 .fa:before {
     font-family: FontAwesome;
     font-size: inherit;
