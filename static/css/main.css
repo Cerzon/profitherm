@@ -191,7 +191,7 @@ ul.intext li {
 
 /*** Layout ******************************************************************/
 
-nav, figure, article, header {
+nav, figure, article, header, main, aside {
     overflow: hidden;
 }
 
