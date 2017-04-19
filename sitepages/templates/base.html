@@ -121,7 +121,9 @@
                             <header>
                                 <h1>{% firstof faq.question_point faq.question_text|truncatewords:7 %}</h1>
                             </header>
-                            {{ faq.answer_text|safe|truncatewords_html:60 }}
+                            {% autoescape off %}
+                            {{ faq.answer_text|truncatewords_html:50 }}    
+                            {% endautoescape %}
                         </article>
                     {% endfor %}
                     </section>
