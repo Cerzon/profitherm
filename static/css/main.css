@@ -189,6 +189,22 @@ ul.disc-list {
     list-style: disc;
 }
 
+.symbol-list li {
+    text-indent: -1.5em;
+}
+
+.symbol-list li:before {
+    margin-right: 0.5em;
+}
+
+.rightarrow li:before {
+    content: "\2192";
+}
+
+.rightwidearrow li:before {
+    content: "\21d2";
+}
+
 @media only screen and (max-width: 2600px) {
     div#topimgveil {
         background-size: 100% 100%;
@@ -489,6 +505,7 @@ span.fieldset-position-legend {
 .author {
     float: right;
     margin-right: 0.4em;
+    margin-bottom: 0.2em;
 }
 
 .author:before {
