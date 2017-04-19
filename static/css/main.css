@@ -71,6 +71,17 @@ main header, main legend {
     color: #BA4A00;
 }
 
+main article a {
+    color: #BA4A00;
+    border-bottom-style: dotted;
+    border-bottom-color: #BA4A00;
+    border-bottom-width: 1px;
+}
+
+main article a:hover {
+    color: #FF6600;
+}
+
 aside {
     background-color: rgba(0,0,0,0.27);
 }
@@ -174,13 +185,8 @@ span.fieldset-position-legend {
     color: rgba(0,0,0,0.5);
 }
 
-ul.intext {
+ul.disc-list {
     list-style: disc;
-	padding-left: 2.5em;
-}
-
-ul.intext li {
-    display: list-item;
 }
 
 @media only screen and (max-width: 2600px) {
@@ -211,6 +217,14 @@ main article, main form {
 
 main article p {
     margin: 0.5em 0;
+}
+
+main article ul {
+    padding-left: 2.5em;
+}
+
+main article ul li {
+    display: list-item;
 }
 
 main input[type="text"],
