@@ -50,7 +50,7 @@ class CalculationOrder(models.Model):
     )
     date_created = models.DateTimeField(auto_now_add=True)
     user_name = models.CharField(max_length=120, verbose_name='Контактное лицо')
-    user_phone = models.CharField(max_length=16, verbose_name='Контактный телефон')
+    user_phone = models.CharField(max_length=24, verbose_name='Контактный телефон')
     user_email = models.EmailField(verbose_name='Адрес электронной почты')
     object_type = models.CharField(max_length=4, choices=OBJECT_TYPE_CHOICES, default='ctge', verbose_name='Тип объекта')
     levels_amount = models.PositiveSmallIntegerField(verbose_name='Количество этажей', default=1)
