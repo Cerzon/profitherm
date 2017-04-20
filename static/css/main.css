@@ -694,6 +694,10 @@ li.text-item a:hover {
     text-decoration: underline;
 }
 
+p.no-indent {
+    text-indent: 0;
+}
+
 p.copyright-info {
     font-size: 14px;
 }
