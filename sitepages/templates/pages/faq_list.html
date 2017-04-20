@@ -6,7 +6,9 @@
         <header>
             <h1>{% firstof faq.question_point faq.question_text %}</h1>
         </header>
-        {{ faq.answer_text|safe }}
+        {% autoescape off %}
+            {{ faq.answer_text }}
+        {% endautoescape %}
     </article>
 {% empty %}
     <article>
