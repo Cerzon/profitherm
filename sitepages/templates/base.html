@@ -117,6 +117,7 @@
                     {% if faq_list %}
                     <section class="pinned">
                     {% for faq in faq_list %}
+                    <a href="{{ faq.get_absolute_url }}">
                         <article>
                             <header>
                                 <h1>{% firstof faq.question_point faq.question_text|truncatewords:7 %}</h1>
@@ -125,6 +126,7 @@
                             {{ faq.answer_text|truncatewords_html:60 }}    
                             {% endautoescape %}
                         </article>
+                    </a>
                     {% endfor %}
                     </section>
                     {% endif %}

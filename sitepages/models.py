@@ -261,3 +261,6 @@ class FrequentlyAskedQuestion(models.Model):
 
     def __str__(self):
         return 'Вопрос от {0} / {1}'.format(self.date_created.strftime('%d %b %Y'), self.question_text[:40])
+
+    def get_absolute_url(self):
+        return '{0}#faq-{1}'.format(reverse('faq_list'), self.id)
