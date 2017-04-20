@@ -29,9 +29,8 @@ class CallbackForm(Form):
         max_length=24,
         validators=[
             validators.RegexValidator(
-                regex='^\+?\d?( ?\(? ?|-?)\d{3}( ?\)? ?|\-?)\d{3}( |\-)?\d{2}( |\-)?\d{2}$')],
-        verbose_name='Номер телефона')
-    call_time = TimeField(verbose_name='Удобное время для разговора')
+                regex='^\+?\d?( ?\(? ?|-?)\d{3}( ?\)? ?|\-?)\d{3}( |\-)?\d{2}( |\-)?\d{2}$')])
+    call_time = TimeField()
 
 
 FileUploadFormSet = inlineformset_factory(CalculationOrder, Attachment, fields=('afile',), extra=5)
