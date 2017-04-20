@@ -5,7 +5,7 @@ from django.views import View
 from django.template import Template, Context
 from django.views.generic.edit import CreateView
 from .models import Article, ArticlePicture, Image, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
-from .forms import CalculationOrderForm, FeedbackForm, FileUploadFormSet, FrequentlyAskedQuestionForm
+from .forms import CalculationOrderForm, FeedbackForm, FileUploadFormSet, FrequentlyAskedQuestionForm, CallbackForm
 
 # Create your views here.
 

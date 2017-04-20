@@ -197,14 +197,6 @@ ol.decimal-list {
     list-style: decimal;
 }
 
-.symbol-list li {
-    text-indent: -1.5em;
-}
-
-.symbol-list li:before {
-    margin-right: 0.5em;
-}
-
 .rightarrow li:before {
     content: "\2192";
 }
@@ -437,6 +429,14 @@ li.text-item {
 
 li.text-item a {
     display: inline;
+}
+
+.symbol-list li {
+    text-indent: -1.5em;
+}
+
+.symbol-list li:before {
+    margin-right: 0.5em;
 }
 
 .pinned {
