@@ -189,6 +189,10 @@ ul.disc-list {
     list-style: disc;
 }
 
+ol.decimal-list {
+    list-style: decimal;
+}
+
 .symbol-list li {
     text-indent: -1.5em;
 }
@@ -235,11 +239,11 @@ main article p {
     margin: 0.5em 0;
 }
 
-main article ul {
+main article ul, main article ol {
     padding-left: 2.5em;
 }
 
-main article ul li {
+main article ul li, main article ol li {
     display: list-item;
 }
 
