@@ -210,7 +210,7 @@ ol.decimal-list {
 }
 
 .decimal-bold li:before {
-    content: counter(list-counter);
+    content: counter(list-counter) ".";
     counter-increment: list-counter;
     font-weight: bold;
 }
