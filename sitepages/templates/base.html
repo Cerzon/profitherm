@@ -4,7 +4,7 @@
     <head>
         {% spaceless %}
         <meta charset="utf-8" />
-        <title>{% block title %}page title{% endblock title %}</title>
+        <title>{% block title %}{{ page_detail.title|default:'Title' }}{% endblock title %}</title>
         <link rel="icon" type="image/vnd.microsoft.icon" href="{% static 'favicon.ico' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
         {% block stylesheets %}
@@ -12,7 +12,9 @@
         {% block scripts %}
         {% endblock scripts %}
         {% block head %}
-        <meta name="viewport" content="width=360, initial-scale=0.5">
+            {% if page_detail.head_tags %}{{ page_detail.head_tags|safe }}{% endif %}
+            <meta name="description" content="{{ page_detail.meta_description|default:'description' }}" />
+            <meta name="keywords" content="{{ page_detail.meta_keywords|default:'keywords' }}" />
         {% endblock head %}
         {% endspaceless %}
     </head>

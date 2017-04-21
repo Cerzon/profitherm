@@ -2,8 +2,6 @@
 
 {% load static %}
 
-{% block title %}{{ title }}{% endblock title %}
-
 {% block stylesheets %}
     {% if styles %}
         {% for style in styles %}
@@ -19,12 +17,6 @@
         {% endfor %}
     {% endif %}
 {% endblock scripts %}
-
-{% block head %}
-    {% if head_tags %}{{ head_tags|safe }}{% endif %}
-    <meta name="description" content="{{ meta_description|default:'description' }}" />
-    <meta name="keywords" content="{{ meta_keywords|default:'keywords' }}" />
-{% endblock head %}
 
 {% block maincontent %}
     {% for article in articles %}

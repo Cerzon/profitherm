@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 
+{% block title %}
+{% if page_detail %}
+{{ page_detail.title }} -     
+{% endif %}
+{{ article.title }}
+{% endblock title %}
+
 {% block maincontent %}
 <article>
     <header><h1>{{ article.title }}</h1></header>

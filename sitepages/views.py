@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.core.exceptions import ObjectDoesNotExist
 from django.views import View
 from django.template import Template, Context
 from django.views.generic.edit import CreateView
@@ -83,12 +84,9 @@ class InfoPage(View):
             article_list = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         context_dict = {
-            'title' : title,
+            'page_detail' : static_page,
             'styles' : styles,
             'scripts' : scripts,
-            'head_tags' : head_tags,
-            'meta_description' : meta_description,
-            'meta_keywords' : meta_keywords,
             'articles' : article_list,
             'faq_list' : faq_list,
             }
@@ -106,8 +104,13 @@ class CalculationOrderAddView(CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         upload_form = FileUploadFormSet()
+        page_url = reverse_lazy('calculation_order_add').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_url)
+        except ObjectDoesNotExist:
+            page_detail = ''
         return self.render_to_response(
-            self.get_context_data(form=form, upload_form=upload_form)
+            self.get_context_data(page_detail=page_detail, form=form, upload_form=upload_form)
         )
 
     def post(self, request, *args, **kwargs):
@@ -128,8 +131,13 @@ class CalculationOrderAddView(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, upload_form):
+        page_url = reverse_lazy('calculation_order_add').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_url)
+        except ObjectDoesNotExist:
+            page_detail = None
         return self.render_to_response(
-            self.get_context_data(form=form, upload_form=upload_form)
+            self.get_context_data(page_detail=page_detail, form=form, upload_form=upload_form)
         )
 
 
@@ -149,6 +157,11 @@ class ArticleList(View):
     template = 'pages/infopage.html'
 
     def get(self, request):
+        page_url = reverse_lazy('article_list').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_url)
+        except ObjectDoesNotExist:
+            page_detail = None
         articles = Article.objects.filter(teaser_on_page=True)
         article_list = list()
         if articles:
@@ -167,7 +180,10 @@ class ArticleList(View):
         else:
             article_list = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
-        return render(request, self.template, {'articles' : article_list, 'faq_list' : faq_list})
+        return render(request, self.template, {
+            'page_detail' : page_detail,
+            'articles' : article_list,
+            'faq_list' : faq_list})
 
 
 class FeedbackView(View):
@@ -222,5 +238,9 @@ class ArticleDetailView(View):
         article = get_object_or_404(Article, name=article_name)
         if not article.is_published:
             raise Http404('Page does not exist or not published yet')
+        try:
+            page_detail = StaticPage.objects.get(name=article_name)
+        except ObjectDoesNotExist:
+            page_detail = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
-        return render(request, self.template, {'article' : article, 'faq_list' : faq_list})
+        return render(request, self.template, {'page_detail' : page_detail, 'article' : article, 'faq_list' : faq_list})
