@@ -197,10 +197,6 @@ ol.decimal-list {
     list-style: decimal;
 }
 
-.rightarrow li:before {
-    content: "\2192";
-}
-
 .decimal-bold {
     counter-reset: list-counter;
 }
@@ -437,6 +433,10 @@ li.text-item a {
 
 .symbol-list li:before {
     margin-right: 0.5em;
+}
+
+.readmore-link:after {
+    margin-left: 0.5em;
 }
 
 .pinned {
@@ -720,6 +720,10 @@ span.fieldset-position-legend {
 
 .button {
     text-transform: uppercase;
+}
+
+.rightarrow li:before, .readmore-link:after {
+    content: "\2192";
 }
 
 .fa:before {

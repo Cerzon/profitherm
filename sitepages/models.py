@@ -192,6 +192,9 @@ class Article(models.Model):
     def __str__(self):
         return '{} / {}'.format(self.name, self.title)
 
+    def get_absolute_url(self):
+        return reverse('article_detail', kwargs={'article_name' : self.name})
+
 
 class ArticlePicture(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='picturelink')

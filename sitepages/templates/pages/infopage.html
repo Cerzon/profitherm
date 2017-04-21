@@ -34,6 +34,7 @@
             </header>
             {% if article.teaser %}
                 {{ article.body|truncatewords_html:80 }}
+                <p class="no-indent"><a href="{{ article.get_absolute_url }}" class="readmore-link">читать дальше</a></p>
             {% else %}
                 {{ article.body }}
             {% endif %}
