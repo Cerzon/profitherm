@@ -440,11 +440,11 @@ li.text-item a {
 }
 
 .pinned {
-    margin-top: -10px;
+    margin-top: -0.5em;
 }
 
 .landed {
-    margin-bottom: -10px;
+    margin-bottom: -0.5em;
 }
 
 p.copyright-info {
