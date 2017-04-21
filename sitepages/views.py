@@ -104,9 +104,10 @@ class CalculationOrderAddView(CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         upload_form = FileUploadFormSet()
-        page_url = reverse_lazy('calculation_order_add').split('/')[-2]
+        page_name = reverse_lazy('calculation_order_add').split('/')[-2]
         try:
-            page_detail = StaticPage.objects.get(name=page_url)
+            page_detail = StaticPage.objects.get(name=page_name)
+            if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = ''
         return self.render_to_response(
@@ -131,9 +132,10 @@ class CalculationOrderAddView(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, upload_form):
-        page_url = reverse_lazy('calculation_order_add').split('/')[-2]
+        page_name = reverse_lazy('calculation_order_add').split('/')[-2]
         try:
-            page_detail = StaticPage.objects.get(name=page_url)
+            page_detail = StaticPage.objects.get(name=page_name)
+            if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
         return self.render_to_response(
@@ -157,9 +159,10 @@ class ArticleList(View):
     template = 'pages/infopage.html'
 
     def get(self, request):
-        page_url = reverse_lazy('article_list').split('/')[-2]
+        page_name = reverse_lazy('article_list').split('/')[-2]
         try:
-            page_detail = StaticPage.objects.get(name=page_url)
+            page_detail = StaticPage.objects.get(name=page_name)
+            if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
         articles = Article.objects.filter(teaser_on_page=True)
@@ -240,6 +243,7 @@ class ArticleDetailView(View):
             raise Http404('Page does not exist or not published yet')
         try:
             page_detail = StaticPage.objects.get(name=article_name)
+            if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
