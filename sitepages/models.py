@@ -193,7 +193,7 @@ class Article(models.Model):
         return '{} / {}'.format(self.name, self.title)
 
     def get_absolute_url(self):
-        return reverse('article_detail', kwargs={'article_name' : str(self.name)})
+        return reverse('article_detail', kwargs={'article_name' : self.name})
 
 
 class ArticlePicture(models.Model):

@@ -75,6 +75,7 @@ class InfoPage(View):
                     'title' : article.title,
                     'body' : article_body,
                     'teaser' : article.teaser_on_page,
+                    'get_absolute_url' : article.get_absolute_url,
                     'date_created' : article.date_created,
                     'date_modified' : article.date_modified
                 })
@@ -159,6 +160,7 @@ class ArticleList(View):
                     'title' : article.title,
                     'body' : article_body,
                     'teaser' : article.teaser_on_page,
+                    'get_absolute_url' : article.get_absolute_url,
                     'date_created' : article.date_created,
                     'date_modified' : article.date_modified
                 })
@@ -220,4 +222,5 @@ class ArticleDetailView(View):
         article = get_object_or_404(Article, name=article_name)
         if not article.is_published:
             raise Http404('Page does not exist or not published yet')
-        return render(request, self.template, {'article' : article})
+        faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
+        return render(request, self.template, {'article' : article, 'faq_list' : faq_list})
