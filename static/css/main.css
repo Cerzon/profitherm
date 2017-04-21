@@ -219,7 +219,7 @@ ol.decimal-list {
 
 /*** Layout ******************************************************************/
 
-nav, figure, article, header, main, aside {
+nav, figure, article, header, main {
     overflow: hidden;
 }
 
