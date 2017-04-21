@@ -478,6 +478,10 @@ p.copyright-info {
     text-align: center;
 }
 
+.align-right {
+    text-align: right;
+}
+
 .form-field {
     margin: 15px 0;
 }

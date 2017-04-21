@@ -16,7 +16,7 @@ class InfoPage(View):
         # получим запрошенную страницу
         static_page = get_object_or_404(StaticPage, name=page_name)
         if not static_page.is_published:
-            raise Http404("Page does not exist or not published yet")
+            raise Http404('Page does not exist or not published yet')
         # списки стилей и скриптов для пополнения в дальнейшем
         styles = list()
         scripts = list()
@@ -211,3 +211,13 @@ class FrequentlyAskedQuestionSendView(View):
 
     def get(self, request):
         return render(request, self.template, {})
+
+
+class ArticleDetailView(View):
+    template = 'pages/article_detail.html'
+
+    def get(self, request, article_name):
+        article = get_object_or_404(Article, name=article_name)
+        if not article.is_published:
+            raise Http404('Page does not exist or not published yet')
+        return render(request, self.template, {'article' : article})
