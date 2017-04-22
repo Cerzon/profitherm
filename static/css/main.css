@@ -207,6 +207,21 @@ ol.decimal-list {
     font-weight: bold;
 }
 
+.scroll footer {
+    background-image: url("/static/img/up-down-arrows.png");
+    background-repeat: no-repeat;
+    background-position: center 0px;
+}
+
+footer.unscrolled {
+    background-position: center -370px;
+}
+
+.scroll footer a, .scroll footer a:hover {
+    color: #FFFFFF;
+    border: none;
+}
+
 @media only screen and (max-width: 2600px) {
     div#topimgveil {
         background-size: 100% 100%;
@@ -215,7 +230,7 @@ ol.decimal-list {
 
 /*** Layout ******************************************************************/
 
-nav, figure, article, header, main {
+nav, figure, article, header, main, .scroll footer {
     overflow: hidden;
 }
 
@@ -531,6 +546,26 @@ span.fieldset-position-legend {
     margin-right: 0.4em;
 }
 
+section.scrolled {
+    display: none;
+}
+
+section.unscrolled {
+    display: block;
+}
+
+.scroll footer {
+    padding: 20px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    transition-property: margin-top, background-position;
+    transition-duration: 1s;
+}
+
+footer.scrolled {
+    margin-top: -20px;
+}
+
 @media only screen and (max-width: 1260px) {
     body {
         min-width: 1010px;
@@ -720,6 +755,11 @@ span.fieldset-position-legend {
 
 .button {
     text-transform: uppercase;
+}
+
+.scroll footer a {
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 .rightarrow li:before, .readmore-link:after {

@@ -2,12 +2,24 @@
 
 {% block maincontent %}
 {% for faq in faq_list %}
-    <article id="faq-{{ faq.id }}">
+    <article id="faq-{{ faq.id }}"{% if faq.answer_text|length > 450 %} class="scroll"{% endif %}>
         <header>
             <h1>{% firstof faq.question_point faq.question_text %}</h1>
         </header>
         {% autoescape off %}
+        {% if faq.answer_text|length > 450 %}
+            <section class="scrolled">
+        {% endif %}
             {{ faq.answer_text }}
+        {% if faq.answer_text|length > 450 %}
+            </section>
+            <section class="unscrolled">
+                {{ faq.answer_text|truncatechars_html:450 }}
+            </section>
+            <footer class="scrolled align-center">
+                <a href="#">развернуть</a>
+            </footer>
+        {% endif %}
         {% endautoescape %}
     </article>
 {% empty %}

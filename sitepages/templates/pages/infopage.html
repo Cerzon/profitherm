@@ -39,20 +39,3 @@
         </article>
     {% endfor %}
 {% endblock maincontent %}
-
-{% comment %}
-{% block rightsidecontent %}
-{% if faq_list %}
-<section class="pinned">
-{% for faq in faq_list %}
-    <article>
-        <header>
-            <h1>{% firstof faq.question_point faq.question_text|truncatewords:7 %}</h1>
-        </header>
-        {{ faq.answer_text|safe }}
-    </article>
-{% endfor %}
-</section>
-{% endif %}
-{% endblock rightsidecontent %}
-{% endcomment %}

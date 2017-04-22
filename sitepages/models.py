@@ -2,6 +2,7 @@ from datetime import datetime
 import os
 from django.urls import reverse
 from django.db import models
+from django.template import Template, Context
 
 # Create your models here.
 
@@ -153,6 +154,14 @@ class ImageGallery(models.Model):
     def __str__(self):
         return self.name
 
+    def get_styles(self):
+        styles_list = self.styles.strip().split('\r\n')
+        return [style.strip() for style in styles_list if style.strip()]
+
+    def get_scripts(self):
+        scripts_list = self.scripts.strip().split('\r\n')
+        return [script.strip() for script in scripts_list if script.strip()]
+
 
 class Figure(models.Model):
     image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
@@ -195,6 +204,14 @@ class Article(models.Model):
     def get_absolute_url(self):
         return reverse('article_detail', kwargs={'article_name' : self.name})
 
+    def get_styles(self):
+        styles_list = self.styles.strip().split('\r\n')
+        return [style.strip() for style in styles_list if style.strip()]
+
+    def get_scripts(self):
+        scripts_list = self.scripts.strip().split('\r\n')
+        return [script.strip() for script in scripts_list if script.strip()]
+
 
 class ArticlePicture(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='picturelink')
@@ -230,6 +247,14 @@ class StaticPage(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_styles(self):
+        styles_list = self.styles.strip().split('\r\n')
+        return [style.strip() for style in styles_list if style.strip()]
+
+    def get_scripts(self):
+        scripts_list = self.scripts.strip().split('\r\n')
+        return [script.strip() for script in scripts_list if script.strip()]
 
 
 class PageArticle(models.Model):

@@ -216,8 +216,16 @@ class FrequentlyAskedQuestionListView(View):
     template = 'pages/faq_list.html'
 
     def get(self, request):
+        page_name = reverse_lazy('faq_list').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_name)
+            if not page_detail.is_published: page_detail = None
+        except ObjectDoesNotExist:
+            page_detail = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='')
-        return render(request, self.template, {'faq_list' : faq_list})
+        return render(request, self.template, {
+            'page_detail' : page_detail,
+            'faq_list' : faq_list })
 
 
 class FrequentlyAskedQuestionAddView(CreateView):

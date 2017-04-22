@@ -9,7 +9,11 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
         {% block stylesheets %}
         {% endblock stylesheets %}
+        <script src="{% static 'js/jquery-3.2.1.min.js' %}" type="text/javascript"></script>
         {% block scripts %}
+        {% for script in page_detail.get_scripts %}
+        <script src="{% static script %}" type="text/javascript"></script>
+        {% endfor %}
         {% endblock scripts %}
         {% block head %}
             {% if page_detail.head_tags %}{{ page_detail.head_tags|safe }}{% endif %}

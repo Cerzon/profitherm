@@ -1,6 +1,6 @@
 *.pyc
 *.sqlite3
-static/*
+static/admin/*
 media/*
 */migrations/*
 profitherm/settings.py

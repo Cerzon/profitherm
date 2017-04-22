@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.InfoPage.as_view(), {'page_name' : 'index'}),
     url(r'^articles/$', views.ArticleList.as_view(), name='article_list'),
-    url(r'^articles/(?P<article_name>[\-\w]+)/$', views.ArticleDetailView.as_view(), name='article_detail'),
+    url(r'^article/(?P<article_name>[\-\w]+)/$', views.ArticleDetailView.as_view(), name='article_detail'),
     url(r'^faq/$', views.FrequentlyAskedQuestionListView.as_view(), name='faq_list'),
     url(r'^faq/question-add/$', views.FrequentlyAskedQuestionAddView.as_view(), name='faq_add'),
     url(r'^faq/question-send/$', views.FrequentlyAskedQuestionSendView.as_view(), name='faq_success'),
