@@ -74,7 +74,7 @@ class CalculationOrder(models.Model):
         verbose_name_plural = 'заказы на предварительный расчёт'
 
     def __str__(self):
-        return 'Заказ #{} от {}'.format(self.pk, self.date_created.strftime('%d %b %Y'))
+        return 'Заказ #{0} от {1}'.format(self.pk, self.date_created.strftime('%d %b %Y'))
 
     def get_levels(self):
         if self.levels_amount == 1: return '1 этаж'
@@ -178,7 +178,7 @@ class Figure(models.Model):
         verbose_name_plural = 'элементы галереи'
 
     def __str__(self):
-        return '{} / {} / {}'.format(self.image_gallery.name, self.position, self.image.name)
+        return '{0} / {1} / {2}'.format(self.image_gallery.name, self.position, self.image.name)
 
 
 class Article(models.Model):
@@ -225,7 +225,7 @@ class ArticlePicture(models.Model):
         verbose_name_plural = 'изображения в статье'
 
     def __str__(self):
-        return '{} / {} / {}'.format(self.article.name, self.position, self.image_gallery.name)
+        return '{0} / {1} / {2}'.format(self.article.name, self.position, self.image_gallery.name)
 
 
 class StaticPage(models.Model):
@@ -246,7 +246,7 @@ class StaticPage(models.Model):
         verbose_name_plural = 'страницы'
 
     def __str__(self):
-        return self.name
+        return '{0} . {1}'.format(self.position, self.name)
 
     def get_styles(self):
         styles_list = self.styles.strip().split('\r\n')
@@ -269,7 +269,7 @@ class PageArticle(models.Model):
         verbose_name_plural = 'статьи на странице'
 
     def __str__(self):
-        return '{} / {} / {}'.format(self.static_page.name, self.position, self.article.name)
+        return '{0} / {1} / {2}'.format(self.static_page.name, self.position, self.article.name)
 
 
 class FrequentlyAskedQuestion(models.Model):
