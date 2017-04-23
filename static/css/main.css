@@ -210,17 +210,17 @@ ol.decimal-list {
 .scroll footer {
     background-image: url("/static/img/up-down-arrows.png");
     background-repeat: no-repeat;
-    background-position: center -380px;
+    background-position: center -385px;
     transition-property: background-position;
     transition-duration: 1s;
 }
 
 footer.unscrolled {
-    background-position: center 8px;
+    background-position: center 12px;
 }
 
 .scroll footer a, .scroll footer a:hover {
-    color: #FFFFFF;
+    color: rgba(0,0,0,0.4);
     border: none;
 }
 
@@ -557,15 +557,11 @@ section.unscrolled {
 }
 
 .scroll footer {
-    padding: 15px;
+    padding: 15px 0;
     margin-top: -1em;
     margin-bottom: 0.5em;
 }
-/*
-footer.scrolled {
-    margin-top: -20px;
-}
-*/
+
 @media only screen and (max-width: 1260px) {
     body {
         min-width: 1010px;

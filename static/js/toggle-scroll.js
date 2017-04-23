@@ -7,24 +7,26 @@ $(document).ready(function(){
 });
 
 function toggleScroll($scroll) {
-    var $scrolled = $($scroll).children('section.scrolled');
-    var $unscrolled = $($scroll).children('section.unscrolled');
-    if ($($scroll).children('footer').hasClass('scrolled')) {
-        $($scroll).children('footer').addClass('unscrolled').removeClass('scrolled');
+    var $scrolled = $scroll.children('section.scrolled');
+    var $unscrolled = $scroll.children('section.unscrolled');
+    var $footer = $scroll.children('footer');
+    var $control = $footer.children('a');
+    if ($footer.hasClass('scrolled')) {
+        $footer.addClass('unscrolled').removeClass('scrolled');
     }
     else {
-        $($scroll).children('footer').addClass('scrolled').removeClass('unscrolled');
+        $footer.addClass('scrolled').removeClass('unscrolled');
     }
-    $($scroll).children('footer').children('a').text('');
-    $($unscrolled).slideUp(400, function(){
-        $($scrolled).slideDown(400, function(){
-            if ($($scroll).children('footer').hasClass('scrolled')) {
-                $($scroll).children('footer').children('a').text('развернуть');
+    $control.text('');
+    $unscrolled.slideUp(400, function(){
+        $scrolled.slideDown(400, function(){
+            if ($footer.hasClass('scrolled')) {
+                $control.text('развернуть');
             }
             else {
-                $($scroll).children('footer').children('a').text('свернуть');
+                $control.text('свернуть');
             }
         }).removeClass('scrolled').addClass('unscrolled');
-        $($unscrolled).removeClass('unscrolled').addClass('scrolled');
+        $unscrolled.removeClass('unscrolled').addClass('scrolled');
     });
 }
