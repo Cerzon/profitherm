@@ -35,6 +35,7 @@ function toggleScroll($scroll) {
             else {
                 $control.text('свернуть');
             }
+            $unscrolled.removeClass('unscrolled').addClass('scrolled');
         }).removeClass('scrolled').addClass('unscrolled');
-    }).removeClass('unscrolled').addClass('scrolled');
+    });
 }
