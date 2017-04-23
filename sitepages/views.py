@@ -184,7 +184,10 @@ class FeedbackView(View):
             page_detail = None
         feedback_list = Feedback.objects.filter(is_published=True)
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
-        return render(request, self.template, {'feedback_list' : feedback_list, 'faq_list' : faq_list})
+        return render(request, self.template, {
+            'page_detai' : page_detail,
+            'feedback_list' : feedback_list,
+            'faq_list' : faq_list})
 
 
 class FeedbackAddView(CreateView):
@@ -256,4 +259,7 @@ class ArticleDetailView(View):
         except ObjectDoesNotExist:
             page_detail = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
-        return render(request, self.template, {'page_detail' : page_detail, 'article' : article, 'faq_list' : faq_list})
+        return render(request, self.template, {
+            'page_detail' : page_detail,
+            'article' : article,
+            'faq_list' : faq_list})
