@@ -19,17 +19,8 @@ class InfoPage(View):
         if not static_page.is_published:
             raise Http404('Page does not exist or not published yet')
         # списки стилей и скриптов для пополнения в дальнейшем
-        styles = list()
-        scripts = list()
-        s = static_page.styles.strip()
-        if s: styles = s.split('\r\n')
-        s = static_page.scripts.strip()
-        if s: scripts = s.split('\r\n')
-        # данные для шапки страницы
-        title = static_page.title.strip()
-        head_tags = static_page.head_tags.strip()
-        meta_description = static_page.meta_description.strip()
-        meta_keywords = static_page.meta_keywords.strip()
+        styles = set()
+        scripts = set()
         # собираем контент
         # получить список всех статей на странице
         page_articles = static_page.articles.order_by('pagelink__position')
@@ -38,16 +29,10 @@ class InfoPage(View):
             # цикл перебора статей страницы
             for article in page_articles:
                 # пополнение styles и scripts стилями и скриптами статьи
-                s = article.styles.strip()
-                if s:
-                    s = s.split('\r\n')
-                    for si in s:
-                        if not si in styles: styles.append(si)
-                s = article.scripts.strip()
-                if s:
-                    s = s.split('\r\n')
-                    for si in s:
-                        if not si in scripts: scripts.append(si)
+                #styles += [style for style in article.get_styles() if style not in styles]
+                #scripts += [script for script in article.get_scripts() if script not in scripts]
+                styles = styles.union(article.get_styles())
+                scripts = scripts.union(article.get_scripts())
                 # получить список всех картинок на странице
                 pictures = article.pictures.order_by('picturelink__position').select_related('deploy_template')
                 picture_list = list()
@@ -55,16 +40,8 @@ class InfoPage(View):
                     # цикл перебора картинок в статье
                     for picture in pictures:
                         # пополнение styles и scripts стилями и скриптами картинки
-                        s = picture.styles.strip()
-                        if s:
-                            s = s.split('\r\n')
-                            for si in s:
-                                if not si in styles: styles.append(si)
-                        s = picture.scripts.strip()
-                        if s:
-                            s = s.split('\r\n')
-                            for si in s:
-                                if not si in scripts: scripts.append(si)
+                        styles = styles.union(picture.get_styles())
+                        scripts = scripts.union(picture.get_scripts())
                         figures = Figure.objects.filter(image_gallery=picture).order_by('position').select_related('image')
                         tpl = Template(picture.deploy_template.body)
                         ctx = Context({'figures' : figures})

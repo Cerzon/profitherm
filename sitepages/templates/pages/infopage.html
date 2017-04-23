@@ -3,39 +3,41 @@
 {% load static %}
 
 {% block stylesheets %}
-    {% if styles %}
-        {% for style in styles %}
-        <link rel="stylesheet" type="text/css" href="{% static style %}" />
-        {% endfor %}
-    {% endif %}
+{{ block.super }}
+{% if styles %}
+    {% for style in styles %}
+    <link rel="stylesheet" type="text/css" href="{% static style %}" />
+    {% endfor %}
+{% endif %}
 {% endblock stylesheets %}
 
 {% block scripts %}
-    {% if scripts %}
-        {% for script in scripts %}
-        <script type="text/javascript" src="{% static script %}"></script>
-        {% endfor %}
-    {% endif %}
+{{ block.super }}
+{% if scripts %}
+    {% for script in scripts %}
+    <script type="text/javascript" src="{% static script %}"></script>
+    {% endfor %}
+{% endif %}
 {% endblock scripts %}
 
 {% block maincontent %}
-    {% for article in articles %}
-        <article>
-            <header class="article">
-                <h1>{{ article.title }}</h1>
-            </header>
-            {% if article.teaser %}
-                {{ article.body|truncatewords_html:80 }}
-                <p class="no-indent pinned"><a href="{{ article.get_absolute_url }}" class="readmore-link">читать дальше</a></p>
-            {% else %}
-                {{ article.body }}
-            {% endif %}
-        </article>
-    {% empty %}
-        <article>
-            <header class="article">
-                <h1 class="align-center">На этой странице ничего нет</h1>
-            </header>
-        </article>
-    {% endfor %}
+{% for article in articles %}
+    <article>
+        <header class="article">
+            <h1>{{ article.title }}</h1>
+        </header>
+        {% if article.teaser %}
+            {{ article.body|truncatewords_html:80 }}
+            <p class="no-indent pinned"><a href="{{ article.get_absolute_url }}" class="readmore-link">читать дальше</a></p>
+        {% else %}
+            {{ article.body }}
+        {% endif %}
+    </article>
+{% empty %}
+    <article>
+        <header class="article">
+            <h1 class="align-center">На этой странице ничего нет</h1>
+        </header>
+    </article>
+{% endfor %}
 {% endblock maincontent %}
