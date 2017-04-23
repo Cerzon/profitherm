@@ -127,7 +127,13 @@ class CalculationOrderSuccess(View):
         if request.session.get('order_success', False):
             order = CalculationOrder.objects.select_related().get(pk=request.session['order_success'])
             del request.session['order_success']
-            return render(request, self.template, {'order' : order})
+            page_name = reverse_lazy('calculation_order_success').split('/')[-2]
+            try:
+                page_detail = StaticPage.objects.get(name=page_name)
+                if not page_detail.is_published: page_detail = None
+            except ObjectDoesNotExist:
+                page_detail = None
+            return render(request, self.template, {'page_detail' : page_detail, 'order' : order})
         else:
             return HttpResponseRedirect('/')
 
@@ -170,6 +176,12 @@ class FeedbackView(View):
     template = 'pages/feedback_list.html'
 
     def get(self, request):
+        page_name = reverse_lazy('feedback_list').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_name)
+            if not page_detail.is_published: page_detail = None
+        except ObjectDoesNotExist:
+            page_detail = None
         feedback_list = Feedback.objects.filter(is_published=True)
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         return render(request, self.template, {'feedback_list' : feedback_list, 'faq_list' : faq_list})
@@ -186,7 +198,13 @@ class FeedbackSendView(View):
     template = 'pages/feedback_success.html'
 
     def get(self, request):
-        return render(request, self.template, {})
+        page_name = reverse_lazy('feedback_success').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_name)
+            if not page_detail.is_published: page_detail = None
+        except ObjectDoesNotExist:
+            page_detail = None
+        return render(request, self.template, {'page_detail' : page_detail})
 
 
 class FrequentlyAskedQuestionListView(View):
@@ -216,7 +234,13 @@ class FrequentlyAskedQuestionSendView(View):
     template = 'pages/faq_success.html'
 
     def get(self, request):
-        return render(request, self.template, {})
+        page_name = reverse_lazy('faq_success').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_name)
+            if not page_detail.is_published: page_detail = None
+        except ObjectDoesNotExist:
+            page_detail = None
+        return render(request, self.template, {'page_detail' : page_detail})
 
 
 class ArticleDetailView(View):
