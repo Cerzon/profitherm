@@ -2,16 +2,30 @@
 
 {% block maincontent %}
     {% for feedback in feedback_list %}
-        <article>
+        <article{% if feedback.content|length > 700 %} class="scroll"{% endif %}>
             {% if feedback.title %}
             <header class="article">
                 <h2>{{ feedback.title }}</h2>
             </header>
             {% endif %}
-            {{ feedback.content|safe }}
-            <footer class="article">
+            {% autoescape off %}
+            {% if feedback.content|length > 700 %}
+                <section class="scrolled">
+            {% endif %}
+            {{ feedback.content }}
+            {% if feedback.content|length > 700 %}
+                </section>
+                <section class="unscrolled">
+                    {{ feedback.content|truncatechars_html:400 }}
+                </section>
+            {% endif %}
+            {% endautoescape %}
+            <footer{% if feedback.content|length > 700 %} class="align-center"{% endif %}>
                 <section class="datetime">{{ feedback.date_created|date:"d.m.Y" }}</section>
                 <section class="author">{{ feedback.user_name }}{% if feedback.publish_email and feedback.user_email %} (<a href="mailto:{{ feedback.user_email }}">{{ feedback.user_email }}</a>){% endif %}</section>
+                {% if feedback.content|length > 700 %}
+                    <a href="#" class="scroll-control un-scroll">развернуть</a>
+                {% endif %}
             </footer>
         </article>
     {% empty %}

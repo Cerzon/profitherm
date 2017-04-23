@@ -1,32 +1,40 @@
 $(document).ready(function(){
-    $('.scroll').children('footer').children('a').on('click', function(e){
+    $('.scroll-control').on('click', function(e){
         e.preventDefault();
         e.stopPropagation();
-        toggleScroll($(this).closest('article.scroll'));
+        toggleScroll($(this).closest('.scroll'));
+    });
+    $('.scroll-up-all').on('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        toggleScroll($('.scroll-control').filter('.scroll-up').closest('.scroll'));
+    });
+    $('.unscroll-all').on('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        toggleScroll($('.scroll-control').filter('.un-scroll').closest('.scroll'));
     });
 });
 
 function toggleScroll($scroll) {
-    var $scrolled = $scroll.children('section.scrolled');
-    var $unscrolled = $scroll.children('section.unscrolled');
-    var $footer = $scroll.children('footer');
-    var $control = $footer.children('a');
-    if ($footer.hasClass('scrolled')) {
-        $footer.addClass('unscrolled').removeClass('scrolled');
+    var $scrolled = $scroll.children('.scrolled');
+    var $unscrolled = $scroll.children('.unscrolled');
+    var $control = $scroll.find('.scroll-control');
+    if ($control.hasClass('scroll-up')) {
+        $control.addClass('un-scroll').removeClass('scroll-up');
     }
     else {
-        $footer.addClass('scrolled').removeClass('unscrolled');
+        $control.addClass('scroll-up').removeClass('un-scroll');
     }
     $control.text('');
     $unscrolled.slideUp(400, function(){
         $scrolled.slideDown(400, function(){
-            if ($footer.hasClass('scrolled')) {
+            if ($control.hasClass('un-scroll')) {
                 $control.text('развернуть');
             }
             else {
                 $control.text('свернуть');
             }
         }).removeClass('scrolled').addClass('unscrolled');
-        $unscrolled.removeClass('unscrolled').addClass('scrolled');
-    });
+    }).removeClass('unscrolled').addClass('scrolled');
 }

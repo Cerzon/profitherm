@@ -207,21 +207,23 @@ ol.decimal-list {
     font-weight: bold;
 }
 
-.scroll footer {
+.scroll-control {
     background-image: url("/static/img/up-down-arrows.png");
     background-repeat: no-repeat;
-    background-position: center -385px;
-    transition-property: background-position;
+    background-position: center -390px;
+    transition-property: background-position, margin-top;
     transition-duration: 1s;
-}
-
-footer.unscrolled {
-    background-position: center 12px;
-}
-
-.scroll footer a, .scroll footer a:hover {
     color: rgba(0,0,0,0.4);
     border: none;
+}
+
+.scroll-control:hover {
+    color: rgba(0,0,0,0.4);
+    border: none;
+}
+
+.scroll-control.scroll-up {
+    background-position: center 9px;
 }
 
 @media only screen and (max-width: 2600px) {
@@ -232,7 +234,7 @@ footer.unscrolled {
 
 /*** Layout ******************************************************************/
 
-nav, figure, article, header, main, .scroll footer {
+nav, figure, article, header, main, .scroll-control {
     overflow: hidden;
 }
 
@@ -548,18 +550,24 @@ span.fieldset-position-legend {
     margin-right: 0.4em;
 }
 
-section.scrolled {
+.scrolled {
     display: none;
 }
 
-section.unscrolled {
+.unscrolled {
     display: block;
 }
 
-.scroll footer {
+.scroll-control {
     padding: 15px 0;
-    margin-top: -1em;
+    margin-top: -2em;
     margin-bottom: 0.5em;
+    width: 200px;
+    display: inline-block;
+}
+
+.scroll-control.scroll-up {
+    margin-top: -1em;
 }
 
 @media only screen and (max-width: 1260px) {
@@ -753,7 +761,7 @@ span.fieldset-position-legend {
     text-transform: uppercase;
 }
 
-.scroll footer a {
+.scroll-control {
     text-transform: uppercase;
     font-weight: bold;
     font-size: 10px;
