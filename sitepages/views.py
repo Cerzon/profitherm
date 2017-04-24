@@ -87,8 +87,12 @@ class CalculationOrderAddView(CreateView):
             if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = ''
-        return self.render_to_response(
-            self.get_context_data(page_detail=page_detail, form=form, upload_form=upload_form)
+        faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
+        return self.render_to_response(self.get_context_data(
+            page_detail=page_detail,
+            form=form,
+            upload_form=upload_form,
+            faq_list=faq_list)
         )
 
     def post(self, request, *args, **kwargs):
@@ -115,8 +119,12 @@ class CalculationOrderAddView(CreateView):
             if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
-        return self.render_to_response(
-            self.get_context_data(page_detail=page_detail, form=form, upload_form=upload_form)
+        faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
+        return self.render_to_response(self.get_context_data(
+            page_detail=page_detail,
+            form=form,
+            upload_form=upload_form,
+            faq_list=faq_list)
         )
 
 
@@ -133,7 +141,11 @@ class CalculationOrderSuccess(View):
                 if not page_detail.is_published: page_detail = None
             except ObjectDoesNotExist:
                 page_detail = None
-            return render(request, self.template, {'page_detail' : page_detail, 'order' : order})
+            faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
+            return render(request, self.template, {
+                'page_detail' : page_detail,
+                'order' : order,
+                'faq_list' : faq_list})
         else:
             return HttpResponseRedirect('/')
 
@@ -207,7 +219,8 @@ class FeedbackSendView(View):
             if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
-        return render(request, self.template, {'page_detail' : page_detail})
+        faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
+        return render(request, self.template, {'page_detail' : page_detail, 'faq_list' : faq_list})
 
 
 class FrequentlyAskedQuestionListView(View):
