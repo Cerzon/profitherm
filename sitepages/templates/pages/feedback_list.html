@@ -35,3 +35,12 @@
     {% endfor %}
     <div class="align-center form-field"><a href="{% url 'feedback_add' %}" class="button main-submit">Оставить отзыв</a></div>
 {% endblock maincontent %}
+
+{% block leftsidecontent %}
+<section>
+    <section class="scroll-panel align-center">
+        <a href="#" class="scroll-up-all button">Свернуть всё</a>
+        <a href="#" class="unscroll-all button">Развернуть всё</a>
+    </section>
+</section>
+{% endblock leftsidecontent %}
