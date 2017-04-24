@@ -20,6 +20,7 @@ function toggleScroll($scroll) {
     var $scrolled = $scroll.children('.scrolled');
     var $unscrolled = $scroll.children('.unscrolled');
     var $control = $scroll.find('.scroll-control');
+    $control.removeClass('scroll-control');
     if ($control.hasClass('scroll-up')) {
         $control.addClass('un-scroll').removeClass('scroll-up');
     }
@@ -35,6 +36,7 @@ function toggleScroll($scroll) {
             else {
                 $control.text('свернуть');
             }
+            $control.addClass('scroll-control');
             $unscrolled.removeClass('unscrolled').addClass('scrolled');
         }).removeClass('scrolled').addClass('unscrolled');
     });
