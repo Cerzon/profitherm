@@ -24,7 +24,7 @@
                 <section class="datetime">{{ feedback.date_created|date:"d.m.Y" }}</section>
                 <section class="author">{{ feedback.user_name }}{% if feedback.publish_email and feedback.user_email %} (<a href="mailto:{{ feedback.user_email }}">{{ feedback.user_email }}</a>){% endif %}</section>
                 {% if feedback.content|length > 700 %}
-                    <a href="#" class="scroll-control un-scroll">развернуть</a>
+                    <a href="#" class="scroll-control un-scroll scroll-decor">развернуть</a>
                 {% endif %}
             </footer>
         </article>

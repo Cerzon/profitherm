@@ -207,7 +207,7 @@ ol.decimal-list {
     font-weight: bold;
 }
 
-.scroll-control {
+.scroll-decor {
     background-image: url("/static/img/up-down-arrows.png");
     background-repeat: no-repeat;
     background-position: center -390px;
@@ -217,12 +217,12 @@ ol.decimal-list {
     border: none;
 }
 
-.scroll-control:hover {
+.scroll-decor:hover {
     color: rgba(0,0,0,0.4);
     border: none;
 }
 
-.scroll-control.scroll-up {
+.scroll-decor.scroll-up {
     background-position: center 9px;
 }
 
@@ -558,7 +558,7 @@ span.fieldset-position-legend {
     display: block;
 }
 
-.scroll-control {
+.scroll-decor {
     padding: 15px 0;
     margin-top: -2em;
     margin-bottom: 0.5em;
@@ -566,7 +566,7 @@ span.fieldset-position-legend {
     display: inline-block;
 }
 
-.scroll-control.scroll-up {
+.scroll-decor.scroll-up {
     margin-top: -1em;
 }
 
