@@ -42,10 +42,10 @@ class InfoPage(View):
                         # пополнение styles и scripts стилями и скриптами картинки
                         styles = styles.union(picture.get_styles())
                         scripts = scripts.union(picture.get_scripts())
-                        figures = Figure.objects.filter(image_gallery=picture).order_by('position').select_related('image')
-                        tpl = Template(picture.deploy_template.body)
-                        ctx = Context({'figures' : figures})
-                        picture_list.append(tpl.render(ctx))
+                        #figures = Figure.objects.filter(image_gallery=picture).order_by('position').select_related('image')
+                        #tpl = Template(picture.deploy_template.body)
+                        #ctx = Context({'figures' : figures})
+                        picture_list.append(picture.get_render())
                 tpl = Template(article.content)
                 ctx = Context({'pictures' : picture_list})
                 article_body = tpl.render(ctx)
@@ -55,7 +55,7 @@ class InfoPage(View):
                     'teaser' : article.teaser_on_page,
                     'get_absolute_url' : article.get_absolute_url,
                     'date_created' : article.date_created,
-                    'date_modified' : article.date_modified
+                    'date_modified' : article.date_modified,
                 })
         else:
             article_list = None
@@ -66,7 +66,7 @@ class InfoPage(View):
             'scripts' : scripts,
             'articles' : article_list,
             'faq_list' : faq_list,
-            }
+        }
         return render(request, self.template, context_dict)
 
 
@@ -89,10 +89,11 @@ class CalculationOrderAddView(CreateView):
             page_detail = ''
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         return self.render_to_response(self.get_context_data(
-            page_detail=page_detail,
-            form=form,
-            upload_form=upload_form,
-            faq_list=faq_list)
+                page_detail=page_detail,
+                form=form,
+                upload_form=upload_form,
+                faq_list=faq_list,
+            )
         )
 
     def post(self, request, *args, **kwargs):
@@ -121,10 +122,11 @@ class CalculationOrderAddView(CreateView):
             page_detail = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         return self.render_to_response(self.get_context_data(
-            page_detail=page_detail,
-            form=form,
-            upload_form=upload_form,
-            faq_list=faq_list)
+                page_detail=page_detail,
+                form=form,
+                upload_form=upload_form,
+                faq_list=faq_list,
+            )
         )
 
 
@@ -145,7 +147,8 @@ class CalculationOrderSuccess(View):
             return render(request, self.template, {
                 'page_detail' : page_detail,
                 'order' : order,
-                'faq_list' : faq_list})
+                'faq_list' : faq_list,
+            })
         else:
             return HttpResponseRedirect('/')
 
@@ -173,7 +176,7 @@ class ArticleList(View):
                     'teaser' : article.teaser_on_page,
                     'get_absolute_url' : article.get_absolute_url,
                     'date_created' : article.date_created,
-                    'date_modified' : article.date_modified
+                    'date_modified' : article.date_modified,
                 })
         else:
             article_list = None
@@ -181,7 +184,8 @@ class ArticleList(View):
         return render(request, self.template, {
             'page_detail' : page_detail,
             'articles' : article_list,
-            'faq_list' : faq_list})
+            'faq_list' : faq_list,
+        })
 
 
 class FeedbackView(View):
@@ -199,7 +203,8 @@ class FeedbackView(View):
         return render(request, self.template, {
             'page_detail' : page_detail,
             'feedback_list' : feedback_list,
-            'faq_list' : faq_list})
+            'faq_list' : faq_list,
+        })
 
 
 class FeedbackAddView(CreateView):
@@ -220,7 +225,10 @@ class FeedbackSendView(View):
         except ObjectDoesNotExist:
             page_detail = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
-        return render(request, self.template, {'page_detail' : page_detail, 'faq_list' : faq_list})
+        return render(request, self.template, {
+            'page_detail' : page_detail,
+            'faq_list' : faq_list,
+        })
 
 
 class FrequentlyAskedQuestionListView(View):
@@ -236,7 +244,8 @@ class FrequentlyAskedQuestionListView(View):
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='')
         return render(request, self.template, {
             'page_detail' : page_detail,
-            'faq_list' : faq_list })
+            'faq_list' : faq_list,
+        })
 
 
 class FrequentlyAskedQuestionAddView(CreateView):
@@ -256,7 +265,9 @@ class FrequentlyAskedQuestionSendView(View):
             if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
-        return render(request, self.template, {'page_detail' : page_detail})
+        return render(request, self.template, {
+            'page_detail' : page_detail,
+        })
 
 
 class ArticleDetailView(View):
@@ -275,4 +286,24 @@ class ArticleDetailView(View):
         return render(request, self.template, {
             'page_detail' : page_detail,
             'article' : article,
-            'faq_list' : faq_list})
+            'faq_list' : faq_list,
+        })
+
+
+class PortfolioListView(View):
+    template = 'pages/portfolio_list.html'
+
+    def get(self, request):
+        page_name = reverse_lazy('portfolio_list').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_name)
+            if not page_detail.is_published: page_detail = None
+        except ObjectDoesNotExist:
+            page_detail = None
+        albums = ImageGallery.objects.filter(name__endswith='album')
+        faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
+        return render(request, self.template, {
+            'page_detail' : page_detail,
+            'albums' : albums,
+            'faq_list' : faq_list,
+        })

@@ -162,9 +162,18 @@ class ImageGallery(models.Model):
         scripts_list = self.scripts.strip().split('\r\n')
         return [script.strip() for script in scripts_list if script.strip()]
 
+    def get_random_pics(self):
+        return self.figures.select_related('image').order_by('?')[:5]
+
+    def get_render(self):
+        figures = self.figures.order_by('position').select_related('image')
+        tpl = Template(self.deploy_template.body)
+        ctx = Context({'figures' : figures})
+        return tpl.render(ctx)
+
 
 class Figure(models.Model):
-    image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE)
+    image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE, related_name='figures')
     position = models.PositiveSmallIntegerField()
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)

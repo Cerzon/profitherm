@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'css/slick.css' %}" />
+{% endblock stylesheets %}
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'js/slick.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.slick.enable.js' %}"></script>
+{% endblock scripts %}
+
+{% block maincontent %}
+{% for album in albums %}
+<article class="album-cover">
+    {% for figure in album.get_random_pics %}
+    <div><img src="{{ figure.image.file_name.url }}" /></div>
+    {% endfor %}
+</article>
+{% empty %}
+<article>
+    <header class="align-center">
+        <h1>Ещё ничего не добавлено</h1>
+    </header>
+</article>
+{% endfor %}
+{% endblock maincontent %}
