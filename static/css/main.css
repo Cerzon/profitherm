@@ -257,6 +257,10 @@ main article, main form {
     margin: 25px 45px;
 }
 
+article header {
+    margin-bottom: 0.5em;
+}
+
 article p {
     margin: 0.5em 0;
 }

@@ -1,5 +1,5 @@
 from datetime import datetime
-from random import shuffle
+from random import randint
 import os
 from django.urls import reverse
 from django.db import models
@@ -163,17 +163,18 @@ class ImageGallery(models.Model):
         scripts_list = self.scripts.strip().split('\r\n')
         return [script.strip() for script in scripts_list if script.strip()]
 
-    def get_random_pics(self):
-        figures = self.figures.select_related('image').order_by('-date_added')[:10]
-        #shuffle(figures)
-        #figures = figures[:6]
-        return figures
+    def get_last_pics(self):
+        #figures = self.figures.select_related('image').order_by('-date_added')[:7]
+        return self.figures.select_related('image').order_by('-date_added')[:7]
 
     def get_render(self):
         figures = self.figures.order_by('position').select_related('image')
         tpl = Template(self.deploy_template.body)
         ctx = Context({'gallery' : self, 'figures' : figures})
         return tpl.render(ctx)
+
+    def get_random_delay(self):
+        return randint(3000, 11000)
 
 
 class Figure(models.Model):

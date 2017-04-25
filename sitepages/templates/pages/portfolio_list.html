@@ -16,9 +16,9 @@
 <section class="portfolio-container flex-container row-wrap cross-stretch long-justify-around">
 {% for album in albums %}
 <section>
-    <div class="album-cover">
+    <div class="album-cover" id="album-{{ album.id }}" data-delay="{{ album.get_random_delay }}">
         <ul>
-        {% for figure in album.get_random_pics %}
+        {% for figure in album.get_last_pics %}
         <li>
         <figure class="album-frame">
             <img src="{{ figure.image.file_name.url }}" width="280" height="210" class="margin-both-auto" />
