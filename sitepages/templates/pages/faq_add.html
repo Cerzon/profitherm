@@ -5,12 +5,12 @@
     {% csrf_token %}
     {{ form.non_field_errors }}
     {% if form.user_name.errors %}<div class="landed">{{ form.user_name.errors }}</div>{% endif %}
-    <div class="form-field multi-column dotted-bottom">
+    <div class="form-field flex-container dotted-bottom">
         <label for="{{ form.user_name.id_for_label }}" class="single-width">Ваше имя:</label>
         <div class="triple-width wide-field{% if form.user_name.errors %} error-field{% endif %}">{{ form.user_name }}</div>
     </div>
     {% if form.user_email.errors %}<div class="landed">{{ form.user_email.errors }}</div>{% endif %}
-    <div class="form-field multi-column dotted-bottom">
+    <div class="form-field flex-container dotted-bottom">
         <label for="{{ form.user_email.id_for_label }}" class="single-width">Ваш email:</label>
         <div class="triple-width wide-field{% if form.user_email.errors %} error-field{% endif %}">{{ form.user_email }}</div>
     </div>

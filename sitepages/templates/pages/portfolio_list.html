@@ -13,17 +13,24 @@
 {% endblock scripts %}
 
 {% block maincontent %}
+<section class="flex-container row-wrap cross-stretch">
 {% for album in albums %}
-<article class="album-cover">
+<section class="single-width">
+    <div class="album-cover">
     {% for figure in album.get_random_pics %}
-    <div><img src="{{ figure.image.file_name.url }}" /></div>
+    <figure>
+        <img src="{{ figure.image.file_name.url }}" width="450" height="340" />
+        <figcaption><h2>{{ album.title }}</h2></figcaption>
+    </figure>
     {% endfor %}
-</article>
+    </div>
+</section>
 {% empty %}
-<article>
-    <header class="align-center">
+<section class="single-width align-center">
+    <header>
         <h1>Ещё ничего не добавлено</h1>
     </header>
-</article>
+</section>
 {% endfor %}
+</section>
 {% endblock maincontent %}
