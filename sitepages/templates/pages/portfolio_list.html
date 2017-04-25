@@ -3,26 +3,30 @@
 
 {% block stylesheets %}
 {{ block.super }}
-<link rel="stylesheet" type="text/css" href="{% static 'css/slick.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/unslider.css' %}" />
 {% endblock stylesheets %}
 
 {% block scripts %}
 {{ block.super }}
-<script type="text/javascript" src="{% static 'js/slick.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/jquery.slick.enable.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.unslider.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.unslider.enable.js' %}"></script>
 {% endblock scripts %}
 
 {% block maincontent %}
-<section class="flex-container row-wrap cross-stretch">
+<section class="portfolio-container flex-container row-wrap cross-stretch long-justify-around">
 {% for album in albums %}
-<section class="single-width">
+<section>
     <div class="album-cover">
-    {% for figure in album.get_random_pics %}
-    <figure>
-        <img src="{{ figure.image.file_name.url }}" width="450" height="340" />
-        <figcaption><h2>{{ album.title }}</h2></figcaption>
-    </figure>
-    {% endfor %}
+        <ul>
+        {% for figure in album.get_random_pics %}
+        <li>
+        <figure class="album-frame">
+            <img src="{{ figure.image.file_name.url }}" width="280" height="210" class="margin-both-auto" />
+            <figcaption class="album-title align-center"><h2>{{ album.title }}</h2></figcaption>
+        </figure>
+        </li>
+        {% endfor %}
+        </ul>
     </div>
 </section>
 {% empty %}

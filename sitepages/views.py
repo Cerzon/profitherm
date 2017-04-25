@@ -300,7 +300,7 @@ class PortfolioListView(View):
             if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
-        albums = ImageGallery.objects.filter(name__endswith='album')
+        albums = ImageGallery.objects.filter(name__endswith='album', is_published=True)
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         return render(request, self.template, {
             'page_detail' : page_detail,
