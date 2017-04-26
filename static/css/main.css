@@ -207,12 +207,18 @@ ol.decimal-list {
     font-weight: bold;
 }
 
-.album-title {
+main .album-cover {
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(0,0,0,0.27);
+}
+
+main .album-title {
     background-color: #000000;
     color: #FFFFFF;
 }
 
-.scroll-decor {
+main .scroll-decor {
     background-image: url("/static/img/up-down-arrows.png");
     background-repeat: no-repeat;
     background-position: center -390px;
@@ -222,12 +228,12 @@ ol.decimal-list {
     border: none;
 }
 
-.scroll-decor:hover {
+main .scroll-decor:hover {
     color: rgba(0,0,0,0.4);
     border: none;
 }
 
-.scroll-decor.scroll-up {
+main .scroll-decor.scroll-up {
     background-position: center 9px;
 }
 
@@ -257,16 +263,13 @@ main article, main form {
     margin: 25px 45px;
 }
 
-article header {
-    margin-bottom: 0.5em;
-}
-
 article p {
     margin: 0.5em 0;
 }
 
 article ul,
 article ol {
+    margin: 0.5em 0;
     padding-left: 2.5em;
 }
 
@@ -306,6 +309,7 @@ aside article {
 }
 
 aside article header {
+    margin-bottom: 0.5em;
     position: relative;
     left: -20px;
 }
@@ -485,6 +489,7 @@ p.copyright-info {
 main .album-cover {
     width: 280px;
     height: 210px;
+    padding: 2px;
     margin: 15px 15px 35px 15px;
 }
 

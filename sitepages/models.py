@@ -121,7 +121,7 @@ class Attachment(models.Model):
         return 'К заказу #{0} от {1} / Файл {2}'.format(self.calculation_order.pk, self.calculation_order.date_created.strftime('%d %b %Y'), self.filename())
 
 
-class Image(models.Model):
+class ProfImage(models.Model):
     name = models.SlugField()
     file_name = models.ImageField(upload_to='images/')
     description = models.CharField(max_length=200, blank=True)
@@ -134,6 +134,9 @@ class Image(models.Model):
     def __str__(self):
         return self.name
 
+    def filename(self):
+        return os.path.basename(self.file_name.name)
+
 
 class ImageGallery(models.Model):
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
@@ -143,6 +146,8 @@ class ImageGallery(models.Model):
     name = models.SlugField(max_length=80)
     title = models.CharField(max_length=200, blank=True)
     description = models.TextField(blank=True, verbose_name='Общее описание иллюстрации/галереи')
+    tn_width = models.PositiveSmallIntegerField(default=200, blank=True, verbose_name='Ширина превью')
+    tn_height = models.PositiveSmallIntegerField(default=100, blank=True, verbose_name='Высота превью')
     styles = models.TextField(blank=True, help_text='Можно указать несколько файлов стилей. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
     scripts = models.TextField(blank=True, help_text='Можно указать несколько файлов скриптов. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
     deploy_template = models.ForeignKey(DeployTemplate, on_delete=models.SET_NULL, null=True, verbose_name='Шаблон отображения')
@@ -164,7 +169,6 @@ class ImageGallery(models.Model):
         return [script.strip() for script in scripts_list if script.strip()]
 
     def get_last_pics(self):
-        #figures = self.figures.select_related('image').order_by('-date_added')[:7]
         return self.figures.select_related('image').order_by('-date_added')[:7]
 
     def get_render(self):
@@ -180,7 +184,7 @@ class ImageGallery(models.Model):
 class Figure(models.Model):
     image_gallery = models.ForeignKey(ImageGallery, on_delete=models.CASCADE, related_name='figures')
     position = models.PositiveSmallIntegerField()
-    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    image = models.ForeignKey(ProfImage, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=80, blank=True)
     description = models.CharField(max_length=200, blank=True)
@@ -193,6 +197,17 @@ class Figure(models.Model):
 
     def __str__(self):
         return '{0} / {1} / {2}'.format(self.image_gallery.name, self.position, self.image.name)
+
+    def get_or_create_thumbnail(self):
+        tn_width = self.image_gallery.tn_width or 200
+        tn_height = self.image_gallery.tn_height or 100
+        origin_name = self.image.file_name.name
+        origin_path = os.path.dirname(origin_name)
+        origin_filename = os.path.basename(origin_name)
+        tn_filename = ''.join(['tn', str(tn_width), str(tn_height), origin_filename])
+        print(tn_filename)
+        tn_name = os.path.join(origin_path, 'thumbnails/', tn_filename)
+        return tn_name
 
 
 class Article(models.Model):

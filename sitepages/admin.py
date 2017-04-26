@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import StaticPage, Article, ArticlePicture, Image, ImageGallery, Figure, DeployTemplate, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
+from .models import StaticPage, Article, ArticlePicture, ProfImage, ImageGallery, Figure, DeployTemplate, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
 
 # Register your models here.
 
 admin.site.register(DeployTemplate)
-admin.site.register(Image)
+admin.site.register(ProfImage)
 admin.site.register(ImageGallery)
 admin.site.register(Figure)
 admin.site.register(Article)
