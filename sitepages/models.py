@@ -202,10 +202,9 @@ class Figure(models.Model):
         tn_width = self.image_gallery.tn_width or 200
         tn_height = self.image_gallery.tn_height or 100
         origin_name = self.image.file_name.name
-        origin_path = os.path.dirname(origin_name)
-        origin_filename = os.path.basename(origin_name)
+        origin_path, origin_filename = os.path.split(origin_name)
         tn_filename = ''.join(['tn', str(tn_width), str(tn_height), origin_filename])
-        print(tn_filename)
+        print(tn_filename, origin_name, origin_path)
         tn_name = os.path.join(origin_path, 'thumbnails/', tn_filename)
         return tn_name
 
