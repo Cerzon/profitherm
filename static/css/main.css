@@ -833,6 +833,10 @@ span.fieldset-position-legend {
     text-transform: uppercase;
 }
 
+main .album-title {
+    font-family: 'PT Sans';
+}
+
 .scroll-control {
     text-transform: uppercase;
     font-weight: bold;

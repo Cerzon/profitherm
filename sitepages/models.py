@@ -4,6 +4,7 @@ import os
 from django.urls import reverse
 from django.db import models
 from django.template import Template, Context
+from django.conf import settings
 
 # Create your models here.
 
@@ -205,7 +206,7 @@ class Figure(models.Model):
         origin_path, origin_filename = os.path.split(origin_name)
         tn_filename = ''.join(['tn', str(tn_width), str(tn_height), origin_filename])
         print(tn_filename, origin_name, origin_path)
-        tn_name = os.path.join(origin_path, 'thumbnails/', tn_filename)
+        tn_name = os.path.join(settings.MEDIA_ROOT, origin_path, 'thumbnails/', tn_filename)
         return tn_name
 
 
