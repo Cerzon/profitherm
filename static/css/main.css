@@ -784,12 +784,10 @@ main input[type="number"],
 textarea {
     font-size: 18px;
     font-family: monospace;
-/*    text-indent: 8px;*/
 }
 
 #topcontacts {
     font-size: 25px;
-/*    font-weight: bold;*/
 }
 
 #page-footer nav {
@@ -834,7 +832,7 @@ span.fieldset-position-legend {
 }
 
 main .album-title {
-    font-family: 'PT Sans';
+    font-family: 'PT Sans Narrow';
 }
 
 .scroll-control {
