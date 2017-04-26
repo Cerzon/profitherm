@@ -61,6 +61,71 @@ a, em, strong, span {
     color: inherit;
 }
 
+.flex-container {
+    display: flex;
+}
+
+.row-wrap {
+    flex-flow: row wrap;
+}
+
+.row-nowrap {
+    flex-flow: row nowrap;
+}
+
+.column-wrap {
+    flex-flow: column wrap;
+}
+
+.column-nowrap {
+    flex-flow: column nowrap;
+}
+
+.single-width {
+    flex: 1;
+}
+
+.double-width {
+    flex: 2;
+}
+
+.triple-width {
+    flex: 3;
+}
+
+.quad-width {
+    flex: 4;
+}
+
+.cross-stretch {
+    align-items: stretch;
+}
+
+.cross-baseline {
+    align-items: baseline;
+}
+
+.cross-start {
+    align-items: flex-start;
+}
+
+.cross-end {
+    align-items: flex-end;
+}
+
+.long-justify-around {
+    justify-content: space-around;
+}
+
+.margin-top-auto {
+    margin-top: auto;
+}
+
+.margin-both-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /*** Colors & Borders ********************************************************/
 
 main {
@@ -207,7 +272,7 @@ ol.decimal-list {
     font-weight: bold;
 }
 
-main .album-cover {
+main .album-container {
     border-style: solid;
     border-width: 2px;
     border-color: rgba(0,0,0,0.27);
@@ -486,11 +551,19 @@ p.copyright-info {
     text-align: center;
 }
 
+.album-container {
+    flex-shrink: 0;
+    margin: 10px 15px 35px 15px;
+    min-width: 288px;
+    max-width: 45%;
+    position: relative;
+}
+
 main .album-cover {
-    width: 280px;
-    height: 210px;
+    width: 100%;
+    height: 218px;
     padding: 2px;
-    margin: 15px 15px 35px 15px;
+    box-sizing: border-box;
 }
 
 main .album-frame {
@@ -510,59 +583,6 @@ main .album-title {
 
 main .portfolio-container {
     margin: 0 25px;
-}
-
-.flex-container {
-    display: flex;
-}
-
-.row-wrap {
-    flex-flow: row wrap;
-}
-
-.row-nowrap {
-    flex-flow: row nowrap;
-}
-
-.column-wrap {
-    flex-flow: column wrap;
-}
-
-.column-nowrap {
-    flex-flow: column nowrap;
-}
-
-.single-width {
-    flex: 1;
-}
-
-.double-width {
-    flex: 2;
-}
-
-.triple-width {
-    flex: 3;
-}
-
-.quad-width {
-    flex: 4;
-}
-
-.cross-stretch {
-    align-items: stretch;
-}
-
-.long-justify-around {
-    justify-content: space-around;
-}
-
-.margin-top-auto {
-    margin-top: auto;
-}
-
-.margin-both-auto {
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .align-center {

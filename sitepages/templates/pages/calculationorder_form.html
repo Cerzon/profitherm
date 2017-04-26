@@ -7,17 +7,17 @@
     <fieldset>
         <legend><span class="fieldset-position-legend">1</span>Персональные данные</legend>
         {% if form.user_name.errors %}<div class="landed">{{ form.user_name.errors }}</div>{% endif %}
-        <div class="form-field flex-container dotted-bottom">
+        <div class="form-field flex-container cross-end dotted-bottom">
             <label for="{{ form.user_name.id_for_label }}" class="single-width required-field">Контактное лицо:</label>
             <div class="triple-width wide-field{% if form.user_name.errors %} error-field{% endif %}">{{ form.user_name }}</div>
         </div>
         {% if form.user_phone.errors %}<div class="landed">{{ form.user_phone.errors }}</div>{% endif %}
-        <div class="form-field flex-container dotted-bottom">
+        <div class="form-field flex-container cross-end dotted-bottom">
             <label for="{{ form.user_phone.id_for_label }}" class="single-width required-field">Телефон:</label>
             <div class="triple-width wide-field{% if form.user_phone.errors %} error-field{% endif %}">{{ form.user_phone }}</div>
         </div>
         {% if form.user_email.errors %}<div class="landed">{{ form.user_email.errors }}</div>{% endif %}
-        <div class="form-field flex-container dotted-bottom">
+        <div class="form-field flex-container cross-end dotted-bottom">
             <label for="{{ form.user_email.id_for_label }}" class="single-width required-field">Email:</label>
             <div class="triple-width wide-field{% if form.user_email.errors %} error-field{% endif %}">{{ form.user_email }}</div>
         </div>
@@ -30,19 +30,19 @@
             {{ form.object_type }}
         </div>
         {% if form.levels_amount.errors %}<div class="landed">{{ form.levels_amount.errors }}</div>{% endif %}
-        <div class="form-field flex-container dotted-bottom">
+        <div class="form-field flex-container cross-end dotted-bottom">
             <label for="{{ form.levels_amount.id_for_label }}" class="single-width required-field">Кол-во этажей:</label>
             <div class="double-width wide-field{% if form.levels_amount.errors %} error-field{% endif %}">{{ form.levels_amount }}</div>
         </div>
         {% if form.heated_area.errors %}<div class="landed">{{ form.heated_area.errors }}</div>{% endif %}
-        <div class="form-field flex-container dotted-bottom">
+        <div class="form-field flex-container cross-end dotted-bottom">
             <label for="{{ form.heated_area.id_for_label }}" class="single-width required-field">Отапливаемая площадь:</label>
             <div class="double-width wide-field{% if form.heated_area.errors %} error-field{% endif %}">{{ form.heated_area }}</div>
         </div>
     </fieldset>
     <fieldset>
         <legend><span class="fieldset-position-legend">3</span>Интересующие системы и услуги</legend>
-        <div class="flex-container">
+        <div class="flex-container cross-start">
             <div class="single-width">
                 {% if form.radiator_heating.errors %}<div class="landed">{{ form.radiator_heating.errors }}</div>{% endif %}
                 <div class="form-field">

@@ -15,13 +15,13 @@
 {% block maincontent %}
 <section class="portfolio-container flex-container row-wrap cross-stretch long-justify-around">
 {% for album in albums %}
-<section>
+<section class="single-width album-container">
     <div class="album-cover" data-delay="{{ album.get_random_delay }}">
-        <ul>
+        <ul class="frame-list">
         {% for figure in album.get_last_pics %}
         <li>
         <figure class="album-frame">
-            <img src="{{ figure.image.file_name.url }}" width="280" height="210" class="margin-both-auto" />
+            <img src="{{ figure.image.file_name.url }}" width="280" height="210" class="cover-image" />
             <figcaption class="album-title align-center"><h2>{{ album.title }}</h2></figcaption>
             <div> {{ figure.get_or_create_thumbnail }} </div>
         </figure>
