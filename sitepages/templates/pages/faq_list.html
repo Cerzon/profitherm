@@ -8,6 +8,7 @@
         </header>
         {% autoescape off %}
         {% if faq.answer_text|length > 700 %}
+            {% if page_detail %}{{ page_detail.set_flag }}{% endif %}
             <section class="scrolled">
         {% endif %}
             {{ faq.answer_text }}
@@ -35,10 +36,14 @@
 {% endblock maincontent %}
 
 {% block rightsidecontent %}
+{% if page_detail %}
+    {% if page_detail.get_flag %}
 <section id="faq-control-panel">
     <section class="scroll-panel align-center">
         <a href="#" class="scroll-up-all button">Свернуть всё</a>
         <a href="#" class="unscroll-all button">Развернуть всё</a>
     </section>
 </section>
+    {% endif %}
+{% endif %}
 {% endblock rightsidecontent %}

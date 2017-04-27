@@ -87,9 +87,14 @@ class CalculationOrderAddView(CreateView):
             if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = ''
+        if page_detail:
+            page_articles = page_detail.articles.order_by('pagelink__position')
+        else:
+            page_articles = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         return self.render_to_response(self.get_context_data(
                 page_detail=page_detail,
+                page_articles=page_articles,
                 form=form,
                 upload_form=upload_form,
                 faq_list=faq_list,
@@ -120,9 +125,14 @@ class CalculationOrderAddView(CreateView):
             if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
+        if page_detail:
+            page_articles = page_detail.articles.order_by('pagelink__position')
+        else:
+            page_articles = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         return self.render_to_response(self.get_context_data(
                 page_detail=page_detail,
+                page_articles=page_articles,
                 form=form,
                 upload_form=upload_form,
                 faq_list=faq_list,
@@ -180,9 +190,14 @@ class ArticleList(View):
                 })
         else:
             article_list = None
+        if page_detail:
+            page_articles = page_detail.articles.order_by('pagelink__position')
+        else:
+            page_articles = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         return render(request, self.template, {
             'page_detail' : page_detail,
+            'page_articles' : page_articles,
             'articles' : article_list,
             'faq_list' : faq_list,
         })
@@ -198,10 +213,15 @@ class FeedbackView(View):
             if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
+        if page_detail:
+            page_articles = page_detail.articles.order_by('pagelink__position')
+        else:
+            page_articles = None
         feedback_list = Feedback.objects.filter(is_published=True)
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         return render(request, self.template, {
             'page_detail' : page_detail,
+            'page_articles' : page_articles,
             'feedback_list' : feedback_list,
             'faq_list' : faq_list,
         })
@@ -241,9 +261,14 @@ class FrequentlyAskedQuestionListView(View):
             if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
+        if page_detail:
+            page_articles = page_detail.articles.order_by('pagelink__position')
+        else:
+            page_articles = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='')
         return render(request, self.template, {
             'page_detail' : page_detail,
+            'page_articles' : page_articles,
             'faq_list' : faq_list,
         })
 
@@ -266,7 +291,7 @@ class FrequentlyAskedQuestionSendView(View):
         except ObjectDoesNotExist:
             page_detail = None
         return render(request, self.template, {
-            'page_detail' : page_detail,
+            'page_detail' : page_detail
         })
 
 
@@ -300,10 +325,15 @@ class PortfolioListView(View):
             if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
+        if page_detail:
+            page_articles = page_detail.articles.order_by('pagelink__position')
+        else:
+            page_articles = None
         albums = ImageGallery.objects.filter(name__endswith='album', is_published=True)
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         return render(request, self.template, {
             'page_detail' : page_detail,
+            'page_articles' : page_articles,
             'albums' : albums,
             'faq_list' : faq_list,
         })

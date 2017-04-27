@@ -10,6 +10,7 @@
             {% endif %}
             {% autoescape off %}
             {% if feedback.content|length > 700 %}
+            {% if page_detail %}{{ page_detail.set_flag }}{% endif %}
                 <section class="scrolled">
             {% endif %}
             {{ feedback.content }}
@@ -37,10 +38,14 @@
 {% endblock maincontent %}
 
 {% block leftsidecontent %}
+{% if page_detail %}
+    {% if page_detail.get_flag %}
 <section>
     <section class="scroll-panel align-center">
         <a href="#" class="scroll-up-all button">Свернуть всё</a>
         <a href="#" class="unscroll-all button">Развернуть всё</a>
     </section>
 </section>
+    {% endif %}
+{% endif %}
 {% endblock leftsidecontent %}

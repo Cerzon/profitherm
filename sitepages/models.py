@@ -258,6 +258,8 @@ class ArticlePicture(models.Model):
 
 
 class StaticPage(models.Model):
+    template_flag = False
+
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
     position = models.PositiveSmallIntegerField(verbose_name='Порядковый номер', help_text='Для сортировки в админке')
     name = models.SlugField(max_length=80, unique=True, default=datetime.today, verbose_name='Имя страницы (slug)', help_text='Это название для отображения в адресной строке')
@@ -284,6 +286,17 @@ class StaticPage(models.Model):
     def get_scripts(self):
         scripts_list = self.scripts.strip().split('\r\n')
         return [script.strip() for script in scripts_list if script.strip()]
+
+    def set_flag(self):
+        self.template_flag = True
+        return ''
+
+    def drop_flag(self):
+        self.template_flag = False
+        return ''
+
+    def get_flag(self):
+        return self.template_flag
 
 
 class PageArticle(models.Model):
