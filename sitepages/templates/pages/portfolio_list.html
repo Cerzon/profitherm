@@ -21,9 +21,9 @@
         {% for figure in album.get_last_pics %}
         <li>
         <figure class="album-frame">
-            <img src="{{ figure.image.file_name.url }}" width="280" height="210" class="cover-image" />
+            <img src="{{ figure.image.file_name.url }}" class="cover-image" />
             <figcaption class="album-title align-center"><h2>{{ album.title }}</h2></figcaption>
-            <div> {{ figure.get_or_create_thumbnail }} </div>
+            {#<div class="hidden"> {{ figure.get_or_create_thumbnail }} </div>#}
         </figure>
         </li>
         {% endfor %}
