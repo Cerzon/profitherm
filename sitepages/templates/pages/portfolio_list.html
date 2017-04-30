@@ -9,10 +9,10 @@
 {% block scripts %}
 {{ block.super }}
 <script type="text/javascript" src="{% static 'js/jquery.unslider.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/jquery.unslider.enable.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.unslider.albums.js' %}"></script>
 {% endblock scripts %}
 
-{% load thumbnail %}
+{% load thumbnails %}
 
 {% block maincontent %}
 {% comment %}
@@ -35,10 +35,8 @@
         {% for figure in album.get_last_pics %}
         <li>
         <figure class="album-frame">
-            {#<img src="{{ figure.image.file_name.url }}" class="cover-image" />#}
-            {% img_thumbnail figure.image.file_name.name '500x375' class='cover-image' %}
+            {% img_thumbnail figure.image.file_name.name '440x330' alt=album.title class='cover-image' %}
             <figcaption class="album-title align-center"><h2>{{ album.title }}</h2></figcaption>
-            {#<div class="hidden"> {{ figure.get_or_create_thumbnail }} </div>#}
         </figure>
         </li>
         {% endfor %}

@@ -53,7 +53,7 @@ class InfoPage(View):
                     'title' : article.title,
                     'body' : article_body,
                     'teaser' : article.teaser_on_page,
-                    'get_absolute_url' : article.get_absolute_url,
+                    'get_absolute_url' : article.get_absolute_url(),
                     'date_created' : article.date_created,
                     'date_modified' : article.date_modified,
                 })

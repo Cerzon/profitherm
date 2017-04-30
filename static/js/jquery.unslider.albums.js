@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $('.album-cover').each(function(){
-        var $delay = $(this).data('delay');
+        var $delay = +$(this).data('delay');
         $(this).unslider({
             autoplay : true,
             delay : $delay,

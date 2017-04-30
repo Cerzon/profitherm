@@ -560,7 +560,7 @@ main .album-container {
     margin: 5px 15px 30px 15px;
     padding: 2px;
     min-width: 270px;
-    max-width: 45%;
+    max-width: 46%;
     position: relative;
 }
 
@@ -673,9 +673,15 @@ span.fieldset-position-legend {
     margin-top: -1em;
 }
 
+@media only screen and (max-width: 960px) {
+    main .album-container {
+        max-width: 100%;
+    }
+}
+
 @media only screen and (max-width: 1260px) {
     body {
-        min-width: 1010px;
+        min-width: 1005px;
     }
 
     aside#leftsidebar {
@@ -767,6 +773,18 @@ span.fieldset-position-legend {
 
     li.menu-item a {
         padding: 10px 25px;
+    }
+}
+
+@media only screen and (min-width: 1752px) {
+    main .album-container {
+        max-width: 30.5%;
+    }
+}
+
+@media only screen and (min-width: 2060px) {
+    main .album-container {
+        max-width: 23%;
     }
 }
 

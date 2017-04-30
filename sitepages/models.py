@@ -199,16 +199,6 @@ class Figure(models.Model):
     def __str__(self):
         return '{0} / {1} / {2}'.format(self.image_gallery.name, self.position, self.image.name)
 
-    def get_or_create_thumbnail(self):
-        tn_width = self.image_gallery.tn_width or 200
-        tn_height = self.image_gallery.tn_height or 100
-        origin_name = self.image.file_name.name
-        origin_path, origin_filename = os.path.split(origin_name)
-        tn_filename = ''.join(['tn', str(tn_width), str(tn_height), origin_filename])
-        print(tn_filename, origin_name, origin_path)
-        tn_name = os.path.join(settings.MEDIA_ROOT, origin_path, 'thumbnails/', tn_filename)
-        return tn_name
-
 
 class Article(models.Model):
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
