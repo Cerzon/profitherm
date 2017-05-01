@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^$', views.InfoPage.as_view(), {'page_name' : 'index'}),
     url(r'^articles/$', views.ArticleList.as_view(), name='article_list'),
     url(r'^article/(?P<article_name>[\-\w]+)/$', views.ArticleDetailView.as_view(), name='article_detail'),
+    url(r'^callback/', views.CallbackFormView.as_view(), name='callback_form'),
     url(r'^faq/$', views.FrequentlyAskedQuestionListView.as_view(), name='faq_list'),
     url(r'^nashi-raboty/$', views.PortfolioListView.as_view(), name='portfolio_list'),
     url(r'^faq/question-add/$', views.FrequentlyAskedQuestionAddView.as_view(), name='faq_add'),

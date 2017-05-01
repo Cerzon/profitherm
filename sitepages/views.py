@@ -1,10 +1,10 @@
 from django.urls import reverse_lazy
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.core.exceptions import ObjectDoesNotExist
 from django.views import View
 from django.template import Template, Context
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 from .models import Article, ArticlePicture, ProfImage, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
 from .forms import CalculationOrderForm, FeedbackForm, FileUploadFormSet, FrequentlyAskedQuestionForm, CallbackForm
 
@@ -337,3 +337,12 @@ class PortfolioListView(View):
             'albums' : albums,
             'faq_list' : faq_list,
         })
+
+
+class CallbackFormView(FormView):
+    template_name = 'pages/callback_form.html'
+    form_class = CallbackForm
+
+    def form_valid(self, form):
+        form.send_email()
+        return HttpResponse('ok')

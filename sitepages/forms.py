@@ -32,5 +32,8 @@ class CallbackForm(Form):
                 regex='^\+?\d?( ?\(? ?|-?)\d{3}( ?\)? ?|\-?)\d{3}( |\-)?\d{2}( |\-)?\d{2}$')])
     call_time = TimeField()
 
+    def send_email(self):
+        pass
+
 
 FileUploadFormSet = inlineformset_factory(CalculationOrder, Attachment, fields=('afile',), extra=5)
