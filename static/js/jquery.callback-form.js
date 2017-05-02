@@ -23,4 +23,12 @@ $(document).ready(function() {
 
 function postCallback() {
     console.log('callback form submit function');
+    $.ajax({
+        url : "/callback/",
+        type : "POST",
+        data : $('#callback-form').serialize(),
+        success : function(data) {
+            console.log('ajax post request completed ' + data);
+        }
+    });
 }
