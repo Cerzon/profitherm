@@ -1,11 +1,13 @@
 $(document).ready(function() {
-    $('#get-callback').on('click', function(){
-        $('body').append($('<div id="ptcb-overlay"><div id="ptcb-content"><div id="ptcb-close"></div></div></div>'));
+    $('#get-callback').on('click', function(e){
+        e.preventDefault();
         $.get("callback/", function(data){
             $('#ptcb-content').append($(data));
         });
+        $('#ptcb-overlay, #ptcb-content, #ptcb-close').show();
     });
     $('#ptcb-close').on('click', function(){
-        $('#ptcb-overlay').remove();
+        $('#ptcb-content').children('form').remove();
+        $('#ptcb-overlay, #ptcb-content, #ptcb-close').hide();
     });
 });

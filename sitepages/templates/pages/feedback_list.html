@@ -37,6 +37,7 @@
     <div class="align-center form-field"><a href="{% url 'feedback_add' %}" class="button main-submit">Оставить отзыв</a></div>
 {% endblock maincontent %}
 
+{% comment %}
 {% block leftsidecontent %}
 {% if page_detail %}
     {% if page_detail.get_flag %}
@@ -48,4 +49,4 @@
 </section>
     {% endif %}
 {% endif %}
-{% endblock leftsidecontent %}
+{% endblock leftsidecontent %}{% endcomment %}

@@ -57,7 +57,14 @@ def img_thumbnail(source_path, thumb_size, tn_method='sz2fl', bg_fill='self', **
         if not os.path.isdir(os.path.join(settings.MEDIA_ROOT, thumb_dir)):
             os.mkdir(os.path.join(settings.MEDIA_ROOT, thumb_dir))
         try:
-            thumb_im.save(os.path.join(settings.MEDIA_ROOT, thumb_path), source_im.format)
+            if source_im.mode == 'P':
+                try:
+                    thumb_im.info['transparency'] = source_im.info['transparency']
+                except KeyError:
+                    pass
+                thumb_im.save(os.path.join(settings.MEDIA_ROOT, thumb_path), source_im.format, palette=source_im.palette)
+            else:
+                thumb_im.save(os.path.join(settings.MEDIA_ROOT, thumb_path), source_im.format)
         except IOError:
             raise template.TemplateSyntaxError(
                 'Unable to save thumbnail for {}'.format(source_name)
@@ -105,11 +112,11 @@ def do_resize_to_fit(src_im, out_width, out_height, background=None):
             if isinstance(background, Image.Image):
                 bg_im = background
             else:
-                bg_im = src_im
+                bg_im = src_im.convert('RGB')
             bg_im = do_resize_to_fill(bg_im, out_width, out_height)
             bg_im = bg_im.filter(ImageFilter.GaussianBlur(radius=8))
         else:
-            bg_im = Image.new(src_im.mode, (out_width, out_height), bg_im)
+            bg_im = Image.new('RGB', (out_width, out_height), bg_im)
         out_start_x = int((out_width - out_im.width) / 2)
         out_start_y = int((out_height - out_im.height) / 2)
         bg_im.paste(out_im, (out_start_x, out_start_y))

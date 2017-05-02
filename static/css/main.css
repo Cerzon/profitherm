@@ -770,7 +770,7 @@ span.fieldset-position-legend {
     }
 }
 
-@media only screen and (min-width: 1752px) {
+@media only screen and (min-width: 1751px) {
     main .album-container {
         max-width: 30.5%;
     }
