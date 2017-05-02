@@ -11,14 +11,14 @@
     z-index: 22222;
 }
 
-#ptcb-content {
+#ptcb-window {
     display: none;
     position: absolute;
-    width: 250px;
+    width: 280px;
     padding: 30px;
     left: 50%;
     top: 45%;
-    margin-left: -155px;
+    margin-left: -170px;
     background-color: #FFFFFF;
 }
 
@@ -33,4 +33,23 @@
     background-image: url("/static/img/ov_close.png");
     background-position: center center;
     background-repeat: no-repeat;
+}
+
+#ptcb-loader {
+    display: none;
+    height: 130px;
+    background-image: url("/static/img/preloader.gif");
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#ptcb-content {
+    display: none;
+}
+
+#callback-form input:not([type="submit"]) {
+    border: none;
+    background-color: transparent;
+    font-family: monospace;
+    font-size: 18px;
 }

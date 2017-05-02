@@ -162,7 +162,7 @@ aside section a:hover {
 main input[type="text"],
 main input[type="email"],
 main input[type="number"],
-textarea {
+main textarea {
     border: none;
     background-color: transparent;
 }
@@ -614,6 +614,7 @@ main .portfolio-container {
 
 .wide-field input, .wide-field textarea {
     width: 100%;
+    box-sizing: border-box;
 }
 
 .label-above label {

@@ -1,6 +1,16 @@
 <form action="" method="POST" id="callback-form">
     {% csrf_token %}
-    {{ form }}
+    {{ form.non_field_errors }}
+    {% if form.user_phone.errors %}<div class="landed">{{ form.user_phone.errors }}</div>{% endif %}
+    <div class="form-field label-above dotted-bottom">
+        <label for="{{ form.user_phone.id_for_label }}" class="required-field">Номер телефона:</label>
+        <div class="wide-field{% if form.user_phone.errors %} error-field{% endif %}">{{ form.user_phone }}</div>
+    </div>
+    {% if form.call_time.errors %}<div class="landed">{{ form.call_time.errors }}</div>{% endif %}
+    <div class="form-field label-above dotted-bottom">
+        <label for="{{ form.call_time.id_for_label }}" class="required-field">Удобное время для разговора:</label>
+        <div class="wide-field{% if form.call_time.errors %} error-field{% endif %}">{{ form.call_time }}</div>
+    </div>
     <div class="form-field align-center">
         <input type="submit" value="Отправить" />
     </div>

@@ -345,4 +345,4 @@ class CallbackFormView(FormView):
 
     def form_valid(self, form):
         form.send_email()
-        return HttpResponse('ok')
+        return HttpResponse('<div class="align-center">Наш специалист перезвонит Вам в указанное время</div>')
