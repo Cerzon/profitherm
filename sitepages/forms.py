@@ -1,6 +1,6 @@
 from django.forms import Form, ModelForm, CharField, TimeField, inlineformset_factory
 from django.core import validators
-from django.core.mail import send_mail
+from django.core.mail import send_mail, mail_admins, mail_managers
 from .models import CalculationOrder, Feedback, Attachment, FrequentlyAskedQuestion
 
 class CalculationOrderForm(ModelForm):
@@ -34,7 +34,9 @@ class CallbackForm(Form):
     call_time = TimeField()
 
     def send_email(self):
-        print('user phone : {}, time to call : {}'.format(self.cleaned_data['user_phone'], self.cleaned_data['call_time']))
+        subject = 'Обратный звонок на {}'.format(self.cleaned_data['user_phone'])
+        message = 'Обратный звонок на {}, удобное время {}'.format(self.cleaned_data['user_phone'], self.cleaned_data['call_time'])
+        mail_managers(subject, message)
 
 
 FileUploadFormSet = inlineformset_factory(CalculationOrder, Attachment, fields=('afile',), extra=5)

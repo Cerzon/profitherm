@@ -4,7 +4,9 @@ from django.shortcuts import get_object_or_404, render
 from django.core.exceptions import ObjectDoesNotExist
 from django.views import View
 from django.template import Template, Context
+from django.template.loader import render_to_string
 from django.views.generic.edit import CreateView, FormView
+from django.core.mail import send_mail, mail_admins, mail_managers
 from .models import Article, ArticlePicture, ProfImage, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
 from .forms import CalculationOrderForm, FeedbackForm, FileUploadFormSet, FrequentlyAskedQuestionForm, CallbackForm
 
@@ -142,11 +144,15 @@ class CalculationOrderAddView(CreateView):
 
 class CalculationOrderSuccess(View):
     template = 'pages/order_success.html'
+    mail_template = 'emails/calculation_order_mail.html'
 
     def get(self, request):
         if request.session.get('order_success', False):
             order = CalculationOrder.objects.select_related().get(pk=request.session['order_success'])
             del request.session['order_success']
+            mail_subj = 'Заказ на предварительный расчёт #{}'.format(order.pk)
+            mail_msg = render_to_string(self.mail_template, {'order' : order})
+            mail_managers(mail_subj, mail_msg, html_message=mail_msg)
             page_name = reverse_lazy('calculation_order_success').split('/')[-2]
             try:
                 page_detail = StaticPage.objects.get(name=page_name)
@@ -345,4 +351,4 @@ class CallbackFormView(FormView):
 
     def form_valid(self, form):
         form.send_email()
-        return HttpResponse('<div class="align-center">Наш специалист перезвонит Вам в указанное время</div>')
+        return HttpResponse('<div class="align-center">Белый конь едет вниз по кочерге, того и гляди упадёт.</div>')
