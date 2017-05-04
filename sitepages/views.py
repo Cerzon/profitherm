@@ -37,17 +37,16 @@ class InfoPage(View):
                 scripts = scripts.union(article.get_scripts())
                 # получить список всех картинок на странице
                 pictures = article.pictures.order_by('picturelink__position').select_related('deploy_template')
-                picture_list = list()
                 if pictures:
+                    picture_list = list()
                     # цикл перебора картинок в статье
                     for picture in pictures:
                         # пополнение styles и scripts стилями и скриптами картинки
                         styles = styles.union(picture.get_styles())
                         scripts = scripts.union(picture.get_scripts())
-                        #figures = Figure.objects.filter(image_gallery=picture).order_by('position').select_related('image')
-                        #tpl = Template(picture.deploy_template.body)
-                        #ctx = Context({'figures' : figures})
                         picture_list.append(picture.get_render())
+                else:
+                    picture_list = None
                 tpl = Template(article.content)
                 ctx = Context({'pictures' : picture_list})
                 article_body = tpl.render(ctx)
@@ -86,17 +85,54 @@ class CalculationOrderAddView(CreateView):
         page_name = reverse_lazy('calculation_order_add').split('/')[-2]
         try:
             page_detail = StaticPage.objects.get(name=page_name)
-            if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
-            page_detail = ''
+            page_detail = None
+        else:
+            if not page_detail.is_published:
+                page_detail = None
         if page_detail:
             page_articles = page_detail.articles.order_by('pagelink__position')
+            if page_articles:
+                article_list = list()
+                styles = set()
+                scripts = set()
+                for article in page_articles:
+                    styles = styles.union(article.get_styles())
+                    scripts = scripts.union(article.get_scripts())
+                    pictures = article.pictures.order_by('picturelink__position').select_related('deploy_template')
+                    if pictures:
+                        picture_list = list()
+                        for picture in pictures:
+                            styles = styles.union(picture.get_styles())
+                            scripts = scripts.union(picture.get_scripts())
+                            picture_list.append(picture.get_render())
+                    else:
+                        picture_list = None
+                    tpl = Template(article.content)
+                    ctx = Context({'pictures' : picture_list})
+                    article_body = tpl.render(ctx)
+                    article_list.append({
+                        'title' : article.title,
+                        'body' : article_body,
+                        'teaser' : article.teaser_on_page,
+                        'get_absolute_url' : article.get_absolute_url(),
+                        'date_created' : article.date_created,
+                        'date_modified' : article.date_modified,
+                    })
+            else:
+                article_list = None
+                styles = None
+                scripts = None
         else:
-            page_articles = None
+            article_list = None
+            styles = None
+            scripts = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         return self.render_to_response(self.get_context_data(
                 page_detail=page_detail,
-                page_articles=page_articles,
+                articles=article_list,
+                styles=styles,
+                scripts=scripts,
                 form=form,
                 upload_form=upload_form,
                 faq_list=faq_list,
@@ -124,17 +160,13 @@ class CalculationOrderAddView(CreateView):
         page_name = reverse_lazy('calculation_order_add').split('/')[-2]
         try:
             page_detail = StaticPage.objects.get(name=page_name)
-            if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
-        if page_detail:
-            page_articles = page_detail.articles.order_by('pagelink__position')
         else:
-            page_articles = None
+            if not page_detail.is_published: page_detail = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         return self.render_to_response(self.get_context_data(
                 page_detail=page_detail,
-                page_articles=page_articles,
                 form=form,
                 upload_form=upload_form,
                 faq_list=faq_list,
@@ -169,7 +201,7 @@ class CalculationOrderSuccess(View):
             return HttpResponseRedirect('/')
 
 
-class ArticleList(View):
+class ArticleListView(View):
     template = 'pages/infopage.html'
 
     def get(self, request):
@@ -209,7 +241,7 @@ class ArticleList(View):
         })
 
 
-class FeedbackView(View):
+class FeedbackListView(View):
     template = 'pages/feedback_list.html'
 
     def get(self, request):
@@ -239,22 +271,119 @@ class FeedbackAddView(CreateView):
     template_name = 'pages/feedback_add.html'
     success_url = reverse_lazy('feedback_success')
 
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        page_name = reverse_lazy('feedback_add').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_name)
+        except ObjectDoesNotExist:
+            page_detail = None
+        else:
+            if not page_detail.is_published:
+                page_detail = None
+        if page_detail:
+            page_articles = page_detail.articles.order_by('pagelink__position')
+            if page_articles:
+                article_list = list()
+                styles = set()
+                scripts = set()
+                for article in page_articles:
+                    styles = styles.union(article.get_styles())
+                    scripts = scripts.union(article.get_scripts())
+                    pictures = article.pictures.order_by('picturelink__position').select_related('deploy_template')
+                    if pictures:
+                        picture_list = list()
+                        for picture in pictures:
+                            styles = styles.union(picture.get_styles())
+                            scripts = scripts.union(picture.get_scripts())
+                            picture_list.append(picture.get_render())
+                    else:
+                        picture_list = None
+                    tpl = Template(article.content)
+                    ctx = Context({'pictures' : picture_list})
+                    article_body = tpl.render(ctx)
+                    article_list.append({
+                        'title' : article.title,
+                        'body' : article_body,
+                        'teaser' : article.teaser_on_page,
+                        'get_absolute_url' : article.get_absolute_url(),
+                        'date_created' : article.date_created,
+                        'date_modified' : article.date_modified,
+                    })
+            else:
+                article_list = None
+                styles = None
+                scripts = None
+        else:
+            article_list = None
+            styles = None
+            scripts = None
+        faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
+        return self.render_to_response(self.get_context_data(
+                page_detail=page_detail,
+                articles=article_list,
+                styles=styles,
+                scripts=scripts,
+                form=form,
+                faq_list=faq_list,
+            )
+        )
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.request.session['feedback_success'] = self.object.pk
+        return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, upload_form):
+        page_name = reverse_lazy('feedback_add').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_name)
+        except ObjectDoesNotExist:
+            page_detail = None
+        else:
+            if not page_detail.is_published: page_detail = None
+        faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
+        return self.render_to_response(self.get_context_data(
+                page_detail=page_detail,
+                form=form,
+                faq_list=faq_list,
+            )
+        )
+
 
 class FeedbackSendView(View):
     template = 'pages/feedback_success.html'
 
     def get(self, request):
-        page_name = reverse_lazy('feedback_success').split('/')[-2]
-        try:
-            page_detail = StaticPage.objects.get(name=page_name)
-            if not page_detail.is_published: page_detail = None
-        except ObjectDoesNotExist:
-            page_detail = None
-        faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
-        return render(request, self.template, {
-            'page_detail' : page_detail,
-            'faq_list' : faq_list,
-        })
+        if request.session.get('feedback_success', False):
+            del request.session['feedback_success']
+            mail_subj = 'Добавлен новый отзыв'
+            mail_msg = 'Собственно сабж'
+            mail_managers(mail_subj, mail_msg)
+            page_name = reverse_lazy('feedback_success').split('/')[-2]
+            try:
+                page_detail = StaticPage.objects.get(name=page_name)
+                if not page_detail.is_published: page_detail = None
+            except ObjectDoesNotExist:
+                page_detail = None
+            faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
+            return render(request, self.template, {
+                'page_detail' : page_detail,
+                'faq_list' : faq_list,
+            })
+        else:
+            return HttpResponseRedirect('/')
 
 
 class FrequentlyAskedQuestionListView(View):
@@ -285,20 +414,115 @@ class FrequentlyAskedQuestionAddView(CreateView):
     template_name = 'pages/faq_add.html'
     success_url = reverse_lazy('faq_success')
 
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        page_name = reverse_lazy('faq_add').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_name)
+        except ObjectDoesNotExist:
+            page_detail = None
+        else:
+            if not page_detail.is_published:
+                page_detail = None
+        if page_detail:
+            page_articles = page_detail.articles.order_by('pagelink__position')
+            if page_articles:
+                article_list = list()
+                styles = set()
+                scripts = set()
+                for article in page_articles:
+                    styles = styles.union(article.get_styles())
+                    scripts = scripts.union(article.get_scripts())
+                    pictures = article.pictures.order_by('picturelink__position').select_related('deploy_template')
+                    if pictures:
+                        picture_list = list()
+                        for picture in pictures:
+                            styles = styles.union(picture.get_styles())
+                            scripts = scripts.union(picture.get_scripts())
+                            picture_list.append(picture.get_render())
+                    else:
+                        picture_list = None
+                    tpl = Template(article.content)
+                    ctx = Context({'pictures' : picture_list})
+                    article_body = tpl.render(ctx)
+                    article_list.append({
+                        'title' : article.title,
+                        'body' : article_body,
+                        'teaser' : article.teaser_on_page,
+                        'get_absolute_url' : article.get_absolute_url(),
+                        'date_created' : article.date_created,
+                        'date_modified' : article.date_modified,
+                    })
+            else:
+                article_list = None
+                styles = None
+                scripts = None
+        else:
+            article_list = None
+            styles = None
+            scripts = None
+        return self.render_to_response(self.get_context_data(
+                page_detail=page_detail,
+                articles=article_list,
+                styles=styles,
+                scripts=scripts,
+                form=form,
+            )
+        )
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.request.session['faq_success'] = self.object.pk
+        return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, upload_form):
+        page_name = reverse_lazy('faq_add').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_name)
+        except ObjectDoesNotExist:
+            page_detail = None
+        else:
+            if not page_detail.is_published: page_detail = None
+        return self.render_to_response(self.get_context_data(
+                page_detail=page_detail,
+                form=form,
+            )
+        )
+
 
 class FrequentlyAskedQuestionSendView(View):
     template = 'pages/faq_success.html'
+    mail_template = 'emails/faq_mail.html'
 
     def get(self, request):
-        page_name = reverse_lazy('faq_success').split('/')[-2]
-        try:
-            page_detail = StaticPage.objects.get(name=page_name)
-            if not page_detail.is_published: page_detail = None
-        except ObjectDoesNotExist:
-            page_detail = None
-        return render(request, self.template, {
-            'page_detail' : page_detail
-        })
+        if request.session.get('faq_success', False):
+            question = FrequentlyAskedQuestion.objects.get(pk=request.session['faq_success'])
+            del request.session['faq_success']
+            mail_subj = 'Задан новый вопрос'
+            mail_msg = render_to_string(self.mail_template, {'question' : question})
+            mail_managers(mail_subj, mail_msg, html_message=mail_msg)
+            page_name = reverse_lazy('faq_success').split('/')[-2]
+            try:
+                page_detail = StaticPage.objects.get(name=page_name)
+                if not page_detail.is_published: page_detail = None
+            except ObjectDoesNotExist:
+                page_detail = None
+            return render(request, self.template, {
+                'page_detail' : page_detail
+            })
+        else:
+            return HttpResponseRedirect('/')
 
 
 class ArticleDetailView(View):

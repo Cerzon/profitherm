@@ -14,6 +14,8 @@ class CalculationOrderForm(ModelForm):
 
 
 class FeedbackForm(ModelForm):
+    user_name = CharField(max_length=120, required=False)
+
     class Meta():
         model = Feedback
         fields = ['user_name', 'user_email', 'publish_email', 'title', 'content']
