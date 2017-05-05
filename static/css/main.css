@@ -692,6 +692,14 @@ span.fieldset-position-legend {
     margin-top: -1em;
 }
 
+table.info-table {
+    margin: 2em 0;
+}
+
+table.info-table caption {
+    margin-bottom: 1em;
+}
+
 table.info-table td, table.info-table th {
     padding: 5px 10px;
 }
