@@ -4,7 +4,7 @@
     {% for feedback in feedback_list %}
         <article{% if feedback.content|length > 700 %} class="scroll"{% endif %}>
             <header class="article">
-                <h2>{% firstof feedback.title 'Отзыв' %}</h2>
+                <h2>{{ feedback.title|default:'Отзыв' }}</h2>
             </header>
             {% autoescape off %}
             {% if feedback.content|length > 700 %}
@@ -21,7 +21,7 @@
             {% endautoescape %}
             <footer{% if feedback.content|length > 700 %} class="align-center"{% endif %}>
                 <section class="datetime">{{ feedback.date_created|date:"d.m.Y" }}</section>
-                <section class="author">{% firstof feedback.user_name 'Аноним' %}{% if feedback.publish_email and feedback.user_email %} (<a href="mailto:{{ feedback.user_email }}">{{ feedback.user_email }}</a>){% endif %}</section>
+                <section class="author">{{ feedback.user_name|default:'Аноним' }}{% if feedback.publish_email and feedback.user_email %} (<a href="mailto:{{ feedback.user_email }}">{{ feedback.user_email }}</a>){% endif %}</section>
                 {% if feedback.content|length > 700 %}
                     <a href="#" class="scroll-control un-scroll scroll-decor">развернуть</a>
                 {% endif %}
