@@ -306,21 +306,21 @@ main .scroll-decor.scroll-up {
     background-position: center 9px;
 }
 
-table.info-table {
+table.data-table {
     border-collapse: collapse;
 }
 
-table.info-table td, table.info-table th {
+table.data-table td, table.data-table th {
     border-style: solid;
     border-width: 1px;
     border-color: grey;
 }
 
-table.info-table td.section-header {
+table.data-table td.section-header {
     background-color: rgba(0,0,0,0.15);
 }
 
-table.info-table th {
+table.data-table th {
     background-color: rgba(0,0,0,0.27);
 }
 
@@ -692,15 +692,16 @@ span.fieldset-position-legend {
     margin-top: -1em;
 }
 
-table.info-table {
+table.data-table {
     margin: 2em 0;
+    width: 100%;
 }
 
-table.info-table caption {
+table.data-table caption {
     margin-bottom: 1em;
 }
 
-table.info-table td, table.info-table th {
+table.data-table td, table.data-table th {
     padding: 5px;
 }
 
@@ -881,7 +882,7 @@ li.text-item a:hover {
     text-decoration: underline;
 }
 
-p.no-indent, table.info-table p {
+p.no-indent, table.data-table p {
     text-indent: 0;
 }
 
@@ -915,7 +916,7 @@ main .album-title {
     font-size: 10px;
 }
 
-table.info-table td.section-header {
+table.data-table td.section-header {
     font-weight: bold;
 }
 
