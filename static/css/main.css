@@ -946,11 +946,15 @@ main .album-title {
 }
 
 .fa-facebook:before {
-  content: "\f09a";
+    content: "\f09a";
 }
 
 .fa-instagram:before {
-  content: "\f16d";
+    content: "\f16d";
+}
+
+table.info-table td.section-header {
+    font-weight: bold;
 }
 
 @media only screen and (max-width: 1260px) {
