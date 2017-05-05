@@ -126,18 +126,6 @@ a, em, strong, span {
     margin-right: auto;
 }
 
-.align-center {
-    text-align: center;
-}
-
-.align-right {
-    text-align: right;
-}
-
-.align-left {
-    text-align: left;
-}
-
 .hidden {
     display: none;
 }
@@ -620,6 +608,14 @@ main .album-title {
 
 main .portfolio-container {
     margin: 0 25px;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
 }
 
 .form-field {
