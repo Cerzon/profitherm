@@ -316,6 +316,10 @@ table.info-table td, table.info-table th {
     border-color: grey;
 }
 
+table.info-table td.section-header {
+    background-color: rgba(0,0,0,0.15);
+}
+
 table.info-table th {
     background-color: rgba(0,0,0,0.27);
 }
