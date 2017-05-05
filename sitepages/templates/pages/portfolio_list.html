@@ -3,11 +3,17 @@
 
 {% block stylesheets %}
 {{ block.super }}
+{% for style in styles %}
+<link rel="stylesheet" type="text/css" href="{% static style %}" />
+{% endfor %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/unslider.css' %}" />
 {% endblock stylesheets %}
 
 {% block scripts %}
 {{ block.super }}
+{% for script in scripts %}
+<script type="text/javascript" src="{% static script %}"></script>
+{% endfor %}
 <script type="text/javascript" src="{% static 'js/jquery.unslider.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.unslider.albums.js' %}"></script>
 {% endblock scripts %}
@@ -15,18 +21,19 @@
 {% load thumbnails %}
 
 {% block maincontent %}
-{% comment %}
-{% for article in page_articles %}
+{% for article in articles %}
 <article>
-    <header><h1>{{ article.title }}</h1></header>
+    <header class="article">
+        <h1>{{ article.title }}</h1>
+    </header>
     {% if article.teaser %}
         {{ article.body|truncatewords_html:80 }}
         <p class="no-indent pinned"><a href="{{ article.get_absolute_url }}" class="readmore-link">читать дальше</a></p>
     {% else %}
         {{ article.body }}
     {% endif %}
+</article>
 {% endfor %}
-{% endcomment %}
 <section class="portfolio-container flex-container row-wrap cross-stretch long-justify-around">
 {% for album in albums %}
 <section class="single-width album-container">
