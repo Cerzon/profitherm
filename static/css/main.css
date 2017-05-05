@@ -694,7 +694,6 @@ span.fieldset-position-legend {
 
 table.info-table {
     margin: 2em 0;
-    max-width: 100%;
 }
 
 table.info-table caption {
@@ -702,7 +701,7 @@ table.info-table caption {
 }
 
 table.info-table td, table.info-table th {
-    padding: 5px 10px;
+    padding: 5px;
 }
 
 @media only screen and (max-width: 1260px) {
