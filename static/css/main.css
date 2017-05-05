@@ -126,6 +126,18 @@ a, em, strong, span {
     margin-right: auto;
 }
 
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.align-left {
+    text-align: left;
+}
+
 .hidden {
     display: none;
 }
@@ -304,6 +316,20 @@ main .scroll-decor:hover {
 
 main .scroll-decor.scroll-up {
     background-position: center 9px;
+}
+
+table.info-table {
+    border-collapse: collapse;
+}
+
+table.info-table td, table.info-table th {
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+}
+
+table.info-table th {
+    background-color: rgba(0,0,0,0.27);
 }
 
 @media only screen and (max-width: 2600px) {
@@ -594,14 +620,6 @@ main .album-title {
 
 main .portfolio-container {
     margin: 0 25px;
-}
-
-.align-center {
-    text-align: center;
-}
-
-.align-right {
-    text-align: right;
 }
 
 .form-field {
