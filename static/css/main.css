@@ -915,6 +915,14 @@ main .album-title {
     font-size: 10px;
 }
 
+table.info-table td.section-header {
+    font-weight: bold;
+}
+
+span.text-nowrap {
+    white-space: nowrap;
+}
+
 .rightarrow li:before, .readmore-link:after {
     content: "\2192";
 }
@@ -959,10 +967,6 @@ main .album-title {
 
 .fa-instagram:before {
     content: "\f16d";
-}
-
-table.info-table td.section-header {
-    font-weight: bold;
 }
 
 @media only screen and (max-width: 1260px) {
