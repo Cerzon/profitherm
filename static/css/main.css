@@ -688,6 +688,10 @@ span.fieldset-position-legend {
     margin-top: -1em;
 }
 
+table.info-table td, table.info-table th {
+    padding: 5px 10px;
+}
+
 @media only screen and (max-width: 1260px) {
     body {
         min-width: 1005px;
@@ -865,7 +869,7 @@ li.text-item a:hover {
     text-decoration: underline;
 }
 
-p.no-indent {
+p.no-indent, table.info-table p {
     text-indent: 0;
 }
 
