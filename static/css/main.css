@@ -324,6 +324,11 @@ table.data-table th {
     background-color: rgba(0,0,0,0.27);
 }
 
+table .separator {
+    background-color: transparent;
+    border: none;
+}
+
 @media only screen and (max-width: 2600px) {
     div#topimgveil {
         background-size: 100% 100%;
