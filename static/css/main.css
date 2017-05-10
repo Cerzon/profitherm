@@ -920,7 +920,7 @@ table.data-table td.section-header {
     font-weight: bold;
 }
 
-span.text-nowrap {
+.text-nowrap {
     white-space: nowrap;
 }
 
