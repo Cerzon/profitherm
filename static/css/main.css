@@ -324,7 +324,7 @@ table.data-table th {
     background-color: rgba(0,0,0,0.27);
 }
 
-table .separator {
+th.separator, td.separator {
     background-color: transparent;
     border: none;
 }
