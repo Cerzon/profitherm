@@ -1,19 +1,21 @@
 $(document).ready(function(){
-    $('.scroll-control').on('click', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        toggleScroll($(this).closest('.scroll'));
-    });
-    $('.scroll-up-all').on('click', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        toggleScroll($('.scroll-control').filter('.scroll-up').closest('.scroll'));
-    });
-    $('.unscroll-all').on('click', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        toggleScroll($('.scroll-control').filter('.un-scroll').closest('.scroll'));
-    });
+    if (Modernizr.flexbox) {
+        $('.scroll-control').on('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            toggleScroll($(this).closest('.scroll'));
+        });
+        $('.scroll-up-all').on('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            toggleScroll($('.scroll-control').filter('.scroll-up').closest('.scroll'));
+        });
+        $('.unscroll-all').on('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            toggleScroll($('.scroll-control').filter('.un-scroll').closest('.scroll'));
+        });
+    }
 });
 
 function toggleScroll($scroll) {

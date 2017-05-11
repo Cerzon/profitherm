@@ -17,7 +17,7 @@
 
         <script src="{% static 'js/jquery-2.1.0.min.js' %}" type="text/javascript"></script>
         <script src="{% static 'js/modernizr-flexbox.js' %}" type="text/javascript"></script>
-        {#<script src="{% static 'js/jquery.modernizr.no-flexbox.js' %}" type="text/javascript"></script>#}
+        <script src="{% static 'js/jquery.modernizr.no-flexbox.js' %}" type="text/javascript"></script>
         <script src="{% static 'js/jquery.callback-form.js' %}" type="text/javascript"></script>
         
         {% block scripts %}
@@ -170,24 +170,24 @@
             <nav>
                 <ul class="repeatmenu">
                     <li class="text-item"><a href="/">Главная</a></li>
-                    <li>|</li>
+                    <li class="text-item">|</li>
                     <li class="text-item"><a href="{% url 'info_page' 'price-list' %}">Цены</a></li>
-                    <li>|</li>
+                    <li class="text-item">|</li>
                     <li class="text-item"><a href="{% url 'portfolio_list' %}">Наши работы</a></li>
-                    <li>|</li>
+                    <li class="text-item">|</li>
                     <li class="text-item"><a href="{% url 'article_list' %}">Статьи</a></li>
-                    <li>|</li>
+                    <li class="text-item">|</li>
                     <li class="text-item"><a href="{% url 'feedback_list' %}">Отзывы</a></li>
-                    <li>|</li>
+                    <li class="text-item">|</li>
                     <li class="text-item"><a href="{% url 'info_page' 'contacts' %}">Контакты</a></li>
                 </ul>
                 <ul class="repeatmenu">
                     <li class="text-item"><a href="{% url 'info_page' 'otoplenie-zagorodnogo-doma' %}">Отопление</a></li>
-                    <li>|</li>
+                    <li class="text-item">|</li>
                     <li class="text-item"><a href="{% url 'info_page' 'vodosnabzhenie-zagorodnogo-doma' %}">Водоснабжение</a></li>
-                    <li>|</li>
+                    <li class="text-item">|</li>
                     <li class="text-item"><a href="{% url 'info_page' 'kotelnye' %}">Котельные</a></li>
-                    <li>|</li>
+                    <li class="text-item">|</li>
                     <li class="text-item"><a href="{% url 'info_page' 'vodoochistka' %}">Водоподготовка</a></li>
                 </ul>
             </nav>

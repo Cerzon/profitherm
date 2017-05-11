@@ -1,14 +1,24 @@
+.mdrnz-no-flexbox ul.repeatmenu {
+    display: block;
+    margin: 20px 0 0 0;
+}
+
+.mdrnz-no-flexbox li.text-item {
+    margin: 0 2px;
+}
+
 .mdrnz-no-flexbox ul.centermenu li {
     display: inline-block;
 }
 
-.mdrnz-no-flexbox ul.repeatmenu {
-    float: left;
+.mdrnz-no-flexbox #topcontacts {
+    float: right;
 }
 
 .mdrnz-no-flexbox #topmenu,
 .mdrnz-no-flexbox #secondmenu {
     text-align: center;
+    white-space: nowrap;
 }
 
 .mdrnz-no-flexbox #topmenu li {
@@ -17,6 +27,10 @@
 
 .mdrnz-no-flexbox #secondmenu li {
     margin: 0 0.5%;
+}
+
+.mdrnz-no-flexbox #secondmenu li a {
+    padding: 14px 20px;
 }
 
 .mdrnz-no-flexbox #leftsidebar,
@@ -33,6 +47,39 @@
     min-height: 200px;
 }
 
-.mdrnz-no-flexbox main {
-    margin-right: 380px;
+.mdrnz-no-flexbox #page-footer {
+    clear: both;
 }
+
+.mdrnz-no-flexbox #page-footer nav {
+    text-align: center;
+}
+
+.mdrnz-no-flexbox main,
+.mdrnz-no-flexbox #page-footer nav {
+    margin-right: 285px;
+}
+
+.mdrnz-no-flexbox .unscrolled,
+.mdrnz-no-flexbox .scroll-control {
+    display: none;
+}
+
+.mdrnz-no-flexbox .scrolled {
+    display: block;
+}
+
+@media only screen and (min-width: 1500px) {
+    .mdrnz-no-flexbox main,
+    .mdrnz-no-flexbox #page-footer nav {
+        margin-right: 340px;
+    }
+}
+
+@media only screen and (min-width: 1680px) {
+    .mdrnz-no-flexbox main,
+    .mdrnz-no-flexbox #page-footer nav {
+        margin-right: 380px;
+    }
+}
+
