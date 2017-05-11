@@ -38,7 +38,7 @@
 
 /*** Normalize ***************************************************************/
 
-body, div, p, ul, ol, dl, figure, img, a img, li, h1, h2, h3, nav, section, article, header, main, aside, footer, form {
+body, div, p, ul, ol, dl, figure, img, a img, li, h1, h2, h3, h4, nav, section, article, header, main, aside, footer, form {
     margin: 0;
     padding: 0;
     background-color: transparent;
@@ -165,6 +165,12 @@ main input[type="number"],
 main textarea {
     border: none;
     background-color: transparent;
+}
+
+main article h2,
+main article h3,
+main article h4 {
+    color: rgba(0,0,0,0.7);
 }
 
 div#topimage-resize {
@@ -354,6 +360,12 @@ main {
 
 main article, main form {
     margin: 25px 45px;
+}
+
+main article h2,
+main article h3,
+main article h4 {
+    margin: 1em 0 0.4em 0;
 }
 
 article p {
@@ -654,6 +666,7 @@ span.fieldset-position-legend {
 }
 
 .button {
+    margin-top: 1em;
     padding: 10px 20px;
     display: inline-block;
 }

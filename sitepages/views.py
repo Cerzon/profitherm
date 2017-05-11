@@ -537,10 +537,29 @@ class ArticleDetailView(View):
             if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
+        styles = set()
+        scripts = set()
+        styles = styles.union(article.get_styles())
+        scripts = scripts.union(article.get_scripts())
+        pictures = article.pictures.order_by('picturelink__position').select_related('deploy_template')
+        if pictures:
+            picture_list = list()
+            for picture in pictures:
+                styles = styles.union(picture.get_styles())
+                scripts = scripts.union(picture.get_scripts())
+                picture_list.append(picture.get_render())
+        else:
+            picture_list = None
+        tpl = Template(article.content)
+        ctx = Context({'pictures' : picture_list})
+        article_body = tpl.render(ctx)
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         return render(request, self.template, {
             'page_detail' : page_detail,
-            'article' : article,
+            'styles' : styles,
+            'scripts' : scripts,
+            'article_title' : article.title,
+            'article_body' : article_body,
             'faq_list' : faq_list,
         })
 

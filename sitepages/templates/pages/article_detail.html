@@ -1,15 +1,32 @@
 {% extends "base.html" %}
 
 {% block title %}
-{% if page_detail %}
-{{ page_detail.title }} -     
-{% endif %}
-{{ article.title }}
+{% if page_detail %}{{ page_detail.title }} - {% endif %}{{ article_title }}
 {% endblock title %}
+
+{% load static %}
+
+{% block stylesheets %}
+{{ block.super }}
+{% if styles %}
+    {% for style in styles %}
+    <link rel="stylesheet" type="text/css" href="{% static style %}" />
+    {% endfor %}
+{% endif %}
+{% endblock stylesheets %}
+
+{% block scripts %}
+{{ block.super }}
+{% if scripts %}
+    {% for script in scripts %}
+    <script type="text/javascript" src="{% static script %}"></script>
+    {% endfor %}
+{% endif %}
+{% endblock scripts %}
 
 {% block maincontent %}
 <article>
-    <header><h1>{{ article.title }}</h1></header>
-    {{ article.content|safe }}
+    <header><h1>{{ article_title }}</h1></header>
+    {{ article_body }}
 </article>
 {% endblock maincontent %}
