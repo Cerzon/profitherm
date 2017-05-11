@@ -1,0 +1,38 @@
+.mdrnz-no-flexbox ul.centermenu li {
+    display: inline-block;
+}
+
+.mdrnz-no-flexbox ul.repeatmenu {
+    float: left;
+}
+
+.mdrnz-no-flexbox #topmenu,
+.mdrnz-no-flexbox #secondmenu {
+    text-align: center;
+}
+
+.mdrnz-no-flexbox #topmenu li {
+    margin: 0 1%;
+}
+
+.mdrnz-no-flexbox #secondmenu li {
+    margin: 0 0.5%;
+}
+
+.mdrnz-no-flexbox #leftsidebar,
+.mdrnz-no-flexbox #footer-left {
+    float: left;
+}
+
+.mdrnz-no-flexbox #rightsidebar,
+.mdrnz-no-flexbox #footer-right {
+    float: right;
+}
+
+.mdrnz-no-flexbox div#page-wrapper {
+    min-height: 200px;
+}
+
+.mdrnz-no-flexbox main {
+    margin-right: 380px;
+}

@@ -353,8 +353,8 @@ main, aside {
     margin-bottom: -250px;
 }
 
-main {
-    flex: 1;
+main,
+#page-footer nav {
     order: 2;
 }
 
@@ -429,11 +429,13 @@ main legend {
     left: -70px;
 }
 
-aside#leftsidebar {
+aside#leftsidebar,
+aside#footer-left {
     order: 1;
 }
 
-aside#rightsidebar {
+aside#rightsidebar,
+aside#footer-right {
     order: 3;
 }
 
@@ -512,7 +514,6 @@ footer#page-footer {
 #page-footer aside {
     margin: 0;
     padding: 0;
-    display: flex;
 }
 
 #page-footer nav {
@@ -524,7 +525,8 @@ footer#page-footer {
 }
 
 div#footercontacts {
-    margin: auto 0 auto 10%;
+    margin-top: 40px;
+    margin-left: 10%;
 }
 
 #footercontacts p {
@@ -533,7 +535,8 @@ div#footercontacts {
 
 p#social {
     padding: 0;
-    margin: auto;
+    margin-top: 85px;
+    text-align: center;
 }
 
 ul.centermenu {
