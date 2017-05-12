@@ -15,10 +15,10 @@
         {% endfor %}
         {% endblock stylesheets %}
 
-        <script src="{% static 'js/jquery-2.1.0.min.js' %}" type="text/javascript"></script>
-        <script src="{% static 'js/modernizr-flexbox.js' %}" type="text/javascript"></script>
-        <script src="{% static 'js/jquery.modernizr.no-flexbox.js' %}" type="text/javascript"></script>
-        <script src="{% static 'js/jquery.callback-form.js' %}" type="text/javascript"></script>
+        <script type="text/javascript" src="{% static 'js/jquery-2.1.0.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/modernizr-flexbox.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.modernizr.no-flexbox.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.callback-form.js' %}"></script>
         
         {% block scripts %}
         {% for script in page_detail.get_scripts %}
@@ -38,16 +38,18 @@
         <!-- начало шапка с верхним меню и картинкой -->
         <header id="page-header">
             <!-- начало верхнее меню -->
+            {% block topmenu %}
             <nav id="topmenu">
                 <ul class="centermenu">
-                    <li class="menu-item"><a href="/">Главная</a></li>
-                    <li class="menu-item"><a href="{% url 'info_page' 'price-list' %}">Цены</a></li>
-                    <li class="menu-item"><a href="{% url 'portfolio_list' %}">Наши работы</a></li>
-                    <li class="menu-item"><a href="{% url 'info_page' 'articles' %}">Статьи</a></li>
-                    <li class="menu-item"><a href="{% url 'feedback_list' %}">Отзывы</a></li>
-                    <li class="menu-item"><a href="{% url 'info_page' 'contacts' %}">Контакты</a></li>
+                    <li class="menu-item{% if page_detail.name == 'index' %} current-page"><em>Главная</em>{% else %}"><a href="/">Главная</a>{% endif %}</li>
+                    <li class="menu-item{% if page_detail.name == 'price-list' %} current-page"><em>Цены</em>{% else %}"><a href="{% url 'info_page' 'price-list' %}">Цены</a>{% endif %}</li>{% url 'portfolio_list' as the_url %}
+                    <li class="menu-item{% if page_detail.name in the_url %} current-page"><em>Наши работы</em>{% else %}"><a href="{{ the_url }}">Наши работы</a>{% endif %}</li>{% url 'article_list' as the_url %}
+                    <li class="menu-item{% if page_detail.name in the_url %} current-page"><em>Статьи</em>{% else %}"><a href="{{ the_url }}">Статьи</a>{% endif %}</li>{% url 'feedback_list' as the_url %}
+                    <li class="menu-item{% if page_detail.name in the_url %} current-page"><em>Отзывы</em>{% else %}"><a href="{{ the_url }}">Отзывы</a>{% endif %}</li>
+                    <li class="menu-item{% if page_detail.name == 'contacts' %} current-page"><em>Контакты</em>{% else %}"><a href="{% url 'info_page' 'contacts' %}">Контакты</a>{% endif %}</li>
                 </ul>
             </nav>
+            {% endblock topmenu %}
             <!-- конец верхнее меню -->
             <!-- начало верхняя картинка -->
             <div id="topimage-resize">
@@ -77,29 +79,33 @@
             <aside id="leftsidebar">
                 <header>Услуги</header>
                 <i class="fa fa-bars"></i>
+                {% block leftsidemenu %}
                 <nav>
                     <ul class="sidemenu">
-                        <li class="menu-item"><a href="{% url 'info_page' 'object' %}">Выезд специалиста</a></li>
-                        <li class="menu-item"><a href="{% url 'info_page' 'predvaritelnyi-raschet' %}">Предварительный расчёт</a></li>
-                        <li class="menu-item"><a href="{% url 'info_page' 'proektirovanie-inzhenernyh-system' %}">Проектирование</a></li>
-                        <li class="menu-item"><a href="{% url 'info_page' 'complektacia-oborudovania' %}">Комплектация оборудования</a></li>
-                        <li class="menu-item"><a href="{% url 'info_page' 'montage-inzhenernyh-system' %}">Монтаж и пусконаладка</a></li>
+                        <li class="menu-item{% if page_detail.name == 'object' %} current-page"><em>Выезд специалиста</em>{% else %}"><a href="{% url 'info_page' 'object' %}">Выезд специалиста</a>{% endif %}</li>
+                        <li class="menu-item{% if page_detail.name == 'predvaritelnyi-raschet' %} current-page"><em>Предварительный расчёт</em>{% else %}"><a href="{% url 'info_page' 'predvaritelnyi-raschet' %}">Предварительный расчёт</a>{% endif %}</li>
+                        <li class="menu-item{% if page_detail.name == 'proektirovanie-inzhenernyh-system' %} current-page"><em>Проектирование</em>{% else %}"><a href="{% url 'info_page' 'proektirovanie-inzhenernyh-system' %}">Проектирование</a>{% endif %}</li>
+                        <li class="menu-item{% if page_detail.name == 'complektacia-oborudovania' %} current-page"><em>Комплектация оборудования</em>{% else %}"><a href="{% url 'info_page' 'complektacia-oborudovania' %}">Комплектация оборудования</a>{% endif %}</li>
+                        <li class="menu-item{% if page_detail.name == 'montage-inzhenernyh-system' %} current-page"><em>Монтаж и пусконаладка</em>{% else %}"><a href="{% url 'info_page' 'montage-inzhenernyh-system' %}">Монтаж и пусконаладка</a>{% endif %}</li>
                     </ul>
                 </nav>
+                {% endblock leftsidemenu %}
                 {% block leftsidecontent %}
                 {% endblock leftsidecontent %}
             </aside>
             <!-- конец левое ухо -->
             <!-- начало правое ухо -->
             <aside id="rightsidebar">
+                {% block rightsidemenu %}
                 <nav>
-                    <ul class="sidemenu">
-                        <li class="menu-item"><a href="{% url 'calculation_order_add' %}">Заказать расчёт бесплатно</a></li>
+                    <ul class="sidemenu">{% url 'calculation_order_add' as the_url %}
+                        <li class="menu-item{% if page_detail.name in the_url %} current-page"><em>Заказать расчёт бесплатно</em>{% else %}"><a href="{{ the_url }}">Заказать расчёт бесплатно</a>{% endif %}</li>
                         <li class="menu-item"><a href="#{# url 'callback_form' #}" id="get-callback">Заказать обратный звонок</a></li>
-                        <li class="menu-item"><a href="{# url 'calculators_list' #}">Калькуляторы</a></li>
-                        <li class="menu-item"><a href="{% url 'faq_list' %}">Часто задаваемые вопросы</a></li>
+                        <li class="menu-item"><a href="{# url 'calculators_list' #}">Калькуляторы</a></li>{% url 'faq_list' as the_url %}
+                        <li class="menu-item{% if page_detail.name in the_url %} current-page"><em>Часто задаваемые вопросы</em>{% else %}"><a href="{{ the_url }}">Часто задаваемые вопросы</a>{% endif %}</li>
                     </ul>
                 </nav>
+                {% endblock rightsidemenu %}
                 {% block rightsidecontent %}
                 <!-- начало случайные FAQ -->
                     {% if faq_list %}
@@ -125,14 +131,16 @@
             <!-- начало средняя часть, включая меню 2 этаж -->
             <main class="single-width">
                 <!-- начало меню 2 этаж -->
+                {% block secondmenu %}
                 <nav id="secondmenu">
                     <ul class="centermenu">
-                        <li class="menu-item"><a href="{% url 'info_page' 'otoplenie-zagorodnogo-doma' %}">Отопление</a></li>
-                        <li class="menu-item"><a href="{% url 'info_page' 'vodosnabzhenie-zagorodnogo-doma' %}">Водоснабжение</a></li>
-                        <li class="menu-item"><a href="{% url 'info_page' 'kotelnye' %}">Котельные</a></li>
-                        <li class="menu-item"><a href="{% url 'info_page' 'vodoochistka' %}">Водоподготовка</a></li>
+                        <li class="menu-item{% if page_detail.name == 'otoplenie-zagorodnogo-doma' %} current-page"><em>Отопление</em>{% else %}"><a href="{% url 'info_page' 'otoplenie-zagorodnogo-doma' %}">Отопление</a>{% endif %}</li>
+                        <li class="menu-item{% if page_detail.name == 'vodosnabzhenie-zagorodnogo-doma' %} current-page"><em>Водоснабжение</em>{% else %}"><a href="{% url 'info_page' 'vodosnabzhenie-zagorodnogo-doma' %}">Водоснабжение</a>{% endif %}</li>
+                        <li class="menu-item{% if page_detail.name == 'kotelnye' %} current-page"><em>Котельные</em>{% else %}"><a href="{% url 'info_page' 'kotelnye' %}">Котельные</a>{% endif %}</li>
+                        <li class="menu-item{% if page_detail.name == 'vodoochistka' %} current-page"><em>Водоподготовка</em>{% else %}"><a href="{% url 'info_page' 'vodoochistka' %}">Водоподготовка</a>{% endif %}</li>
                     </ul>
                 </nav>
+                {% endblock secondmenu %}
                 <!-- конец меню 2 этаж -->
                 <!-- начало блок с контентом -->
                 {% block maincontent %}

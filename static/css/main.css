@@ -220,7 +220,8 @@ ul.centermenu {
     color: #FFFFFF;
 }
 
-li.menu-item:hover {
+li.menu-item:hover,
+li.menu-item.current-page {
     color: #FFFFFF;
     background-color: rgba(0,0,0,0.27);
 }
@@ -449,16 +450,14 @@ div#topimgveil {
     position: absolute;
     top: 0;
     left: 0;
-    padding-bottom: 6%;
-    box-sizing: border-box;
     height: 100%;
     width: 100%;
-    display: flex;
-    flex-flow: row nowrap;
+    display: block;
 }
 
-#logoimg, #topcontacts  {
+#logoimg {
     width: 50%;
+    float: left;
 }
 
 #logoimg {
@@ -468,6 +467,7 @@ div#topimgveil {
 #topcontacts {
     margin-top: 8%;
     margin-right: 60px;
+    float: right;
 }
 
 #logoimg a {
@@ -559,7 +559,8 @@ ul.repeatmenu {
     text-align: center;
 }
 
-li.menu-item a {
+li.menu-item a,
+li.menu-item em {
     padding: 14px 25px;
     white-space: nowrap;
     display: block;
@@ -803,10 +804,6 @@ table.data-table td, table.data-table th {
         background-size: auto;
     }
 
-    div#topimgveil {
-        padding-bottom: 90px;
-    }
-    
     #logoimg {
         margin-top: 110px;
     }
@@ -828,7 +825,8 @@ table.data-table td, table.data-table th {
         height: 38px;
     }
 
-    li.menu-item a {
+    li.menu-item a,
+    li.menu-item em {
         padding: 12px 25px;
     }
 
@@ -847,7 +845,8 @@ table.data-table td, table.data-table th {
         height: 40px;
     }
 
-    li.menu-item a {
+    li.menu-item a,
+    li.menu-item em {
         padding: 10px 25px;
     }
 }
@@ -926,6 +925,10 @@ div#footercontacts {
 
 p#social {
     font-size: 50px;
+}
+
+li.menu-item em {
+    font-style: normal;
 }
 
 li.text-item a:hover {

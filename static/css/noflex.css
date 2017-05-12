@@ -2,18 +2,6 @@
     display: inline-block;
 }
 
-.mdrnz-no-flexbox #topcontacts {
-    width: auto;
-}
-
-.mdrnz-no-flexbox #logoimg {
-    float: left;
-}
-
-.mdrnz-no-flexbox #topcontacts {
-    float: right;
-}
-
 .mdrnz-no-flexbox #topmenu,
 .mdrnz-no-flexbox #secondmenu {
     text-align: center;
@@ -28,7 +16,8 @@
     margin: 0 0.5%;
 }
 
-.mdrnz-no-flexbox #secondmenu li a {
+.mdrnz-no-flexbox #secondmenu li a,
+.mdrnz-no-flexbox #secondmenu li em {
     padding: 14px 20px;
 }
 
@@ -77,7 +66,8 @@
     .mdrnz-no-flexbox #topmenu li {
         margin: 0 3%;
     }
-    .mdrnz-no-flexbox #secondmenu li a {
+    .mdrnz-no-flexbox #secondmenu li a,
+    .mdrnz-no-flexbox #secondmenu li em {
         padding: 12px 25px;
     }
 }
@@ -87,7 +77,8 @@
     .mdrnz-no-flexbox #page-footer nav {
         margin-right: 380px;
     }
-    .mdrnz-no-flexbox #secondmenu li a {
+    .mdrnz-no-flexbox #secondmenu li a,
+    .mdrnz-no-flexbox #secondmenu li em {
         padding: 10px 25px;
     }
 }
