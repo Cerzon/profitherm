@@ -1,12 +1,3 @@
-.mdrnz-no-flexbox ul.repeatmenu {
-    display: block;
-    margin: 20px 0 0 0;
-}
-
-.mdrnz-no-flexbox li.text-item {
-    margin: 0 2px;
-}
-
 .mdrnz-no-flexbox ul.centermenu li {
     display: inline-block;
 }
