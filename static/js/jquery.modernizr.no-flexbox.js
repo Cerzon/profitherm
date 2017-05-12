@@ -1,7 +1,7 @@
 $(document).ready(function(){
     if (!Modernizr.flexbox) {
         tuneHeight();
-        $('mdrnz-no-flexbox').on('resize', tuneHeight);
+        $('.mdrnz-no-flexbox').on('resize', tuneHeight);
     }
 });
 
