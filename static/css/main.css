@@ -527,7 +527,6 @@ footer#page-footer {
     margin: 0;
     padding-top: 15px;
     flex: 1;
-    display: flex;
     flex-direction: column;
 }
 
@@ -555,7 +554,8 @@ ul.centermenu {
 
 ul.repeatmenu {
     margin: 20px auto 0 auto;
-    display: flex;
+    display: block;
+    text-align: center;
 }
 
 li.menu-item a {
@@ -565,7 +565,7 @@ li.menu-item a {
 }
 
 li.text-item {
-    margin: 0 3px;
+    margin: 0 2px;
     white-space: nowrap;
     display: inline;
 }
@@ -786,6 +786,10 @@ table.data-table td, table.data-table th {
     nav#secondmenu {
         padding-left: 85px;
     }
+
+    li.text-item {
+        margin: 0 1px;
+    }
 }
 
 @media only screen and (min-width: 1500px) {
@@ -825,6 +829,10 @@ table.data-table td, table.data-table th {
 
     li.menu-item a {
         padding: 12px 25px;
+    }
+
+    li.text-item {
+        margin: 0 3px;
     }
 }
 
