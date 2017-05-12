@@ -77,12 +77,18 @@
     .mdrnz-no-flexbox #topmenu li {
         margin: 0 3%;
     }
+    .mdrnz-no-flexbox #secondmenu li a {
+        padding: 12px 25px;
+    }
 }
 
 @media only screen and (min-width: 1680px) {
     .mdrnz-no-flexbox main,
     .mdrnz-no-flexbox #page-footer nav {
         margin-right: 380px;
+    }
+    .mdrnz-no-flexbox #secondmenu li a {
+        padding: 10px 25px;
     }
 }
 
