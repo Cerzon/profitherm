@@ -457,8 +457,16 @@ div#topimgveil {
 }
 
 #logoimg, #topcontacts  {
-    margin: auto 0;
     width: 50%;
+}
+
+#logoimg {
+    margin-top: 7.5%;
+}
+
+#topcontacts {
+    margin-top: 8%;
+    margin-right: 60px;
 }
 
 #logoimg a {
@@ -474,7 +482,6 @@ div#topimgveil {
 
 #topcontacts p {
     margin: 0.25em;
-    margin-right: 60px;
     text-align: right;
     white-space: nowrap;
 }
@@ -732,6 +739,10 @@ table.data-table td, table.data-table th {
         min-width: 1005px;
     }
 
+    #topcontacts {
+        margin-top: 7.5%;
+    }
+
     aside#leftsidebar {
         margin: 0;
         padding: 0;
@@ -791,12 +802,20 @@ table.data-table td, table.data-table th {
         padding-bottom: 90px;
     }
     
+    #logoimg {
+        margin-top: 110px;
+    }
+
+    #topcontacts {
+        margin-top: 120px;
+    }
+
     #logoimg a {
         margin-left: 5.3%;
     }
 
-    #topcontacts p {
-        margin-right: 8%;
+    #topcontacts {
+        margin-right: 4%;
     }
 
     #leftsidebar header {

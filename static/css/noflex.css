@@ -12,6 +12,14 @@
 }
 
 .mdrnz-no-flexbox #topcontacts {
+    width: auto;
+}
+
+.mdrnz-no-flexbox #logoimg {
+    float: left;
+}
+
+.mdrnz-no-flexbox #topcontacts {
     float: right;
 }
 
@@ -22,7 +30,7 @@
 }
 
 .mdrnz-no-flexbox #topmenu li {
-    margin: 0 1%;
+    margin: 0 1.5%;
 }
 
 .mdrnz-no-flexbox #secondmenu li {
@@ -73,6 +81,10 @@
     .mdrnz-no-flexbox main,
     .mdrnz-no-flexbox #page-footer nav {
         margin-right: 340px;
+    }
+
+    .mdrnz-no-flexbox #topmenu li {
+        margin: 0 3%;
     }
 }
 
