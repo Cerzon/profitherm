@@ -1,0 +1,8 @@
+{% load thumbnails %}
+{% spaceless %}
+{% for figure in figures %}
+<figure class="dit-figure">
+    {% img_thumbnail figure.image.file_name.name gallery.get_thumb_size tn_method=gallery.tn_method bg_fill=gallery.tn_bgfill width=gallery.tn_width height=gallery.tn_height class='dit-front-image' %}
+</figure>
+{% endfor %}
+{% endspaceless %}

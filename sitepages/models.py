@@ -11,7 +11,7 @@ from django.conf import settings
 class DeployTemplate(models.Model):
     name = models.SlugField(max_length=50)
     body = models.TextField(help_text="""Шаблон пишется с использованием языка шаблонов Django.
-        Шаблону передаётся список figures, содержаший элементы галареи,
+        Шаблону передаётся объект галереи gallery и список figures, содержаший элементы галареи,
         один или несколько. Поля элемента: position*, title, description, date_added*,
         image* с полями file_name* (тип FileField), name* (SlugField), description.
         Отмеченные звездочками поля обязательны и точно заполнены значениями.
@@ -180,6 +180,9 @@ class ImageGallery(models.Model):
 
     def get_last_pics(self):
         return self.figures.select_related('image').order_by('-date_added')[:7]
+
+    def get_thumb_size(self):
+        return 'x'.join([str(self.tn_width), str(self.tn_height)])
 
     def get_render(self):
         figures = self.figures.order_by('position').select_related('image')

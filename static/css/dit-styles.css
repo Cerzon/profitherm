@@ -1,0 +1,23 @@
+.dit-figure {
+    margin: 0.8em;
+}
+
+.dit-col-flow {
+    display: block;
+}
+
+.dit-row-flow {
+    display: inline-block;
+}
+
+.dit-float-left {
+    float: left;
+}
+
+.dit-float-right {
+    float: right;
+}
+
+.dit-centered {
+    text-align: center;
+}

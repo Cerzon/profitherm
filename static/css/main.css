@@ -360,6 +360,7 @@ main,
 
 main article, main form {
     margin: 25px 45px;
+    clear: both;
 }
 
 main article h2,

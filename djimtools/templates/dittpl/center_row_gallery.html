@@ -1,0 +1,12 @@
+{% load thumbnails %}
+{% spaceless %}
+<div class="dit-centered">
+{% for figure in figures %}
+<figure class="dit-row-flow">
+<a href="{{ figure.image.file_name.url }}" rel="{{ gallery.name }}" class="swipebox">
+    {% img_thumbnail figure.image.file_name.name gallery.get_thumb_size tn_method=gallery.tn_method bg_fill=gallery.tn_bgfill class='dit-front-image dit-row-flow' %}
+</a>
+</figure>
+{% endfor %}
+</div>
+{% endspaceless %}

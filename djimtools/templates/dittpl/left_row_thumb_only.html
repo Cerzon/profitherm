@@ -1,0 +1,10 @@
+{% load thumbnails %}
+{% spaceless %}
+<div class="dit-float-left">
+{% for figure in figures %}
+<figure class="dit-figure dit-row-flow">
+    {% img_thumbnail figure.image.file_name.name gallery.get_thumb_size tn_method=gallery.tn_method bg_fill=gallery.tn_bgfill class='dit-front-image' %}
+</figure>
+{% endfor %}
+</div>
+{% endspaceless %}
