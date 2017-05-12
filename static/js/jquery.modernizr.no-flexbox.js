@@ -1,7 +1,7 @@
 $(document).ready(function(){
     if (!Modernizr.flexbox) {
         tuneHeight();
-        $(window).on('resize', tuneHeight);
+        window.addEventListener('resize', tuneHeight);
     }
 });
 
