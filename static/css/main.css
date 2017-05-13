@@ -542,7 +542,7 @@ div#footercontacts {
 
 p#social {
     padding: 0;
-    margin-top: 85px;
+    margin-top: 92px;
     text-align: center;
 }
 
@@ -609,6 +609,7 @@ main .album-container {
     padding: 2px;
     min-width: 270px;
     max-width: 46%;
+    display: block;
     position: relative;
 }
 

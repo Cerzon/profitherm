@@ -21,3 +21,10 @@
 .dit-centered {
     text-align: center;
 }
+
+.dit-border {
+    padding: 2px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(0,0,0,0.27);
+}
