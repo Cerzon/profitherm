@@ -170,6 +170,9 @@ class ImageGallery(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('portfolio_detail', kwargs={'gallery_name' : self.name})
+
     def get_styles(self):
         styles_list = self.styles.strip().split('\r\n')
         return [style.strip() for style in styles_list if style.strip()]

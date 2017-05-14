@@ -36,7 +36,7 @@
 {% endfor %}
 <section class="portfolio-container flex-container row-wrap cross-stretch long-justify-around">
 {% for album in albums %}
-<section class="single-width album-container">
+<a href="{{ album.get_absolute_url }}" class="single-width album-container">
     <div class="album-cover" data-delay="{{ album.get_random_delay }}">
         <ul class="frame-list">
         {% for figure in album.get_last_pics %}
@@ -49,7 +49,7 @@
         {% endfor %}
         </ul>
     </div>
-</section>
+</a>
 {% empty %}
 <section class="single-width align-center">
     <header>

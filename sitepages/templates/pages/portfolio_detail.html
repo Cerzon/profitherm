@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block stylesheets %}
+{{ block.super }}
+{% for style in styles %}
+<link rel="stylesheet" type="text/css" href="{% static style %}" />
+{% endfor %}
+{% endblock stylesheets %}
+
+{% block scripts %}
+{{ block.super }}
+{% for script in scripts %}
+<script type="text/javascript" src="{% static script %}"></script>
+{% endfor %}
+{% endblock scripts %}
+
+{% load thumbnails %}
+
+{% block maincontent %}
+{% for article in articles %}
+<article>
+    <header class="article">
+        <h1>{{ article.title }}</h1>
+    </header>
+    {% if article.teaser %}
+        {{ article.body|truncatewords_html:80 }}
+        <p class="no-indent pinned"><a href="{{ article.get_absolute_url }}" class="readmore-link">читать дальше</a></p>
+    {% else %}
+        {{ article.body }}
+    {% endif %}
+</article>
+{% endfor %}
+<section class="portfolio-container flex-container row-wrap cross-stretch long-justify-around">
+{{ album.get_render }}
+</section>
+{% endblock maincontent %}

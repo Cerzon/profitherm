@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^callback/', views.CallbackFormView.as_view(), name='callback_form'),
     url(r'^faq/$', views.FrequentlyAskedQuestionListView.as_view(), name='faq_list'),
     url(r'^nashi-raboty/$', views.PortfolioListView.as_view(), name='portfolio_list'),
+    url(r'^nashi-raboty/(?P<gallery_name>[\-\w]+)/$', views.PortfolioDetailView.as_view(), name='portfolio_detail'),
     url(r'^faq/question-add/$', views.FrequentlyAskedQuestionAddView.as_view(), name='faq_add'),
     url(r'^faq/question-send/$', views.FrequentlyAskedQuestionSendView.as_view(), name='faq_success'),
     url(r'^feedback/$', views.FeedbackListView.as_view(), name='feedback_list'),

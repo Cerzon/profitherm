@@ -534,9 +534,11 @@ class ArticleDetailView(View):
             raise Http404('Page does not exist or not published yet')
         try:
             page_detail = StaticPage.objects.get(name=article_name)
-            if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
+        else:
+            if not page_detail.is_published:
+                page_detail = None
         styles = set()
         scripts = set()
         styles = styles.union(article.get_styles())
@@ -621,6 +623,66 @@ class PortfolioListView(View):
             'styles' : styles,
             'scripts' : scripts,
             'albums' : albums,
+            'faq_list' : faq_list,
+        })
+
+
+class PortfolioDetailView(View):
+    template = 'pages/portfolio_detail.html'
+
+    def get(self, request, gallery_name):
+        album = get_object_or_404(ImageGallery, name=gallery_name)
+        if not album.is_published:
+            raise Http404('Gallery does not exist any more or not published yet')
+        styles = set()
+        scripts = set()
+        styles = styles.union(album.get_styles())
+        scripts = scripts.union(album.get_scripts())
+        try:
+            page_detail = StaticPage.objects.get(name=gallery_name)
+        except ObjectDoesNotExist:
+            page_detail = None
+        else:
+            if not page_detail.is_published:
+                page_detail = None
+        if page_detail:
+            page_articles = page_detail.articles.order_by('pagelink__position')
+            if page_articles:
+                article_list = list()
+                for article in page_articles:
+                    styles = styles.union(article.get_styles())
+                    scripts = scripts.union(article.get_scripts())
+                    pictures = article.pictures.order_by('picturelink__position').select_related('deploy_template')
+                    if pictures:
+                        picture_list = list()
+                        for picture in pictures:
+                            styles = styles.union(picture.get_styles())
+                            scripts = scripts.union(picture.get_scripts())
+                            picture_list.append(picture.get_render())
+                    else:
+                        picture_list = None
+                    tpl = Template(article.content)
+                    ctx = Context({'pictures' : picture_list})
+                    article_body = tpl.render(ctx)
+                    article_list.append({
+                        'title' : article.title,
+                        'body' : article_body,
+                        'teaser' : article.teaser_on_page,
+                        'get_absolute_url' : article.get_absolute_url(),
+                        'date_created' : article.date_created,
+                        'date_modified' : article.date_modified,
+                    })
+            else:
+                article_list = None
+        else:
+            article_list = None
+        faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
+        return render(request, self.template, {
+            'page_detail' : page_detail,
+            'articles' : article_list,
+            'styles' : styles,
+            'scripts' : scripts,
+            'album' : album,
             'faq_list' : faq_list,
         })
 
