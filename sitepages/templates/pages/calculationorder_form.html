@@ -128,14 +128,15 @@
         </div>
     </fieldset>
     <fieldset>
-        <legend><span class="fieldset-position-legend">4</span>Дополнительная информация</legend>
-        <div class="form-field">
+        <legend><span class="fieldset-position-legend">4</span>Дополнительные материалы</legend>
+        <div class="form-field label-above">
+            <label>Приложите файлы с данными об объекте:</label>
             {{ upload_form.management_form }}
             {% for form in upload_form %}
                 <div class="inline-form {{ upload_form.prefix }}">
                     {{ form.id }}
                     {% if form.afile.errors %}<div class="landed">{{ form.afile.errors }}</div>{% endif %}
-                    {{ form.afile }}<a href="#" class="clear-field" data-field-id="{{ form.afile.id_for_label }}">{#<i class="fa fa-cross"></i>#}</a>
+                    {{ form.afile }}<a href="#" class="clear-field" data-field-id="{{ form.afile.id_for_label }}">Выпилить нахуй</a>
                 </div>
             {% endfor %}
         </div>
