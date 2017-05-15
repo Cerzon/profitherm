@@ -14,8 +14,16 @@
     float: left;
 }
 
+.dit-float-left .dit-figure {
+    margin-left: 0;
+}
+
 .dit-float-right {
     float: right;
+}
+
+.dit-float-right .dit-figure {
+    margin-right: 0;
 }
 
 .dit-centered {
