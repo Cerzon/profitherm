@@ -246,7 +246,8 @@ span.fieldset-position-legend {
 .clear-field {
     background-image: url("/static/img/ov_close.png");
     background-repeat: no-repeat;
-    background-position: left bottom;
+    background-position: left center;
+    background-size: 12px 12px;
 }
 
 .wide-field {
@@ -672,9 +673,8 @@ main .portfolio-container {
 }
 
 .clear-field {
-    margin-left: 0.2em;
-    height: 21px;
-    padding-left: 24px;
+    margin-left: 0.5em;
+    padding-left: 15px;
 }
 
 .wide-field input, .wide-field textarea {
@@ -972,6 +972,10 @@ span.fieldset-position-legend {
     font-weight: bold;
 }
 
+.clear-field {
+    font-size: 0.8em;
+}
+
 .button {
     text-transform: uppercase;
 }
@@ -1038,6 +1042,10 @@ table.data-table td.section-header {
 
 .fa-instagram:before {
     content: "\f16d";
+}
+
+.fa-cross:before {
+    content: "\f00d";
 }
 
 @media only screen and (max-width: 1260px) {
