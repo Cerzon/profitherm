@@ -25,7 +25,7 @@ class InfoPage(View):
         scripts = set()
         # собираем контент
         # получить список всех статей на странице
-        page_articles = static_page.articles.order_by('pagelink__position')
+        page_articles = static_page.articles.filter(is_published=True).order_by('pagelink__position')
         article_list = list()
         if page_articles:
             # цикл перебора статей страницы
@@ -91,7 +91,7 @@ class CalculationOrderAddView(CreateView):
             if not page_detail.is_published:
                 page_detail = None
         if page_detail:
-            page_articles = page_detail.articles.order_by('pagelink__position')
+            page_articles = page_detail.articles.filter(is_published=True).order_by('pagelink__position')
             if page_articles:
                 article_list = list()
                 styles = set()
@@ -211,7 +211,7 @@ class ArticleListView(View):
             if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
-        articles = Article.objects.filter(teaser_on_page=True)
+        articles = Article.objects.filter(teaser_on_page=True).exclude(is_published=False)
         article_list = list()
         if articles:
             for article in articles:
@@ -284,7 +284,7 @@ class FeedbackAddView(CreateView):
             if not page_detail.is_published:
                 page_detail = None
         if page_detail:
-            page_articles = page_detail.articles.order_by('pagelink__position')
+            page_articles = page_detail.articles.filter(is_published=True).order_by('pagelink__position')
             if page_articles:
                 article_list = list()
                 styles = set()
@@ -374,9 +374,11 @@ class FeedbackSendView(View):
             page_name = reverse_lazy('feedback_success').split('/')[-2]
             try:
                 page_detail = StaticPage.objects.get(name=page_name)
-                if not page_detail.is_published: page_detail = None
             except ObjectDoesNotExist:
                 page_detail = None
+            else:
+                if not page_detail.is_published:
+                    page_detail = None
             faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
             return render(request, self.template, {
                 'page_detail' : page_detail,
@@ -393,17 +395,54 @@ class FrequentlyAskedQuestionListView(View):
         page_name = reverse_lazy('faq_list').split('/')[-2]
         try:
             page_detail = StaticPage.objects.get(name=page_name)
-            if not page_detail.is_published: page_detail = None
         except ObjectDoesNotExist:
             page_detail = None
-        if page_detail:
-            page_articles = page_detail.articles.order_by('pagelink__position')
         else:
-            page_articles = None
+            if not page_detail.is_published:
+                page_detail = None
+        if page_detail:
+            page_articles = page_detail.articles.filter(is_published=True).order_by('pagelink__position')
+            if page_articles:
+                article_list = list()
+                styles = set()
+                scripts = set()
+                for article in page_articles:
+                    styles = styles.union(article.get_styles())
+                    scripts = scripts.union(article.get_scripts())
+                    pictures = article.pictures.order_by('picturelink__position').select_related('deploy_template')
+                    if pictures:
+                        picture_list = list()
+                        for picture in pictures:
+                            styles = styles.union(picture.get_styles())
+                            scripts = scripts.union(picture.get_scripts())
+                            picture_list.append(picture.get_render())
+                    else:
+                        picture_list = None
+                    tpl = Template(article.content)
+                    ctx = Context({'pictures' : picture_list})
+                    article_body = tpl.render(ctx)
+                    article_list.append({
+                        'title' : article.title,
+                        'body' : article_body,
+                        'teaser' : article.teaser_on_page,
+                        'get_absolute_url' : article.get_absolute_url(),
+                        'date_created' : article.date_created,
+                        'date_modified' : article.date_modified,
+                    })
+            else:
+                article_list = None
+                styles = None
+                scripts = None
+        else:
+            article_list = None
+            styles = None
+            scripts = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='')
         return render(request, self.template, {
             'page_detail' : page_detail,
-            'page_articles' : page_articles,
+            'styles' : styles,
+            'scripts' : scripts,
+            'articles' : article_list,
             'faq_list' : faq_list,
         })
 
@@ -427,7 +466,7 @@ class FrequentlyAskedQuestionAddView(CreateView):
             if not page_detail.is_published:
                 page_detail = None
         if page_detail:
-            page_articles = page_detail.articles.order_by('pagelink__position')
+            page_articles = page_detail.articles.filter(is_published=True).order_by('pagelink__position')
             if page_articles:
                 article_list = list()
                 styles = set()
@@ -579,7 +618,7 @@ class PortfolioListView(View):
             if not page_detail.is_published:
                 page_detail = None
         if page_detail:
-            page_articles = page_detail.articles.order_by('pagelink__position')
+            page_articles = page_detail.articles.filter(is_published=True).order_by('pagelink__position')
             if page_articles:
                 article_list = list()
                 styles = set()
@@ -646,7 +685,7 @@ class PortfolioDetailView(View):
             if not page_detail.is_published:
                 page_detail = None
         if page_detail:
-            page_articles = page_detail.articles.order_by('pagelink__position')
+            page_articles = page_detail.articles.filter(is_published=True).order_by('pagelink__position')
             if page_articles:
                 article_list = list()
                 for article in page_articles:
