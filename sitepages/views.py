@@ -51,6 +51,8 @@ class InfoPage(View):
                 ctx = Context({'pictures' : picture_list})
                 article_body = tpl.render(ctx)
                 article_list.append({
+                    'id' : article.id,
+                    'slug' : article.name,
                     'title' : article.title,
                     'body' : article_body,
                     'teaser' : article.teaser_on_page,
@@ -112,6 +114,8 @@ class CalculationOrderAddView(CreateView):
                     ctx = Context({'pictures' : picture_list})
                     article_body = tpl.render(ctx)
                     article_list.append({
+                        'id' : article.id,
+                        'slug' : article.name,
                         'title' : article.title,
                         'body' : article_body,
                         'teaser' : article.teaser_on_page,
@@ -219,6 +223,8 @@ class ArticleListView(View):
                 ctx = Context({})
                 article_body = tpl.render(ctx)
                 article_list.append({
+                    'id' : article.id,
+                    'slug' : article.name,
                     'title' : article.title,
                     'body' : article_body,
                     'teaser' : article.teaser_on_page,
@@ -305,6 +311,8 @@ class FeedbackAddView(CreateView):
                     ctx = Context({'pictures' : picture_list})
                     article_body = tpl.render(ctx)
                     article_list.append({
+                        'id' : article.id,
+                        'slug' : article.name,
                         'title' : article.title,
                         'body' : article_body,
                         'teaser' : article.teaser_on_page,
@@ -422,6 +430,8 @@ class FrequentlyAskedQuestionListView(View):
                     ctx = Context({'pictures' : picture_list})
                     article_body = tpl.render(ctx)
                     article_list.append({
+                        'id' : article.id,
+                        'slug' : article.name,
                         'title' : article.title,
                         'body' : article_body,
                         'teaser' : article.teaser_on_page,
@@ -487,6 +497,8 @@ class FrequentlyAskedQuestionAddView(CreateView):
                     ctx = Context({'pictures' : picture_list})
                     article_body = tpl.render(ctx)
                     article_list.append({
+                        'id' : article.id,
+                        'slug' : article.name,
                         'title' : article.title,
                         'body' : article_body,
                         'teaser' : article.teaser_on_page,
@@ -639,6 +651,8 @@ class PortfolioListView(View):
                     ctx = Context({'pictures' : picture_list})
                     article_body = tpl.render(ctx)
                     article_list.append({
+                        'id' : article.id,
+                        'slug' : article.name,
                         'title' : article.title,
                         'body' : article_body,
                         'teaser' : article.teaser_on_page,
@@ -704,6 +718,8 @@ class PortfolioDetailView(View):
                     ctx = Context({'pictures' : picture_list})
                     article_body = tpl.render(ctx)
                     article_list.append({
+                        'id' : article.id,
+                        'slug' : article.name,
                         'title' : article.title,
                         'body' : article_body,
                         'teaser' : article.teaser_on_page,

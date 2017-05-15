@@ -22,7 +22,7 @@
 
 {% block maincontent %}
 {% for article in articles %}
-    <article>
+    <article id="{{ article.id }}-{{ article.slug }}" >
         <header class="article">
             <h1>{{ article.title }}</h1>
         </header>

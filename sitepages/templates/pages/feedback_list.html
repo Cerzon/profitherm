@@ -4,7 +4,7 @@
     {% for feedback in feedback_list %}
         <article{% if feedback.content|length > 700 %} class="scroll"{% endif %}>
             <header class="article">
-                <h2>{{ feedback.title|default:'Отзыв' }}</h2>
+                <h1>{{ feedback.title|default:'Отзыв' }}</h1>
             </header>
             {% autoescape off %}
             {% if feedback.content|length > 700 %}
