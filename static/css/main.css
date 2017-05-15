@@ -243,6 +243,12 @@ span.fieldset-position-legend {
     color: #DD0000;
 }
 
+.clear-field {
+    background-image: url("/static/img/ov_close.png");
+    background-repeat: no-repeat;
+    background-position: left bottom;
+}
+
 .wide-field {
     background-color: rgba(0,0,0,0.1);
 }
@@ -661,8 +667,14 @@ main .portfolio-container {
     margin: 0.8em 0;
 }
 
-.form-field.multi-column {
-    align-items: flex-end;
+.inline-form {
+    margin: 0.3em 0;
+}
+
+.clear-field {
+    margin-left: 0.2em;
+    height: 21px;
+    padding-left: 24px;
 }
 
 .wide-field input, .wide-field textarea {
