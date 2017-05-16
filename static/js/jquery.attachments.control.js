@@ -3,7 +3,8 @@ $(document).ready(function(){
     var $form_ready = true;
     var $forms_showed = 1;
     $('.inline-form').each(function(){
-        $att_forms.push($(this).hide());
+        $att_forms.push($(this));
+        $(this).hide();
     });
     $att_forms.pop().show();
     $('.clear-field').on('click', function(e){
@@ -14,7 +15,8 @@ $(document).ready(function(){
         $($fieldId + '-filename').remove();
         $(this).hide();
         if ($form_ready && $forms_showed > 1) {
-            $att_forms.push($(this).closest('.inline-form').hide());
+            $att_forms.push($(this).closest('.inline-form'));
+            $(this).closest('.inline-form').hide();
             $forms_showed -= 1;
             if (!Modernizr.flexbox) tuneHeight();
         }
