@@ -157,7 +157,7 @@ class ImageGallery(models.Model):
     tn_width = models.PositiveSmallIntegerField(default=200, blank=True, verbose_name='Ширина превью')
     tn_height = models.PositiveSmallIntegerField(default=100, blank=True, verbose_name='Высота превью')
     tn_method = models.CharField(max_length=5, choices=THUMBNAIL_METHOD_CHOICES, default='sz2fl', verbose_name='Метод создания превью')
-    th_bgfill = models.CharField(max_length=16, blank=True, verbose_name='Заполняющий фон', help_text='Заполняющий фон для режима "уместить полностью", пустое значение - не заполнять (габариты картинки могут быть меньше заказного размера), self - в качестве фона используется размытая версия самой картинки, цвет в формате #RRGGBB или html-название - ровный цветовой фон')
+    tn_bgfill = models.CharField(max_length=16, blank=True, verbose_name='Заполняющий фон', help_text='Заполняющий фон для режима "уместить полностью", пустое значение - не заполнять (габариты картинки могут быть меньше заказного размера), self - в качестве фона используется размытая версия самой картинки, цвет в формате #RRGGBB или html-название - ровный цветовой фон')
     styles = models.TextField(blank=True, help_text='Можно указать несколько файлов стилей. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
     scripts = models.TextField(blank=True, help_text='Можно указать несколько файлов скриптов. Каждое имя файла должно быть на отдельной строке и при необходимости включать в себя путь к файлу.')
     deploy_template = models.ForeignKey(DeployTemplate, on_delete=models.SET_NULL, null=True, verbose_name='Шаблон отображения')
