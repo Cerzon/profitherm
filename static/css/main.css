@@ -524,6 +524,17 @@ nav#secondmenu {
     margin-bottom: 35px;
 }
 
+#attachment-fields {
+    position: relative;
+    padding: 27px 0;
+}
+
+#attachment-fields input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 footer#page-footer {
     height: 250px;
     position: relative;
@@ -676,6 +687,7 @@ main .portfolio-container {
 .clear-field {
     margin-left: 0.5em;
     padding-left: 15px;
+    display: none;
 }
 
 .wide-field input, .wide-field textarea {

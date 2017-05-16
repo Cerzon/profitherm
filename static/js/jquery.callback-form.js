@@ -10,7 +10,7 @@ $(document).ready(function() {
         });
     });
     $('#ptcb-close').on('click', function(){
-        $('#ptcb-content').children().remove();
+        $('#ptcb-content').empty();
         $('#ptcb-overlay, #ptcb-window, #ptcb-content, #ptcb-loader, #ptcb-close').hide();
     });
 });

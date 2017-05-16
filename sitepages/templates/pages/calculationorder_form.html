@@ -13,6 +13,7 @@
 {% for script in scripts %}
 <script type="text/javascript" src="{% static script %}"></script>
 {% endfor %}
+<script type="text/javascript" src="{% static 'js/jquery.attachments.control.js' %}"></script>
 {% endblock scripts %}
 
 {% block maincontent %}
@@ -129,15 +130,15 @@
     </fieldset>
     <fieldset>
         <legend><span class="fieldset-position-legend">4</span>Дополнительные материалы</legend>
-        <div class="form-field label-above">
-            <label>Файлы с данными об объекте:</label>
+        <div class="form-field label-above" id="attachment-fields">
+            <label>Загруженные файлы:</label>
             {{ upload_form.management_form }}
-            {% for form in upload_form %}
-                <div class="inline-form {{ upload_form.prefix }}">
-                    {{ form.id }}
-                    {% if form.afile.errors %}<div class="landed">{{ form.afile.errors }}</div>{% endif %}
-                    {{ form.afile }}<a href="#" class="clear-field" data-field-id="{{ form.afile.id_for_label }}">Выпилить нахуй</a>
-                </div>
+            {% for inline_form in upload_form %}
+            <div class="inline-form {{ upload_form.prefix }}">
+                {{ inline_form.id }}
+                {% if inline_form.afile.errors %}<div class="landed">{{ inline_form.afile.errors }}</div>{% endif %}
+                {{ inline_form.afile }}<a href="#" class="clear-field" data-field-id="#{{ inline_form.afile.id_for_label }}">Выпилить нахуй</a>
+            </div>
             {% endfor %}
         </div>
         {% if form.additional_info.errors %}<div class="landed">{{ form.additional_info.errors }}</div>{% endif %}
