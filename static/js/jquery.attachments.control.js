@@ -16,9 +16,14 @@ $(document).ready(function(){
         if ($form_ready && $forms_showed > 1) {
             $att_forms.push($(this).closest('.inline-form').hide());
             $forms_showed -= 1;
+            if (!Modernizr.flexbox) tuneHeight();
         }
         else {
             $form_ready = true;
+        }
+        if (!Modernizr.flexbox) {
+            $($fieldId).wrap('<form></form>').closest('form').get(0).reset();
+            $($fieldId).unwrap();
         }
     });
     $('.inline-form').children('input[type="file"]').on('change', function(){
@@ -28,6 +33,7 @@ $(document).ready(function(){
         if ($att_forms.length) {
             $att_forms.pop().show();
             $forms_showed += 1;
+            if (!Modernizr.flexbox) tuneHeight();
         }
         if (!$att_forms.length) $form_ready = false;
     });

@@ -6,8 +6,12 @@ $(document).ready(function(){
 });
 
 function tuneHeight() {
+    $('#leftsidebar').innerHeight('auto');
+    $('#rightsidebar').innerHeight('auto');
+    $('main').innerHeight('auto');
     var $maxheight = $('#rightsidebar').innerHeight();
     var $nextone = $('main').innerHeight();
+    console.log('right ear = ' + $maxheight + '; main = ' + $nextone);
     if ($nextone > $maxheight) {
         $maxheight = $nextone;
     }
