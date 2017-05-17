@@ -127,8 +127,8 @@ class CalculationOrder(models.Model):
 def upload_folder(instance, filename):
     if instance.calculation_order:
         folder = 'calc_order/{}'.format(instance.calculation_order.pk)
-    elif instance.frequentlyaskedquestion:
-        folder = 'faq/{}'.format(instance.frequentlyaskedquestion.pk)
+    elif instance.question:
+        folder = 'faq/{}'.format(instance.question.pk)
     else:
         folder = 'dummy'
     return 'uploads/{0}/{1}'.format(folder, filename)
@@ -137,10 +137,10 @@ def upload_folder(instance, filename):
 class Attachment(models.Model):
     afile = models.FileField(upload_to=upload_folder, verbose_name='Дополнительные материалы')
     calculation_order = models.ForeignKey(CalculationOrder, on_delete=models.CASCADE, null=True, related_name='attachments')
-    frequentlyaskedquestion = models.ForeignKey(FrequentlyAskedQuestion, on_delete=models.CASCADE, null=True, related_name='attachments')
+    question = models.ForeignKey(FrequentlyAskedQuestion, on_delete=models.CASCADE, null=True, related_name='attachments')
 
     class Meta():
-        ordering = ['calculation_order', 'frequentlyaskedquestion']
+        ordering = ['calculation_order', 'question']
         verbose_name = 'приложенный файл'
         verbose_name_plural = 'приложенные файлы'
 
@@ -151,15 +151,15 @@ class Attachment(models.Model):
         attachment_owner = 'Бесхозный'
         if self.calculation_order:
             attachment_owner = 'К заказу #{0} от {1}'.format(self.calculation_order.pk, self.calculation_order.date_created.strftime('%d %b %Y'))
-        elif self.frequentlyaskedquestion:
-            attachment_owner = 'К вопросу #{0} от {1}'.format(self.frequentlyaskedquestion.pk, self.frequentlyaskedquestion.date_created.strftime('%d %b %Y'))
+        elif self.question:
+            attachment_owner = 'К вопросу #{0} от {1}'.format(self.question.pk, self.question.date_created.strftime('%d %b %Y'))
         return '{0} / Файл {1}'.format(attachment_owner, self.filename())
 
 
 class ProfImage(models.Model):
     name = models.SlugField()
     file_name = models.ImageField(upload_to='images/')
-    description = models.CharField(max_length=200, blank=True)
+    #description = models.CharField(max_length=200, blank=True)
 
     class Meta():
         ordering = ['name']
