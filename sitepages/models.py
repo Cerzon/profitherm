@@ -45,6 +45,28 @@ class Feedback(models.Model):
         return '{1} от {0}'.format(self.user_name or 'Аноним', self.date_created.strftime('%d %b %Y'))
 
 
+class FrequentlyAskedQuestion(models.Model):
+    is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
+    date_created = models.DateTimeField(auto_now_add=True)
+    question_text = models.TextField(verbose_name='Развёрнутый вопрос')
+    question_point = models.CharField(max_length=160, blank=True, verbose_name='Смысл вопроса (он же заголовок)')
+    user_name = models.CharField(max_length=80, blank=True, verbose_name='Имя вопрошающего')
+    user_email = models.EmailField(blank=True, verbose_name='Email вопрошающего')
+    answer_email = models.BooleanField(default=False, verbose_name='Прислать ответ на email')
+    answer_text = models.TextField(blank=True, verbose_name='Текст ответа')
+
+    class Meta():
+        ordering = ('-date_created',)
+        verbose_name = 'ЧАВО'
+        verbose_name_plural = 'ЧАВО'
+
+    def __str__(self):
+        return 'Вопрос от {0} / {1}'.format(self.date_created.strftime('%d %b %Y'), self.question_text[:40])
+
+    def get_absolute_url(self):
+        return '{0}#faq-{1}'.format(reverse('faq_list'), self.id)
+
+
 class CalculationOrder(models.Model):
     OBJECT_TYPE_CHOICES = (
         ('ctge', 'Загородный дом'),
@@ -102,24 +124,36 @@ class CalculationOrder(models.Model):
         return services_list
 
 
-def order_folder(instance, filename):
-    return 'uploads/calc_order/{0}/{1}'.format(instance.calculation_order.pk, filename)
+def upload_folder(instance, filename):
+    if instance.calculation_order:
+        folder = 'calc_order/{}'.format(instance.calculation_order.pk)
+    elif instance.question:
+        folder = 'faq/{}'.format(instance.question.pk)
+    else:
+        folder = 'dummy'
+    return 'uploads/{0}/{1}'.format(folder, filename)
 
 
 class Attachment(models.Model):
-    afile = models.FileField(upload_to=order_folder, verbose_name='Дополнительные материалы')
-    calculation_order = models.ForeignKey(CalculationOrder, on_delete=models.CASCADE, related_name='attachments')
+    afile = models.FileField(upload_to=upload_folder, verbose_name='Дополнительные материалы')
+    calculation_order = models.ForeignKey(CalculationOrder, on_delete=models.CASCADE, null=True, related_name='attachments')
+    question = models.ForeignKey(FrequentlyAskedQuestion, on_delete=models.CASCADE, null=True, related_name='attachments')
 
     class Meta():
-        ordering = ['calculation_order']
-        verbose_name = 'приложение к заказу'
-        verbose_name_plural = 'приложения к заказам'
+        ordering = ['calculation_order', 'question']
+        verbose_name = 'приложенный файл'
+        verbose_name_plural = 'приложенные файлы'
 
     def filename(self):
         return os.path.basename(self.afile.name)
 
     def __str__(self):
-        return 'К заказу #{0} от {1} / Файл {2}'.format(self.calculation_order.pk, self.calculation_order.date_created.strftime('%d %b %Y'), self.filename())
+        attachment_owner = 'Бесхозный'
+        if self.calculation_order:
+            attachment_owner = 'К заказу #{0} от {1}'.format(self.calculation_order.pk, self.calculation_order.date_created.strftime('%d %b %Y'))
+        elif self.question:
+            attachment_owner = 'К вопросу #{0} от {1}'.format(self.question.pk, self.question.date_created.strftime('%d %b %Y'))
+        return '{0} / Файл {1}'.format(attachment_owner, self.filename())
 
 
 class ProfImage(models.Model):
@@ -317,25 +351,3 @@ class PageArticle(models.Model):
 
     def __str__(self):
         return '{0} / {1} / {2}'.format(self.static_page.name, self.position, self.article.name)
-
-
-class FrequentlyAskedQuestion(models.Model):
-    is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
-    date_created = models.DateTimeField(auto_now_add=True)
-    question_text = models.TextField(verbose_name='Развёрнутый вопрос')
-    question_point = models.CharField(max_length=160, blank=True, verbose_name='Смысл вопроса (он же заголовок)')
-    user_name = models.CharField(max_length=80, blank=True, verbose_name='Имя вопрошающего')
-    user_email = models.EmailField(blank=True, verbose_name='Email вопрошающего')
-    answer_email = models.BooleanField(default=False, verbose_name='Прислать ответ на email')
-    answer_text = models.TextField(blank=True, verbose_name='Текст ответа')
-
-    class Meta():
-        ordering = ('-date_created',)
-        verbose_name = 'ЧАВО'
-        verbose_name_plural = 'ЧАВО'
-
-    def __str__(self):
-        return 'Вопрос от {0} / {1}'.format(self.date_created.strftime('%d %b %Y'), self.question_text[:40])
-
-    def get_absolute_url(self):
-        return '{0}#faq-{1}'.format(reverse('faq_list'), self.id)

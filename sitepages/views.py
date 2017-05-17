@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from django.views.generic.edit import CreateView, FormView
 from django.core.mail import send_mail, mail_admins, mail_managers
 from .models import Article, ArticlePicture, ProfImage, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
-from .forms import CalculationOrderForm, FeedbackForm, FileUploadFormSet, FrequentlyAskedQuestionForm, CallbackForm
+from .forms import CalculationOrderForm, FeedbackForm, FrequentlyAskedQuestionForm, CallbackForm, CalcOrderFileUploadFormSet, QuestionFileUploadFormSet
 
 # Create your views here.
 
@@ -83,7 +83,7 @@ class CalculationOrderAddView(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        upload_form = FileUploadFormSet()
+        upload_form = CalcOrderFileUploadFormSet()
         page_name = reverse_lazy('calculation_order_add').split('/')[-2]
         try:
             page_detail = StaticPage.objects.get(name=page_name)
@@ -147,8 +147,8 @@ class CalculationOrderAddView(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        upload_form = FileUploadFormSet(self.request.POST, self.request.FILES)
-        if (form.is_valid() and upload_form.is_valid()):
+        upload_form = CalcOrderFileUploadFormSet(self.request.POST, self.request.FILES)
+        if form.is_valid() and upload_form.is_valid():
             return self.form_valid(form, upload_form)
         else:
             return self.form_invalid(form, upload_form)
@@ -167,7 +167,8 @@ class CalculationOrderAddView(CreateView):
         except ObjectDoesNotExist:
             page_detail = None
         else:
-            if not page_detail.is_published: page_detail = None
+            if not page_detail.is_published:
+                page_detail = None
         faq_list = FrequentlyAskedQuestion.objects.filter(is_published=True).exclude(answer_text='').order_by('?')[:3]
         return self.render_to_response(self.get_context_data(
                 page_detail=page_detail,
@@ -353,7 +354,7 @@ class FeedbackAddView(CreateView):
         self.request.session['feedback_success'] = self.object.pk
         return HttpResponseRedirect(self.get_success_url())
 
-    def form_invalid(self, form, upload_form):
+    def form_invalid(self, form):
         page_name = reverse_lazy('feedback_add').split('/')[-2]
         try:
             page_detail = StaticPage.objects.get(name=page_name)
@@ -467,6 +468,7 @@ class FrequentlyAskedQuestionAddView(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+        upload_form = QuestionFileUploadFormSet()
         page_name = reverse_lazy('faq_add').split('/')[-2]
         try:
             page_detail = StaticPage.objects.get(name=page_name)
@@ -520,6 +522,7 @@ class FrequentlyAskedQuestionAddView(CreateView):
                 styles=styles,
                 scripts=scripts,
                 form=form,
+                upload_form=upload_form,
             )
         )
 
@@ -527,13 +530,16 @@ class FrequentlyAskedQuestionAddView(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        if form.is_valid():
-            return self.form_valid(form)
+        upload_form = QuestionFileUploadFormSet(self.request.POST, self.request.FILES)
+        if form.is_valid() and upload_form.is_valid():
+            return self.form_valid(form, upload_form)
         else:
-            return self.form_invalid(form)
+            return self.form_invalid(form, upload_form)
 
-    def form_valid(self, form):
+    def form_valid(self, form, upload_form):
         self.object = form.save()
+        upload_form.instance = self.object
+        upload_form.save()
         self.request.session['faq_success'] = self.object.pk
         return HttpResponseRedirect(self.get_success_url())
 
@@ -544,10 +550,12 @@ class FrequentlyAskedQuestionAddView(CreateView):
         except ObjectDoesNotExist:
             page_detail = None
         else:
-            if not page_detail.is_published: page_detail = None
+            if not page_detail.is_published:
+                page_detail = None
         return self.render_to_response(self.get_context_data(
                 page_detail=page_detail,
                 form=form,
+                upload_form=upload_form,
             )
         )
 

@@ -13,6 +13,7 @@
 {% for script in scripts %}
 <script type="text/javascript" src="{% static script %}"></script>
 {% endfor %}
+<script type="text/javascript" src="{% static 'js/jquery.attachments.control.js' %}"></script>
 {% endblock scripts %}
 
 {% block maincontent %}
@@ -29,7 +30,7 @@
     {% endif %}
 </article>
 {% endfor %}
-<form action="" method="POST">
+<form enctype="multipart/form-data" action="" method="POST">
     {% csrf_token %}
     {{ form.non_field_errors }}
     {% if form.user_name.errors %}<div class="landed">{{ form.user_name.errors }}</div>{% endif %}
@@ -51,6 +52,17 @@
     <div class="form-field label-above dotted-bottom">
         <label for="{{ form.question_text.id_for_label }}" class="required-field">Ваш вопрос:</label>
         <div class="wide-field{% if form.user_email.errors %} error-field{% endif %}">{{ form.question_text }}</div>
+    </div>
+    <div class="form-field label-above" id="attachment-fields">
+        <label>Загруженные файлы:</label>
+        {{ upload_form.management_form }}
+        {% for inline_form in upload_form %}
+        <div class="inline-form {{ upload_form.prefix }}">
+            {{ inline_form.id }}
+            {% if inline_form.afile.errors %}<div class="landed">{{ inline_form.afile.errors }}</div>{% endif %}
+            {{ inline_form.afile }}<a href="#" class="clear-field" data-field-id="#{{ inline_form.afile.id_for_label }}">Удалить</a>
+        </div>
+        {% endfor %}
     </div>
     <div class="form-field align-center"><input type="submit" value="Отправить" class="button main-submit" /></div>
 </form>

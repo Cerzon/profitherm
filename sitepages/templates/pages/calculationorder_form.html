@@ -137,7 +137,7 @@
             <div class="inline-form {{ upload_form.prefix }}">
                 {{ inline_form.id }}
                 {% if inline_form.afile.errors %}<div class="landed">{{ inline_form.afile.errors }}</div>{% endif %}
-                {{ inline_form.afile }}<a href="#" class="clear-field" data-field-id="#{{ inline_form.afile.id_for_label }}">Выпилить нахуй</a>
+                {{ inline_form.afile }}<a href="#" class="clear-field" data-field-id="#{{ inline_form.afile.id_for_label }}">Удалить</a>
             </div>
             {% endfor %}
         </div>
