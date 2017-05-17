@@ -159,7 +159,7 @@ class Attachment(models.Model):
 class ProfImage(models.Model):
     name = models.SlugField()
     file_name = models.ImageField(upload_to='images/')
-    #description = models.CharField(max_length=200, blank=True)
+    description = models.CharField(max_length=200, blank=True)
 
     class Meta():
         ordering = ['name']
