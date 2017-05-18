@@ -566,7 +566,7 @@ class FrequentlyAskedQuestionSendView(View):
 
     def get(self, request):
         if request.session.get('faq_success', False):
-            question = FrequentlyAskedQuestion.objects.get(pk=request.session['faq_success'])
+            question = FrequentlyAskedQuestion.objects.select_related().get(pk=request.session['faq_success'])
             del request.session['faq_success']
             mail_subj = 'Задан новый вопрос'
             mail_msg = render_to_string(self.mail_template, {'question' : question})

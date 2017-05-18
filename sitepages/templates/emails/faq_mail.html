@@ -1,2 +1,10 @@
-<p>{% if question.user_name %}{{ question.user_name }}{% else %}Аноним{% endif %} вопрошает:</p>
+<p>{{ question.user_name|default:'Аноним' }} вопрошает:</p>
 <p>{{ question.question_text }}</p>
+{% if question.attachments.all %}
+<p>А ещё этот долбаёб прикрепил файлы:</p>
+<ul>
+{% for attachment in question.attachments.all %}
+    <li><a href="http://profitherm.ru{{ attachment.afile.url }}">{{ attachment.filename }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
