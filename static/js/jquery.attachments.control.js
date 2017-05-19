@@ -31,6 +31,7 @@ $(document).ready(function(){
     });
     $('.inline-form').children('input[type="file"]').on('change', function(){
         if (!$fake_change) {
+            $(this).closest('.inline-form').appendTo('#attachment-fields');
             $('<span id="' + this.id + '-filename">' + $(this).val().split(/[\\/]/).pop() + '</span>').insertAfter(this);
             $(this).closest('.inline-form').children('a.clear-field').show();
             $(this).hide();
