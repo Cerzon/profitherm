@@ -3,9 +3,13 @@ from .models import StaticPage, Article, ArticlePicture, ProfImage, ImageGallery
 
 # Register your models here.
 
-admin.site.register(DeployTemplate)
 admin.site.register(ProfImage)
 admin.site.register(Feedback)
+
+
+class DeployTemplateAdmin(admin.ModelAdmin):
+    save_as = True
+admin.site.register(DeployTemplate, DeployTemplateAdmin)
 
 
 class AttachmentInline(admin.StackedInline):
@@ -114,6 +118,7 @@ class FrequentlyAskedQuestionAdmin(admin.ModelAdmin):
             )
         }),
     )
+    list_display = ('__str__', 'is_published',)
 admin.site.register(FrequentlyAskedQuestion, FrequentlyAskedQuestionAdmin)
 
 
@@ -125,6 +130,7 @@ class ImageGalleryAdmin(admin.ModelAdmin):
     inlines = [
         FigureInline,
     ]
+    list_display = ('__str__', 'is_published',)
 admin.site.register(ImageGallery, ImageGalleryAdmin)
 
 
@@ -136,7 +142,7 @@ class ArticleAdmin(admin.ModelAdmin):
     inlines = [
         ArticlePictureInline,
     ]
-    list_display = ('__str__', 'name', 'title', 'teaser_on_page',)
+    list_display = ('__str__', 'is_published', 'name', 'title', 'teaser_on_page',)
     list_display_links = ('__str__',)
     list_editable = ('name', 'title',)
 admin.site.register(Article, ArticleAdmin)
@@ -150,7 +156,7 @@ class StaticPageAdmin(admin.ModelAdmin):
     inlines = [
         PageArticleInline,
     ]
-    list_display = ('__str__', 'position', 'name',)
+    list_display = ('__str__', 'is_published', 'position', 'name',)
     list_display_links = ('__str__',)
     list_editable = ('position', 'name',)
 admin.site.register(StaticPage, StaticPageAdmin)
