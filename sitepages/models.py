@@ -61,7 +61,11 @@ class FrequentlyAskedQuestion(models.Model):
         verbose_name_plural = 'ЧАВО'
 
     def __str__(self):
-        return 'Вопрос от {0} / {1}'.format(self.date_created.strftime('%d %b %Y'), self.question_text[:40])
+        if len(self.question_text) > 40:
+            display_text = self.question_text[:37] + '...'
+        else:
+            display_text = self.question_text
+        return 'Вопрос от {0} / {1}'.format(self.date_created.strftime('%d %b %Y'), display_text)
 
     def get_absolute_url(self):
         return '{0}#faq-{1}'.format(reverse('faq_list'), self.id)
@@ -101,26 +105,38 @@ class CalculationOrder(models.Model):
         return 'Заказ #{0} от {1}'.format(self.pk, self.date_created.strftime('%d %b %Y'))
 
     def get_levels(self):
-        if self.levels_amount == 1: return '1 этаж'
-        if self.levels_amount in (2, 3, 4,): return str(self.levels_amount) + ' этажа'
+        if self.levels_amount == 1:
+            return '1 этаж'
+        if self.levels_amount in (2, 3, 4,):
+            return str(self.levels_amount) + ' этажа'
         return str(self.levels_amount) + ' этажей'
 
     def get_systems(self):
         systems_list = list()
-        if self.radiator_heating: systems_list.append('Радиаторное отопление')
-        if self.floor_heating: systems_list.append('Тёплые полы')
-        if self.water_supply: systems_list.append('Водоснабжение и канализация')
-        if self.water_treatment: systems_list.append('Водоподготовка')
-        if self.boilerplant: systems_list.append('Котельная')
+        if self.radiator_heating:
+            systems_list.append('Радиаторное отопление')
+        if self.floor_heating:
+            systems_list.append('Тёплые полы')
+        if self.water_supply:
+            systems_list.append('Водоснабжение и канализация')
+        if self.water_treatment:
+            systems_list.append('Водоподготовка')
+        if self.boilerplant:
+            systems_list.append('Котельная')
         return systems_list
 
     def get_services(self):
         services_list = list()
-        if self.svc_project: services_list.append('Проектирование')
-        if self.svc_purchase: services_list.append('Комплектация')
-        if self.svc_assembly: services_list.append('Монтаж')
-        if self.svc_reconstruction: services_list.append('Реконструкция')
-        if self.svc_consulting: services_list.append('Консультация')
+        if self.svc_project:
+            services_list.append('Проектирование')
+        if self.svc_purchase:
+            services_list.append('Комплектация')
+        if self.svc_assembly:
+            services_list.append('Монтаж')
+        if self.svc_reconstruction:
+            services_list.append('Реконструкция')
+        if self.svc_consulting:
+            services_list.append('Консультация')
         return services_list
 
 
@@ -267,7 +283,11 @@ class Article(models.Model):
         verbose_name_plural = 'статьи'
 
     def __str__(self):
-        return '{} / {}'.format(self.name, self.title)
+        if len(self.title) > 33:
+            display_text = self.title[:28] + '...'
+        else:
+            display_text = self.title
+        return '{} / {}'.format(self.name, display_text)
 
     def get_absolute_url(self):
         return reverse('article_detail', kwargs={'article_name' : self.name})
