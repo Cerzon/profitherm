@@ -130,7 +130,9 @@ class ImageGalleryAdmin(admin.ModelAdmin):
     inlines = [
         FigureInline,
     ]
-    list_display = ('__str__', 'is_published',)
+    list_display = ('__str__', 'is_published', 'position', 'name',)
+    list_display_links = ('__str__',)
+    list_editable = ('position', 'name',)
 admin.site.register(ImageGallery, ImageGalleryAdmin)
 
 
