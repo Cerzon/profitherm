@@ -5,6 +5,12 @@ $(document).ready(function(){
     }
 });
 
+$(document).load(function(){
+    if (!Modernizr.flexbox) {
+        tuneHeight();
+    }
+});
+
 function tuneHeight() {
     $('#leftsidebar').innerHeight('auto');
     $('#rightsidebar').innerHeight('auto');
