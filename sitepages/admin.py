@@ -118,6 +118,7 @@ class FrequentlyAskedQuestionAdmin(admin.ModelAdmin):
             )
         }),
     )
+    save_on_top = True
     list_display = ('__str__', 'is_published',)
 admin.site.register(FrequentlyAskedQuestion, FrequentlyAskedQuestionAdmin)
 
@@ -130,6 +131,7 @@ class ImageGalleryAdmin(admin.ModelAdmin):
     inlines = [
         FigureInline,
     ]
+    save_on_top = True
     list_display = ('__str__', 'is_published', 'position', 'name',)
     list_display_links = ('__str__',)
     list_editable = ('position', 'name',)
@@ -144,6 +146,7 @@ class ArticleAdmin(admin.ModelAdmin):
     inlines = [
         ArticlePictureInline,
     ]
+    save_on_top = True
     list_display = ('__str__', 'is_published', 'name', 'title', 'teaser_on_page',)
     list_display_links = ('__str__',)
     list_editable = ('name', 'title',)
@@ -158,6 +161,7 @@ class StaticPageAdmin(admin.ModelAdmin):
     inlines = [
         PageArticleInline,
     ]
+    save_on_top = True
     list_display = ('__str__', 'is_published', 'position', 'name',)
     list_display_links = ('__str__',)
     list_editable = ('position', 'name',)
