@@ -5,7 +5,7 @@ $(document).ready(function(){
     }
 });
 
-$(document).load(function(){
+$(window).load(function(){
     if (!Modernizr.flexbox) {
         tuneHeight();
     }
