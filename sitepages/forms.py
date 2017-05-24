@@ -1,4 +1,4 @@
-from django.forms import Form, ModelForm, CharField, TimeField, inlineformset_factory
+from django.forms import Form, ModelForm, CharField, TextInput, inlineformset_factory
 from django.core import validators
 from django.core.mail import send_mail, mail_admins, mail_managers
 from .models import CalculationOrder, Feedback, Attachment, FrequentlyAskedQuestion
@@ -31,12 +31,7 @@ class CallbackForm(Form):
         validators=[
             validators.RegexValidator(
                 regex='^\+?\d?( ?\(? ?|-?)\d{3}( ?\)? ?|\-?)\d{3}( |\-)?\d{2}( |\-)?\d{2}$')])
-    call_time = TimeField()
-
-    def send_email(self):
-        subject = 'Обратный звонок на {}'.format(self.cleaned_data['user_phone'])
-        message = 'Обратный звонок на {}, удобное время {}'.format(self.cleaned_data['user_phone'], self.cleaned_data['call_time'])
-        mail_managers(subject, message)
+    user_name = CharField(required=False, widget=TextInput({'placeholder': 'Как к Вам обращаться'}))
 
 
 CalcOrderFileUploadFormSet = inlineformset_factory(CalculationOrder, Attachment, fields=('afile',), extra=5)

@@ -755,5 +755,7 @@ class CallbackFormView(FormView):
     form_class = CallbackForm
 
     def form_valid(self, form):
-        form.send_email()
+        subject = 'Обратный звонок на {}'.format(form.cleaned_data['user_phone'])
+        message = 'Обратный звонок на {}, товарищ {}'.format(form.cleaned_data['user_phone'], form.cleaned_data['user_name'] or 'не представился')
+        mail_managers(subject, message)
         return HttpResponse('<div class="align-center">Белый конь едет вниз по кочерге, того и гляди упадёт.</div>')

@@ -397,12 +397,11 @@ article ol li {
     display: list-item;
 }
 
-main input[type="text"],
-main input[type="email"],
-main input[type="number"],
+input[type="text"],
+input[type="email"],
+input[type="number"],
 textarea {
-    padding: 2px 6px;
-    box-sizing: border-box;
+    padding: 4px 6px;
 }
 
 textarea {
