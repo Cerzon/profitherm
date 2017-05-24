@@ -1,4 +1,4 @@
-from django.forms import Form, ModelForm, CharField, TextInput, inlineformset_factory
+from django.forms import Form, ModelForm, CharField, inlineformset_factory
 from django.core import validators
 from django.core.mail import send_mail, mail_admins, mail_managers
 from .models import CalculationOrder, Feedback, Attachment, FrequentlyAskedQuestion
