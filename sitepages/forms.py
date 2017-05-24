@@ -31,7 +31,7 @@ class CallbackForm(Form):
         validators=[
             validators.RegexValidator(
                 regex='^\+?\d?( ?\(? ?|-?)\d{3}( ?\)? ?|\-?)\d{3}( |\-)?\d{2}( |\-)?\d{2}$')])
-    user_name = CharField(required=False, widget=TextInput({'placeholder': 'Как к Вам обращаться'}))
+    user_name = CharField(required=False)
 
 
 CalcOrderFileUploadFormSet = inlineformset_factory(CalculationOrder, Attachment, fields=('afile',), extra=5)
