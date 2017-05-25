@@ -371,7 +371,7 @@ main,
 }
 
 main article, main form {
-    margin: 25px 45px;
+    margin: 20px 30px;
     clear: both;
 }
 
@@ -414,7 +414,7 @@ main label {
 
 aside {
     padding-top: 50px;
-    width: 285px;
+    width: 260px;
 }
 
 aside nav {
@@ -520,7 +520,7 @@ nav#topmenu {
 
 nav#secondmenu {
     padding: 0 35px;
-    margin-bottom: 35px;
+    margin-bottom: 25px;
 }
 
 #attachment-fields {
@@ -586,6 +586,11 @@ li.menu-item em {
     padding: 14px 25px;
     white-space: nowrap;
     display: block;
+}
+
+.sidemenu li.menu-item a,
+.sidemenu li.menu-item em {
+    padding: 7px 15px;
 }
 
 li.text-item {
@@ -806,6 +811,7 @@ table.data-table td, table.data-table th {
     }
 
     #leftsidebar ul.sidemenu {
+        padding: 10px 0;
         background-color: rgba(0,0,0,0.27);
     }
 
@@ -823,9 +829,37 @@ table.data-table td, table.data-table th {
     }
 }
 
+@media only screen and (min-width: 1360px) {
+    aside {
+        width: 275px;
+    }
+
+    main article, main form {
+        margin: 20px 35px;
+    }
+    
+    nav#secondmenu {
+        margin-bottom: 30px;
+    }
+
+    .sidemenu li.menu-item a,
+    .sidemenu li.menu-item em {
+        padding: 10px 20px;
+    }
+}
+
+
 @media only screen and (min-width: 1500px) {
     aside {
         width: 340px;
+    }
+
+    main article, main form {
+        margin: 25px 45px;
+    }
+    
+    nav#secondmenu {
+        margin-bottom: 35px;
     }
 
     div#topimage-resize {
@@ -855,7 +889,9 @@ table.data-table td, table.data-table th {
     }
 
     li.menu-item a,
-    li.menu-item em {
+    li.menu-item em,
+    .sidemenu li.menu-item a,
+    .sidemenu li.menu-item em {
         padding: 12px 25px;
     }
 
@@ -864,7 +900,7 @@ table.data-table td, table.data-table th {
     }
 }
 
-@media only screen and (min-width: 1680px) {
+@media only screen and (min-width: 1670px) {
     aside {
         width: 380px;
     }
@@ -875,7 +911,9 @@ table.data-table td, table.data-table th {
     }
 
     li.menu-item a,
-    li.menu-item em {
+    li.menu-item em,
+    .sidemenu li.menu-item a,
+    .sidemenu li.menu-item em {
         padding: 10px 25px;
     }
 }
@@ -1076,6 +1114,16 @@ table.data-table td.section-header {
     }
 }
 
+@media only screen and (min-width: 1360px) {
+    #topcontacts {
+        font-size: 26px;
+    }
+
+    #leftsidebar header {
+        font-size: 20px;
+    }
+}
+
 @media only screen and (min-width: 1500px) {
     #topcontacts {
         font-size: 28px;
@@ -1086,7 +1134,7 @@ table.data-table td.section-header {
     }
 }
 
-@media only screen and (min-width: 1680px) {
+@media only screen and (min-width: 1670px) {
     #topcontacts {
         font-size: 32px;
     }
