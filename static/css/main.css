@@ -851,7 +851,7 @@ table.data-table td, table.data-table th {
 
 @media only screen and (min-width: 1500px) {
     aside {
-        width: 340px;
+        width: 315px;
     }
 
     main article, main form {
@@ -1118,10 +1118,6 @@ table.data-table td.section-header {
     #topcontacts {
         font-size: 26px;
     }
-
-    #leftsidebar header {
-        font-size: 20px;
-    }
 }
 
 @media only screen and (min-width: 1500px) {
@@ -1130,7 +1126,7 @@ table.data-table td.section-header {
     }
 
     nav, #leftsidebar header {
-        font-size: 22px;
+        font-size: 20px;
     }
 }
 
