@@ -422,7 +422,7 @@ aside nav {
 }
 
 aside article {
-    margin: 10px 25px;
+    margin: 10px 15px;
     padding-left: 20px;
 }
 
@@ -775,6 +775,19 @@ table.data-table td, table.data-table th {
         min-width: 1005px;
     }
 
+    aside {
+        width: 275px;
+    }
+
+    aside article {
+        margin: 10px 20px;
+    }
+
+    .sidemenu li.menu-item a,
+    .sidemenu li.menu-item em {
+        padding: 10px 20px;
+    }
+
     #topcontacts {
         margin-top: 7.5%;
     }
@@ -829,6 +842,21 @@ table.data-table td, table.data-table th {
     }
 }
 
+@media only screen and (max-width: 1180px) {
+    aside {
+        width: 260px;
+    }
+
+    aside article {
+        margin: 10px 15px;
+    }
+
+    .sidemenu li.menu-item a,
+    .sidemenu li.menu-item em {
+        padding: 7px 15px;
+    }
+}
+
 @media only screen and (min-width: 1360px) {
     aside {
         width: 275px;
@@ -838,6 +866,10 @@ table.data-table td, table.data-table th {
         margin: 20px 35px;
     }
     
+    aside article {
+        margin: 10px 20px;
+    }
+
     nav#secondmenu {
         margin-bottom: 30px;
     }
@@ -857,7 +889,11 @@ table.data-table td, table.data-table th {
     main article, main form {
         margin: 25px 45px;
     }
-    
+
+    aside article {
+        margin: 10px 25px;
+    }
+
     nav#secondmenu {
         margin-bottom: 35px;
     }
