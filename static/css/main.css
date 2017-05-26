@@ -900,7 +900,20 @@ table.data-table td, table.data-table th {
     }
 }
 
-@media only screen and (min-width: 1670px) {
+@media only screen and (min-width: 1590px) {
+    aside {
+        width: 345px;
+    }
+
+    li.menu-item a,
+    li.menu-item em,
+    .sidemenu li.menu-item a,
+    .sidemenu li.menu-item em {
+        padding: 11px 25px;
+    }
+}
+
+@media only screen and (min-width: 1680px) {
     aside {
         width: 380px;
     }
@@ -1130,7 +1143,17 @@ table.data-table td.section-header {
     }
 }
 
-@media only screen and (min-width: 1670px) {
+@media only screen and (min-width: 1590px) {
+    #topcontacts {
+        font-size: 30px;
+    }
+
+    nav, #leftsidebar header {
+        font-size: 22px;
+    }
+}
+
+@media only screen and (min-width: 1680px) {
     #topcontacts {
         font-size: 32px;
     }
