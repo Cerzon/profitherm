@@ -7,6 +7,7 @@ from django.template import Template, Context
 from django.template.loader import render_to_string
 from django.views.generic.edit import CreateView, FormView
 from django.core.mail import send_mail, mail_admins, mail_managers
+from datetime import datetime
 from .models import Article, ArticlePicture, ProfImage, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
 from .forms import CalculationOrderForm, FeedbackForm, FrequentlyAskedQuestionForm, CallbackForm, CalcOrderFileUploadFormSet, QuestionFileUploadFormSet
 
@@ -578,7 +579,8 @@ class FrequentlyAskedQuestionSendView(View):
             except ObjectDoesNotExist:
                 page_detail = None
             return render(request, self.template, {
-                'page_detail' : page_detail
+                'page_detail' : page_detail,
+                'question' : question,
             })
         else:
             return HttpResponseRedirect('/')
@@ -755,7 +757,19 @@ class CallbackFormView(FormView):
     form_class = CallbackForm
 
     def form_valid(self, form):
+        moment = datetime.now()
+        call_day = 'сегодня'
+        time_range = 'с 9:00 до 18:00'
+        if moment.hour < 9 and moment.weekday() > 4:
+            call_day = 'понедельник'
+        elif moment.hour > 18:
+            if moment.weekday() > 3:
+                call_day = 'понедельник'
+            else:
+                call_day = 'завтра'
+        else:
+            time_range = 'до 18:00'
         subject = 'Обратный звонок на {}'.format(form.cleaned_data['user_phone'])
-        message = 'Обратный звонок на {}, товарищ {}'.format(form.cleaned_data['user_phone'], form.cleaned_data['user_name'] or 'не представился')
+        message = 'Товарищ {1} ждёт звонка на номер {0}'.format(form.cleaned_data['user_phone'], form.cleaned_data['user_name'] or 'не представился, но')
         mail_managers(subject, message)
-        return HttpResponse('<div class="align-center">Белый конь едет вниз по кочерге, того и гляди упадёт.</div>')
+        return HttpResponse('<div class="align-center">Спасибо за обращение. Наш специалист позвонит Вам {0} {1}.</div>'.format(call_day, time_range))

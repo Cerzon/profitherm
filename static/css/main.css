@@ -38,7 +38,7 @@
 
 /*** Normalize ***************************************************************/
 
-body, div, p, ul, ol, dl, figure, img, a img, li, h1, h2, h3, h4, nav, section, article, header, main, aside, footer, form {
+body, div, p, ul, ol, dl, figure, img, a img, li, dt, dd, h1, h2, h3, h4, nav, section, article, header, main, aside, footer, form {
     margin: 0;
     padding: 0;
     background-color: transparent;
@@ -721,6 +721,19 @@ span.fieldset-position-legend {
     margin-left: 20px;
 }
 
+dl.sent-data {
+    margin: 0.5em 0;
+}
+
+.sent-data dt {
+    margin-top: 0.7em;
+    margin-right: 1.5em;
+}
+
+.sent-data dd {
+    margin-left: 1.5em;
+}
+
 .datetime {
     float: left;
 	margin-left: 0.4em;
@@ -1094,6 +1107,10 @@ span.fieldset-position-legend {
 
 main .album-title {
     font-family: 'PT Sans Narrow';
+}
+
+.sent-data dt {
+    font-weight: bold;
 }
 
 .scroll-control {

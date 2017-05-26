@@ -3,7 +3,8 @@
 {% block maincontent %}
 <article>
     <header>
-        <h1 class="align-center">ЗПАЗИББА!</h1>
+        <h1 class="align-center">Ваш вопрос сохранён.</h1>
     </header>
+    <p>Спасибо за Ваш вопрос{% if question.user_name %}, {{ question.user_name }}{% endif %}. Мы сделаем всё, что в наших силах, чтобы в максимально сжатые сроки удовлетворить Ваше любопытство или решить Вашу проблему.{% if question.answer_email %} Ответ будет отправлен на emal {{ question.user_email }}.{% endif %}</p>
 </article>
 {% endblock maincontent %}
