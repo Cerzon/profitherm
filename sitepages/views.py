@@ -762,7 +762,7 @@ class CallbackFormView(FormView):
         time_range = 'с 9:00 до 18:00'
         if moment.hour < 9 and moment.weekday() > 4:
             call_day = 'понедельник'
-        elif moment.hour > 18:
+        elif moment.hour > 17:
             if moment.weekday() > 3:
                 call_day = 'понедельник'
             else:
