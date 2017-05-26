@@ -785,7 +785,7 @@ table.data-table td, table.data-table th {
 
     .sidemenu li.menu-item a,
     .sidemenu li.menu-item em {
-        padding: 10px 20px;
+        padding: 9px 20px;
     }
 
     #topcontacts {
@@ -876,7 +876,7 @@ table.data-table td, table.data-table th {
 
     .sidemenu li.menu-item a,
     .sidemenu li.menu-item em {
-        padding: 10px 20px;
+        padding: 9px 20px;
     }
 }
 
@@ -891,7 +891,7 @@ table.data-table td, table.data-table th {
     }
 
     aside article {
-        margin: 10px 25px;
+        margin: 9px 25px;
     }
 
     nav#secondmenu {
@@ -925,10 +925,13 @@ table.data-table td, table.data-table th {
     }
 
     li.menu-item a,
-    li.menu-item em,
+    li.menu-item em {
+        padding: 12px 25px;
+    }
+
     .sidemenu li.menu-item a,
     .sidemenu li.menu-item em {
-        padding: 12px 25px;
+        padding: 10px 25px;
     }
 
     li.text-item {
