@@ -422,7 +422,7 @@ aside nav {
 }
 
 aside article {
-    margin: 10px 15px;
+    margin: 5px 15px;
     padding-left: 20px;
 }
 
@@ -780,7 +780,7 @@ table.data-table td, table.data-table th {
     }
 
     aside article {
-        margin: 10px 20px;
+        margin: 7px 20px;
     }
 
     .sidemenu li.menu-item a,
@@ -848,7 +848,7 @@ table.data-table td, table.data-table th {
     }
 
     aside article {
-        margin: 10px 15px;
+        margin: 5px 15px;
     }
 
     .sidemenu li.menu-item a,
@@ -867,7 +867,7 @@ table.data-table td, table.data-table th {
     }
     
     aside article {
-        margin: 10px 20px;
+        margin: 7px 20px;
     }
 
     nav#secondmenu {
