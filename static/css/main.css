@@ -418,7 +418,7 @@ aside {
 }
 
 aside nav {
-    margin-top: 1em;
+    margin-top: 6px;
 }
 
 aside article {
@@ -792,6 +792,10 @@ table.data-table td, table.data-table th {
         width: 275px;
     }
 
+    aside nav {
+        margin-top: 8px;
+    }
+
     aside article {
         margin: 7px 20px;
     }
@@ -860,6 +864,10 @@ table.data-table td, table.data-table th {
         width: 260px;
     }
 
+    aside nav {
+        margin-top: 6px;
+    }
+
     aside article {
         margin: 5px 15px;
     }
@@ -877,6 +885,10 @@ table.data-table td, table.data-table th {
 
     main article, main form {
         margin: 20px 35px;
+    }
+    
+    aside nav {
+        margin-top: 8px;
     }
     
     aside article {
@@ -957,6 +969,10 @@ table.data-table td, table.data-table th {
         width: 345px;
     }
 
+    aside nav {
+        margin-top: 1em;
+    }
+    
     li.menu-item a,
     li.menu-item em,
     .sidemenu li.menu-item a,

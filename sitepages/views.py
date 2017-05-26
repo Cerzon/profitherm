@@ -7,11 +7,79 @@ from django.template import Template, Context
 from django.template.loader import render_to_string
 from django.views.generic.edit import CreateView, FormView
 from django.core.mail import send_mail, mail_admins, mail_managers
-from datetime import datetime
+from datetime import datetime, timedelta
 from .models import Article, ArticlePicture, ProfImage, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
 from .forms import CalculationOrderForm, FeedbackForm, FrequentlyAskedQuestionForm, CallbackForm, CalcOrderFileUploadFormSet, QuestionFileUploadFormSet
 
-# Create your views here.
+# список праздничных нерабочих дней
+FUCKING_HOLIDAYS = (
+    # (число, месяц,),
+    # постоянные ежегодные
+    (1, 1,),
+    (2, 1,),
+    (7, 1,),
+    (23, 2,),
+    (8, 3,),
+    (1, 5,),
+    (9, 5,),
+    (12, 6,),
+    (4, 11,),
+    (31, 12,),
+    # перенесённые с выходных дней
+    (3, 1,),
+    (4, 1,),
+    (5, 1,),
+    (6, 1,),
+    (24, 2,),
+    (8, 5,),
+    (6, 11,),
+)
+
+# список дат суббот и воскресений, на которые перенесены рабочие дни
+WORKDAY_WEEKENDS = (
+    # (число, месяц,),
+)
+
+
+def closest_workday(start_delta=timedelta(days=0)):
+    """ Функция возвращает дату ближайшего рабочего дня, начиная с дня
+    спустя количество дней, указанных в аргументе функции, и удобочитаемое
+    обозначение дня: сегодня, завтра, название дня недели. По умолчанию
+    разница дней 0, т.е. проверка начинается с текущего дня """
+    try_day = datetime.today() + start_delta
+    for days_tried in range(1, 365):
+        if (try_day.day, try_day.month,) in WORKDAY_WEEKENDS:
+            break
+        if try_day.weekday() < 5:
+            if not (try_day.day, try_day.month,) in FUCKING_HOLIDAYS:
+                break
+        try_day += timedelta(days=1)
+    else:
+        try_day = datetime.today() + start_delta
+    delta_days = try_day.date() - datetime.today().date()
+    if delta_days.days == 0:
+        day_humanized = 'сегодня'
+    elif delta_days.days == 1:
+        day_humanized = 'завтра'
+    elif delta_days.days > 1:
+        if try_day.weekday() == 0:
+            day_humanized = 'в понедельник'
+        elif try_day.weekday() == 1:
+            day_humanized = 'во вторник'
+        elif try_day.weekday() == 2:
+            day_humanized = 'в среду'
+        elif try_day.weekday() == 3:
+            day_humanized = 'в четверг'
+        elif try_day.weekday() == 4:
+            day_humanized = 'в пятницу'
+        elif try_day.weekday() == 5:
+            day_humanized = 'в субботу'
+        else:
+            day_humanized = 'в воскресенье'
+    else:
+        day_humanized = 'вчера'
+    return (try_day, day_humanized,)
+
 
 class InfoPage(View):
     template = 'pages/infopage.html'
@@ -758,18 +826,14 @@ class CallbackFormView(FormView):
 
     def form_valid(self, form):
         moment = datetime.now()
-        call_day = 'сегодня'
-        time_range = 'с 9:00 до 18:00'
-        if moment.hour < 9 and moment.weekday() > 4:
-            call_day = 'понедельник'
-        elif moment.hour > 17:
-            if moment.weekday() > 3:
-                call_day = 'понедельник'
-            else:
-                call_day = 'завтра'
+        if moment.hour > 17:
+            call_day_date, call_day_humanized = closest_workday(timedelta(days=1))
         else:
+            call_day_date, call_day_humanized = closest_workday()
+        time_range = 'с 9:00 до 18:00'
+        if moment.hour > 9 and moment.date() == call_day_date.date():
             time_range = 'до 18:00'
         subject = 'Обратный звонок на {}'.format(form.cleaned_data['user_phone'])
         message = 'Товарищ {1} ждёт звонка на номер {0}'.format(form.cleaned_data['user_phone'], form.cleaned_data['user_name'] or 'не представился, но')
         mail_managers(subject, message)
-        return HttpResponse('<div class="align-center">Спасибо за обращение. Наш специалист позвонит Вам {0} {1}.</div>'.format(call_day, time_range))
+        return HttpResponse('<div class="align-center">Спасибо за обращение. Наш специалист позвонит Вам {0}, {1}, {2}.</div>'.format(call_day_humanized, call_day_date.strftime('%d.%m.%Y'), time_range))
