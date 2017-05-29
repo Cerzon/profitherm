@@ -721,16 +721,16 @@ span.fieldset-position-legend {
     margin-left: 20px;
 }
 
-dl.sent-data {
+dl.object-data {
     margin: 0.5em 0;
 }
 
-.sent-data dt {
+.object-data dt {
     margin-top: 0.7em;
     margin-right: 1.5em;
 }
 
-.sent-data dd {
+.object-data dd {
     margin-left: 1.5em;
 }
 
@@ -1125,7 +1125,7 @@ main .album-title {
     font-family: 'PT Sans Narrow';
 }
 
-.sent-data dt {
+.object-data dt {
     font-weight: bold;
 }
 
