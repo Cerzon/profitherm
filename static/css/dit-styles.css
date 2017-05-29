@@ -41,6 +41,23 @@
     border-color: rgba(0,0,0,0.15);
 }
 
+.dit-resize-container {
+    position: relative;
+}
+
+.dit-resize-frame {
+    position: relative;
+    width: 100%;
+}
+
+.dit-resize-image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
 .dit-clear {
     clear: both;
 }
