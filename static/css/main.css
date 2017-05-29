@@ -615,14 +615,6 @@ li.text-item a {
     margin-left: 0.5em;
 }
 
-.pinned {
-    margin-top: -0.5em;
-}
-
-.landed {
-    margin-bottom: -0.5em;
-}
-
 p.copyright-info {
     position: absolute;
     bottom: 20px;
@@ -670,14 +662,6 @@ main .album-title {
 
 main .portfolio-container {
     margin: 0 25px;
-}
-
-.align-center {
-    text-align: center;
-}
-
-.align-right {
-    text-align: right;
 }
 
 .form-field {
@@ -781,6 +765,22 @@ table.data-table caption {
 
 table.data-table td, table.data-table th {
     padding: 5px;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.pinned {
+    margin-top: -0.5em;
+}
+
+.landed {
+    margin-bottom: -0.5em;
 }
 
 @media only screen and (max-width: 1260px) {
