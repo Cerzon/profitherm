@@ -87,7 +87,7 @@ def do_resize_to_fill(src_im, out_width, out_height):
     out_im = src_im.resize(output_vl, resample=Image.BICUBIC)
     out_start_x = int((out_im.width - out_width) / 2)
     out_start_y = int((out_im.height - out_height) / 2)
-    output_vl = (out_start_x, out_start_y, out_im.width - out_start_x, out_im.height - out_start_y)
+    output_vl = (out_start_x, out_start_y, out_start_x + out_width, out_start_y + out_height)
     return out_im.crop(output_vl)
 
 
