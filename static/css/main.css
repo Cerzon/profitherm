@@ -1117,8 +1117,10 @@ span.fieldset-position-legend {
     text-transform: uppercase;
 }
 
-main .album-title {
+main .album-title h2 {
     font-family: 'PT Sans Narrow';
+    font-size: 22px;
+    font-weight: bold;
 }
 
 .object-data dt {

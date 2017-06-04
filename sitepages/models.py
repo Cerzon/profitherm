@@ -238,7 +238,10 @@ class ImageGallery(models.Model):
         return 'x'.join([str(self.tn_width), str(self.tn_height)])
 
     def get_render(self):
-        figures = self.figures.order_by('position').select_related('image')
+        if self.name[-6:] == '-album':
+            figures = self.figures.order_by('-date_added').select_related('image')
+        else:
+            figures = self.figures.order_by('position').select_related('image')
         tpl = Template(self.deploy_template.body)
         ctx = Context({'gallery' : self, 'figures' : figures})
         return tpl.render(ctx)
