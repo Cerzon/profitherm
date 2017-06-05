@@ -303,6 +303,7 @@ main .album-container:hover {
 main .album-title {
     background-color: #000000;
     color: #FFFFFF;
+    opacity: 0.6;
 }
 
 main .scroll-decor {
@@ -657,7 +658,6 @@ main .album-title {
     width: 100%;
     padding: 15px;
     bottom: 0;
-    opacity: 0.5;
 }
 
 main .portfolio-container {

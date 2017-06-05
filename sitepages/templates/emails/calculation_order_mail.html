@@ -20,7 +20,7 @@
     {% if order.attachments.all %}
         <dt>Приложенные файлы:</dt>
         {% for attachment in order.attachments.all %}
-            <dd><a href="http://profitherm.ru{{ attachment.afile.url }}">{{ attachment.filename }}</a></dd>
+            <dd>{% if manager_mail %}<a href="http://profitherm.ru{{ attachment.afile.url }}">{% endif %}{{ attachment.filename }}{% if manager_mail %}</a>{% endif %}</dd>
         {% endfor %}
     {% endif %}
 </dl>
