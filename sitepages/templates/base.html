@@ -101,7 +101,7 @@
                     <ul class="sidemenu">{% url 'calculation_order_add' as the_url %}
                         <li class="menu-item{% if page_detail.name in the_url %} current-page"><em>Заказать расчёт бесплатно</em>{% else %}"><a href="{{ the_url }}">Заказать расчёт бесплатно</a>{% endif %}</li>
                         <li class="menu-item"><a href="#{# url 'callback_form' #}" id="get-callback">Заказать обратный звонок</a></li>
-                        {#<li class="menu-item"><a href="{% url 'calculators_list' %}">Калькуляторы</a></li>{% url 'faq_list' as the_url %}#}
+                        {#<li class="menu-item"><a href="{% url 'calculators_list' %}">Калькуляторы</a></li>#}{% url 'faq_list' as the_url %}
                         <li class="menu-item{% if page_detail.name in the_url %} current-page"><em>Часто задаваемые вопросы</em>{% else %}"><a href="{{ the_url }}">Часто задаваемые вопросы</a>{% endif %}</li>
                     </ul>
                 </nav>
