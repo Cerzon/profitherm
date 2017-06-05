@@ -261,7 +261,7 @@ class CalculationOrderSuccess(View):
             mail_managers(mail_subj, mail_msg, html_message=mail_msg)
             mail_msg = render_to_string(self.mail_template, {'order' : order, 'manager_mail' : False})
             mail_addr = [order.user_email,]
-            send_mail(mail_subj, mail_msg, 'info@profitherm.ru', mail_addr, fail_silently=True, html_message=mail_msg)
+            send_mail(mail_subj, mail_msg, 'webmaster@profitherm.ru', mail_addr, fail_silently=True, html_message=mail_msg)
             page_name = reverse_lazy('calculation_order_success').split('/')[-2]
             try:
                 page_detail = StaticPage.objects.get(name=page_name)
