@@ -132,9 +132,9 @@ class ImageGalleryAdmin(admin.ModelAdmin):
         FigureInline,
     ]
     save_on_top = True
-    list_display = ('__str__', 'is_published', 'position', 'name',)
+    list_display = ('__str__', 'deploy_template', 'is_published', 'position', 'name',)
     list_display_links = ('__str__',)
-    list_editable = ('position', 'name',)
+    list_editable = ('deploy_template', 'position', 'name',)
 admin.site.register(ImageGallery, ImageGalleryAdmin)
 
 
