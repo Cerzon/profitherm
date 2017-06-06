@@ -57,8 +57,13 @@
     display: block;
 }
 
+.mdrnz-no-flexbox .portfolio-container {
+    text-align: center;
+}
+
 .mdrnz-no-flexbox .album-container {
-    float: left;
+    display: inline-block;
+    width: 43%;
 }
 
 @media only screen and (min-width: 1500px) {
@@ -87,3 +92,14 @@
     }
 }
 
+@media only screen and (min-width: 1751px) {
+    .mdrnz-no-flexbox .album-container {
+        width: 29%;
+    }
+}
+
+@media only screen and (min-width: 2060px) {
+    .mdrnz-no-flexbox .album-container {
+        width: 22%;
+    }
+}
