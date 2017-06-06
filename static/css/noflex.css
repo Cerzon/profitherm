@@ -57,6 +57,10 @@
     display: block;
 }
 
+.mdrnz-no-flexbox .album-container {
+    float: left;
+}
+
 @media only screen and (min-width: 1500px) {
     .mdrnz-no-flexbox main,
     .mdrnz-no-flexbox #page-footer nav {
