@@ -1,4 +1,4 @@
-from django.forms import Form, ModelForm, CharField, IntegerField, FloatField, inlineformset_factory
+from django.forms import Form, ModelForm, CharField, IntegerField, DecimalField, inlineformset_factory
 from django.core import validators
 from django.core.mail import send_mail, mail_admins, mail_managers
 from .models import CalculationOrder, Feedback, Attachment, FrequentlyAskedQuestion
@@ -32,18 +32,6 @@ class CallbackForm(Form):
             validators.RegexValidator(
                 regex='^\+?\d?( ?\(? ?|-?)\d{3}( ?\)? ?|\-?)\d{3}( |\-)?\d{2}( |\-)?\d{2}$')])
     user_name = CharField(required=False)
-
-
-class CalculatorTubeDiameter(Form):
-    pass
-
-
-class CalculatorTubeFlowVelocity(Form):
-    pass
-
-
-class CalculatorTubePowerLimit(Form):
-    pass
 
 
 CalcOrderFileUploadFormSet = inlineformset_factory(CalculationOrder, Attachment, fields=('afile',), extra=5)
