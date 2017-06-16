@@ -355,6 +355,28 @@ table.data-table td.separator {
     }
 }
 
+@media only screen and (max-width: 1260px) {
+    #leftsidebar {
+        background-color: transparent;
+    }
+
+    #leftsidebar i.fa-bars {
+        color: #FFFFFF;
+    }
+
+    #leftsidebar nav {
+        background-color: #FFFFFF;
+    }
+
+    #leftsidebar ul.sidemenu {
+        background-color: rgba(0,0,0,0.27);
+    }
+
+    #leftsidebar:hover nav {
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+    }
+}
+
 /*** Layout ******************************************************************/
 
 nav, figure, article, header, main, .scroll-control {
@@ -823,7 +845,6 @@ table.data-table td, table.data-table th {
         width: 50px;
         height: 41px;
         display: block;
-        color: #FFFFFF;
         font-size: 26px;
         text-align: center;
         cursor: pointer;
@@ -833,17 +854,14 @@ table.data-table td, table.data-table th {
         margin-top: 0;
         display: none;
         position: absolute;
-        background-color: #FFFFFF;
     }
 
     #leftsidebar ul.sidemenu {
         padding: 10px 0;
-        background-color: rgba(0,0,0,0.27);
     }
 
     #leftsidebar:hover nav {
         display: block;
-        box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
     }
 
     nav#secondmenu {
@@ -1194,6 +1212,10 @@ table.data-table td.section-header {
 @media only screen and (max-width: 1260px) {
     #topcontacts {
         font-size: 22px;
+    }
+
+    #leftsidebar i.fa-bars {
+        font-size: 26px;
     }
 }
 
