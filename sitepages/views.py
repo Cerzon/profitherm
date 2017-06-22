@@ -145,7 +145,7 @@ class InfoPage(View):
 class CalculationOrderAddView(CreateView):
     form_class = CalculationOrderForm
     model = CalculationOrder
-    template_name = 'pages/calculationorder_form.html'
+    template_name = 'pages/calculationorder_add.html'
     success_url = reverse_lazy('calculation_order_success')
 
     def get(self, request, *args, **kwargs):
@@ -824,7 +824,7 @@ class PortfolioDetailView(View):
 
 
 class CallbackFormView(FormView):
-    template_name = 'pages/callback_form.html'
+    template_name = 'forms/callback_form.html'
     form_class = CallbackForm
 
     def form_valid(self, form):
