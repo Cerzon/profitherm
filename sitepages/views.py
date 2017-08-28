@@ -840,3 +840,11 @@ class CallbackFormView(FormView):
         message = 'Товарищ {1} ждёт звонка на номер {0}'.format(form.cleaned_data['user_phone'], form.cleaned_data['user_name'] or 'не представился, но')
         mail_managers(subject, message)
         return HttpResponse('<div class="align-center">Спасибо за обращение. Наш специалист позвонит Вам {0}, {1}, {2}.</div>'.format(call_day_humanized, call_day_date.strftime('%d.%m.%Y'), time_range))
+
+
+class QuickComputeFormView(FormView):
+    pass
+
+
+class QuickRequestFormView(FormView):
+    pass
