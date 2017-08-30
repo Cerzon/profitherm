@@ -1,3 +1,22 @@
-<h2>Отправьте запрос на уточнённый расчёт</h2>
-<form enctype="multipart/form-data" action="" method="POST" id="quick-request-form">
+<form action="" method="POST" id="quick-request-form">
+    {% csrf_token %}
+    <h2>Отправьте запрос на расчёт стоимости проекта.</h2>
+    {{ form.non_field_errors }}
+    <div class="form-field flex-container cross-end">
+        <div class="single-width flex-container cross-end dotted-bottom">
+            <label for="{{ form.heated_area.id_for_label }}" class="single-width required-field">Отапливаемая площадь:</label>
+            <div class="double-width wide-field{% if form.heated_area.errors %} error-field{% endif %}">{{ form.heated_area }}</div>
+        </div>
+        <div class="separator"></div>
+        <div class="single-width flex-container cross-end dotted-bottom">
+            <label for="" class="single-width">Кол-во санузлов:</label>
+            <div class="double-width wide-field"></div>
+        </div>
+    </div>
+    <div class="form-field align-center">
+        <input type="submit" value="Отправить запрос" class="button" />
+    </div>
+    <div class="form-field align-center">
+        или <a href="{% url 'calculation_order_add'%}">заполнить подробную форму запроса</a>
+    </div>
 </form>

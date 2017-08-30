@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    $('#get-callback').on('click', function(e){
-        e.preventDefault();
+    $('#get-callback').on('click', function(event){
+        event.preventDefault();
         $('#ptcb-overlay, #ptcb-window, #ptcb-loader, #ptcb-close').show();
         $.ajax({
             url : "/callback/",
@@ -20,8 +20,8 @@ function displayResponse(data) {
     $('#ptcb-content').append($(data));
     $('#ptcb-loader').hide();
     $('#ptcb-content').show();
-    $('#callback-form').on('submit', function(e){
-        e.preventDefault();
+    $('#callback-form').on('submit', function(event){
+        event.preventDefault();
         postCallback();
     });
 }
