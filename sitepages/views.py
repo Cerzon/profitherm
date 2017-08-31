@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView, FormView
 from django.core.mail import send_mail, mail_admins, mail_managers
 from datetime import datetime, timedelta
 from .models import Article, ArticlePicture, ProfImage, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
-from .forms import CalculationOrderForm, FeedbackForm, FrequentlyAskedQuestionForm, CallbackForm, CalcOrderFileUploadFormSet, QuestionFileUploadFormSet
+from .forms import CalculationOrderForm, FeedbackForm, FrequentlyAskedQuestionForm, CallbackForm, CalcOrderFileUploadFormSet, QuestionFileUploadFormSet, QuickRequestForm
 
 # список праздничных нерабочих дней
 FUCKING_HOLIDAYS = (
@@ -842,9 +842,16 @@ class CallbackFormView(FormView):
         return HttpResponse('<div class="align-center">Спасибо за обращение. Наш специалист позвонит Вам {0}, {1}, {2}.</div>'.format(call_day_humanized, call_day_date.strftime('%d.%m.%Y'), time_range))
 
 
-class QuickComputeFormView(FormView):
-    pass
-
-
 class QuickRequestFormView(FormView):
-    pass
+    template_name = 'forms/quick_request_form.html'
+    form_class = QuickRequestForm
+
+    def form_valid(self, form):
+        subject = 'Быстрый запрос на расчёт'
+        message = 'Обладатель адреса электрической почты {0} желает узнать стоимость проекта на площадь {1} кв.м'.format(form.cleaned_data['user_email'], form.cleaned_data['heated_area'])
+        if form.cleaned_data['bathroom_amount']:
+            message += ' с санузлами в количестве {0} штук'.format(form.cleaned_data['bathroom_amount'])
+        if form.cleaned_data['additional_info']:
+            message += ', а также посчитал нужным сообщить следующее:\n {0}'.format(form.cleaned_data['additional_info'])
+        mail_managers(subject, message)
+        return HttpResponse('<h2>Спасибо!</h2><p>Ваш запрос отправлен специалисту. Письмо с предварительной оценкой стоимости проектных работ будет отправлено на указанный Вами адрес электронной почты.</p>')

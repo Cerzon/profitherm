@@ -343,10 +343,17 @@ table.data-table th {
     background-color: rgba(0,0,0,0.27);
 }
 
+div.separator,
 table.data-table th.separator,
 table.data-table td.separator {
     background-color: transparent;
     border: none;
+}
+
+div.loader-spinner {
+    background-image: url("/static/img/preloader.gif");
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 @media only screen and (max-width: 2600px) {
@@ -787,6 +794,16 @@ table.data-table td, table.data-table th {
     padding: 5px;
 }
 
+div.separator {
+    width: 2em;
+    height: 1em;
+}
+
+div.loader-spinner {
+    display: none;
+    height: 130px;
+}
+
 .align-center {
     text-align: center;
 }
@@ -801,6 +818,10 @@ table.data-table td, table.data-table th {
 
 .landed {
     margin-bottom: -0.5em;
+}
+
+.no-margins {
+    margin: 0;
 }
 
 @media only screen and (max-width: 1260px) {
