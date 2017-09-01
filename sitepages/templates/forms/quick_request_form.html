@@ -13,7 +13,7 @@
         <div class="single-width">
             {% if form.bathroom_amount.errors %}<div class="landed">{{ form.bathroom_amount.errors }}</div>{% endif %}
             <div class="flex-container cross-end dotted-bottom">
-                <label for="{{ form.bathroom_amount.id_for_label }}">Кол-во санузлов:</label>
+                <label for="{{ form.bathroom_amount.id_for_label }}">Количество санузлов:</label>
                 <div class="single-width wide-field{% if form.bathroom_amount.errors %} error-field{% endif %}">{{ form.bathroom_amount }}</div>
             </div>
         </div>
