@@ -854,4 +854,4 @@ class QuickRequestFormView(FormView):
         if form.cleaned_data['additional_info']:
             message += ', а также посчитал нужным сообщить следующее:\n {0}'.format(form.cleaned_data['additional_info'])
         mail_managers(subject, message)
-        return HttpResponse('<h2>Спасибо!</h2><p>Ваш запрос отправлен специалисту. Письмо с предварительной оценкой стоимости проектных работ будет отправлено на указанный Вами адрес электронной почты.</p>')
+        return HttpResponse('<p>Ваш запрос отправлен специалисту. Письмо с предварительной оценкой стоимости проектных работ будет отправлено на указанный Вами адрес электронной почты.</p>')
