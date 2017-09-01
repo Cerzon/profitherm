@@ -646,9 +646,8 @@ li.text-item a {
     margin-left: 0.5em;
 }
 
-main a.discrete {
+main p.discrete-link {
     margin: 1.5em 0;
-    display: inline-block;
     text-indent: 0;
 }
 
