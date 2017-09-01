@@ -436,6 +436,7 @@ textarea {
 
 textarea {
     resize: vertical;
+    height: 7em;
 }
 
 main label {
