@@ -251,7 +251,8 @@ span.fieldset-position-legend {
 }
 
 .wide-field {
-    background-color: rgba(0,0,0,0.1);
+    background-color: ghostwhite;
+    box-shadow: inset 2px 1px 7px 0px rgba(0, 0, 0, 0.2);
 }
 
 .main-submit {
