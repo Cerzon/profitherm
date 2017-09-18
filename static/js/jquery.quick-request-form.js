@@ -23,4 +23,5 @@ function showQuickRequest(data) {
             success : showQuickRequest
         });
     });
+    if (!Modernizr.flexbox) tuneHeight();
 }
