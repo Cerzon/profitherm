@@ -46,7 +46,7 @@ class PriceCurrency(models.Model):
     currency_code = models.CharField(max_length=10)
     currency_name = models.CharField(max_length=30)
     currency_display_name = models.CharField(blank=True, max_length=30)
-    currency_exchange_rate = models.FloatField(default=1)
+    currency_exchange_rate = models.DecimalField(default=1, max_digits=8, decimal_places=4)
     is_default = models.BooleanField(default=False)
     
     class Meta():
@@ -117,7 +117,7 @@ class BaseProduct(models.Model):
     vendor_code = models.CharField(max_length=40, verbose_name='артикул')
     product_name = models.CharField(max_length=120, verbose_name='наименование')
     product_fullname = models.TextField(blank=True, verbose_name='полное наименование')
-    product_price = models.FloatField(blank=True, verbose_name='каталожная цена')
+    product_price = models.DecimalField(blank=True, max_digits=10, decimal_places=2, verbose_name='каталожная цена')
     price_unit = models.ForeignKey(StockKeepingUnit, on_delete=models.PROTECT, related_name='+')
     price_currency = models.ForeignKey(PriceCurrency, on_delete=models.PROTECT, related_name='product_set')
     trade_unit = models.ForeignKey(StockKeepingUnit, on_delete=models.PROTECT, related_name='+')
