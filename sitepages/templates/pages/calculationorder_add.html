@@ -34,25 +34,7 @@
     {% csrf_token %}
     {{ form.non_field_errors }}
     <fieldset>
-        <legend><span class="fieldset-position-legend">1</span>Персональные данные</legend>
-        {% if form.user_name.errors %}<div class="landed">{{ form.user_name.errors }}</div>{% endif %}
-        <div class="form-field flex-container cross-end dotted-bottom">
-            <label for="{{ form.user_name.id_for_label }}" class="single-width required-field">Контактное лицо:</label>
-            <div class="triple-width wide-field{% if form.user_name.errors %} error-field{% endif %}">{{ form.user_name }}</div>
-        </div>
-        {% if form.user_phone.errors %}<div class="landed">{{ form.user_phone.errors }}</div>{% endif %}
-        <div class="form-field flex-container cross-end dotted-bottom">
-            <label for="{{ form.user_phone.id_for_label }}" class="single-width required-field">Телефон:</label>
-            <div class="triple-width wide-field{% if form.user_phone.errors %} error-field{% endif %}">{{ form.user_phone }}</div>
-        </div>
-        {% if form.user_email.errors %}<div class="landed">{{ form.user_email.errors }}</div>{% endif %}
-        <div class="form-field flex-container cross-end dotted-bottom">
-            <label for="{{ form.user_email.id_for_label }}" class="single-width required-field">Email:</label>
-            <div class="triple-width wide-field{% if form.user_email.errors %} error-field{% endif %}">{{ form.user_email }}</div>
-        </div>
-    </fieldset>
-    <fieldset>
-        <legend><span class="fieldset-position-legend">2</span>Информация об объекте</legend>
+        <legend><span class="fieldset-position-legend">1</span>Информация об объекте</legend>
         {% if form.object_type.errors %}<div class="landed">{{ form.object_type.errors }}</div>{% endif %}
         <div class="form-field">
             <label for="{{ form.object_type.id_for_label }}" class="required-field">Тип объекта:</label>
@@ -70,7 +52,7 @@
         </div>
     </fieldset>
     <fieldset>
-        <legend><span class="fieldset-position-legend">3</span>Интересующие системы и услуги</legend>
+        <legend><span class="fieldset-position-legend">2</span>Интересующие системы и услуги</legend>
         <div class="flex-container cross-start">
             <div class="single-width">
                 {% if form.radiator_heating.errors %}<div class="landed">{{ form.radiator_heating.errors }}</div>{% endif %}
@@ -129,7 +111,7 @@
         </div>
     </fieldset>
     <fieldset>
-        <legend><span class="fieldset-position-legend">4</span>Дополнительные материалы</legend>
+        <legend><span class="fieldset-position-legend">3</span>Дополнительные материалы</legend>
         <div class="form-field label-above" id="attachment-fields">
             <label>Загруженные файлы:</label>
             {{ upload_form.management_form }}
@@ -145,6 +127,24 @@
         <div class="form-field label-above dotted-bottom">
             <label for="{{ form.additional_info.id_for_label }}">Дополнительная информация:</label>
             <div class="wide-field{% if form.additional_info.errors %} error-field{% endif %}">{{ form.additional_info }}</div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend><span class="fieldset-position-legend">4</span>Контактные данные</legend>
+        {% if form.user_name.errors %}<div class="landed">{{ form.user_name.errors }}</div>{% endif %}
+        <div class="form-field flex-container cross-end dotted-bottom">
+            <label for="{{ form.user_name.id_for_label }}" class="single-width required-field">Контактное лицо:</label>
+            <div class="triple-width wide-field{% if form.user_name.errors %} error-field{% endif %}">{{ form.user_name }}</div>
+        </div>
+        {% if form.user_phone.errors %}<div class="landed">{{ form.user_phone.errors }}</div>{% endif %}
+        <div class="form-field flex-container cross-end dotted-bottom">
+            <label for="{{ form.user_phone.id_for_label }}" class="single-width required-field">Телефон:</label>
+            <div class="triple-width wide-field{% if form.user_phone.errors %} error-field{% endif %}">{{ form.user_phone }}</div>
+        </div>
+        {% if form.user_email.errors %}<div class="landed">{{ form.user_email.errors }}</div>{% endif %}
+        <div class="form-field flex-container cross-end dotted-bottom">
+            <label for="{{ form.user_email.id_for_label }}" class="single-width required-field">Email:</label>
+            <div class="triple-width wide-field{% if form.user_email.errors %} error-field{% endif %}">{{ form.user_email }}</div>
         </div>
     </fieldset>
     <div class="form-field align-center">
