@@ -145,15 +145,9 @@ class WaterTreatmentRequest(models.Model):
     user_name = models.CharField(max_length=120, verbose_name='Контактное лицо')
     user_phone = models.CharField(max_length=24, verbose_name='Контактный телефон')
     user_email = models.EmailField(verbose_name='Адрес электронной почты')
-    ph_rate = models.DecimalField(blank=True, max_digits=3, decimal_places=1, verbose_name='pH')
-    mud_rate
-    chromaticity_rate
-    smell_rate
-    flavor_rate
+    # сероводород
     hardness_generic_rate = models.DecimalField(blank=True, max_digits=3, decimal_places=1, verbose_name='Общая жётскость, мг-экв./л')
-    oxidability_rate = models.DecimalField(blank=True, max_digits=3, decimal_places=1, verbose_name='Окисляемость перманганатная, мг/л')
     iron_generic_rate = models.DecimalField(blank=True, max_digits=4, decimal_places=2, verbose_name='Железо общее, мг/л')
-    manganese_rate = models.DecimalField(blank=True, max_digits=4, decimal_places=2, verbose_name='Марганец, мг/л')
 
     class Meta():
         verbose_name = 'запрос на подбор водоподготовки'
