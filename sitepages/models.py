@@ -143,7 +143,7 @@ class CalculationOrder(models.Model):
 class WaterTreatmentRequest(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     user_name = models.CharField(max_length=120, verbose_name='Контактное лицо')
-    user_phone = models.CharField(max_length=24, verbose_name='Контактный телефон')
+    user_phone = models.CharField(blank=True, max_length=24, verbose_name='Контактный телефон')
     user_email = models.EmailField(verbose_name='Адрес электронной почты')
     hardness_generic_rate = models.DecimalField(blank=True, max_digits=3, decimal_places=1, verbose_name='Общая жётскость, мг-экв./л')
     iron_generic_rate = models.DecimalField(blank=True, max_digits=4, decimal_places=2, verbose_name='Железо общее, мг/л')
@@ -162,6 +162,8 @@ def upload_folder(instance, filename):
         folder = 'calc_order/{}'.format(instance.calculation_order.pk)
     elif instance.question:
         folder = 'faq/{}'.format(instance.question.pk)
+    elif instance.water_treatment_request:
+        folder = 'water_treatment/{}'.format(instance.water_treatment_request.pk)
     else:
         folder = 'dummy'
     return 'uploads/{0}/{1}'.format(folder, filename)
@@ -171,6 +173,7 @@ class Attachment(models.Model):
     afile = models.FileField(upload_to=upload_folder, verbose_name='Дополнительные материалы')
     calculation_order = models.ForeignKey(CalculationOrder, on_delete=models.CASCADE, null=True, related_name='attachments')
     question = models.ForeignKey(FrequentlyAskedQuestion, on_delete=models.CASCADE, null=True, related_name='attachments')
+    water_treatment_request = models.ForeignKey(WaterTreatmentRequest, on_delete=models.CASCADE, null=True, related_name='attachments')
 
     class Meta():
         ordering = ['calculation_order', 'question']
