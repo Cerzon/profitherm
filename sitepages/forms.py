@@ -53,3 +53,4 @@ class QuickRequestForm(Form):
 
 CalcOrderFileUploadFormSet = inlineformset_factory(CalculationOrder, Attachment, fields=('afile',), extra=5)
 QuestionFileUploadFormSet = inlineformset_factory(FrequentlyAskedQuestion, Attachment, fields=('afile',), extra=5)
+WaterAnalysisFileUploadFormSet = inlineformset_factory(WaterTreatmentRequest, Attachment, fields=('afile',), extra=5)
