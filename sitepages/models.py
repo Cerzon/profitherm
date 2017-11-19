@@ -140,29 +140,6 @@ class CalculationOrder(models.Model):
         return services_list
 
 
-class WaterTreatmentRequest(models.Model):
-    date_created = models.DateTimeField(auto_now_add=True)
-    user_name = models.CharField(max_length=120, verbose_name='Контактное лицо')
-    user_phone = models.CharField(max_length=24, verbose_name='Контактный телефон')
-    user_email = models.EmailField(verbose_name='Адрес электронной почты')
-    ph_rate = models.DecimalField(blank=True, max_digits=3, decimal_places=1)
-    mud_rate
-    color_rate
-    smell_rate
-    flavor_rate
-    hardness_generic_rate
-    oxidability_rate
-    iron_generic_rate
-    manganese_rate
-
-    class Meta():
-        verbose_name = 'запрос на подбор водоподготовки'
-        verbose_name_plural = 'запросы на подбор водоподготовки'
-
-    def __str__(self):
-        return 'Запрос #{0} от {1}'.format(self.pk, self.date_created.strftime('%d %b %Y'))
-
-
 def upload_folder(instance, filename):
     if instance.calculation_order:
         folder = 'calc_order/{}'.format(instance.calculation_order.pk)
