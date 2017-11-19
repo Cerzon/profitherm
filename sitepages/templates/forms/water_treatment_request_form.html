@@ -1,0 +1,36 @@
+<form enctype="multipart/form-data" action="" method="POST">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% if form.user_name.errors %}<div class="landed">{{ form.user_name.errors }}</div>{% endif %}
+    <div class="form-field flex-container cross-end dotted-bottom">
+        <label for="{{ form.user_name.id_for_label }}" class="single-width">Ваше имя:</label>
+        <div class="triple-width wide-field{% if form.user_name.errors %} error-field{% endif %}">{{ form.user_name }}</div>
+    </div>
+    {% if form.user_email.errors %}<div class="landed">{{ form.user_email.errors }}</div>{% endif %}
+    <div class="form-field flex-container cross-end dotted-bottom">
+        <label for="{{ form.user_email.id_for_label }}" class="single-width">Ваш email:</label>
+        <div class="triple-width wide-field{% if form.user_email.errors %} error-field{% endif %}">{{ form.user_email }}</div>
+    </div>
+    {% if form.answer_email.errors %}<div class="landed">{{ form.answer_email.errors }}</div>{% endif %}
+    <div class="form-field{% if form.answer_email.errors %} error-field{% endif %}">
+        {{ form.answer_email }}
+        <label for="{{ form.answer_email.id_for_label }}">Отправить ответ на email</label>
+    </div>
+    {% if form.additional_info.errors %}<div class="landed">{{ form.additional_info.errors }}</div>{% endif %}
+    <div class="form-field label-above dotted-bottom">
+        <label for="{{ form.additional_info.id_for_label }}">Дополнительная информация:</label>
+        <div class="wide-field{% if form.additional_info.errors %} error-field{% endif %}">{{ form.additional_info }}</div>
+    </div>
+    <div class="form-field label-above" id="attachment-fields">
+        <label>Загруженные файлы:</label>
+        {{ upload_form.management_form }}
+        {% for inline_form in upload_form %}
+        <div class="inline-form {{ upload_form.prefix }}">
+            {{ inline_form.id }}
+            {% if inline_form.afile.errors %}<div class="landed">{{ inline_form.afile.errors }}</div>{% endif %}
+            {{ inline_form.afile }}<a href="#" class="clear-field" data-field-id="#{{ inline_form.afile.id_for_label }}">Удалить</a>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="form-field align-center"><input type="submit" value="Отправить" class="button main-submit" /></div>
+</form>

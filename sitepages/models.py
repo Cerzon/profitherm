@@ -148,6 +148,7 @@ class WaterTreatmentRequest(models.Model):
     hardness_generic_rate = models.DecimalField(blank=True, max_digits=3, decimal_places=1, verbose_name='Общая жётскость, мг-экв./л')
     iron_generic_rate = models.DecimalField(blank=True, max_digits=4, decimal_places=2, verbose_name='Железо общее, мг/л')
     hydrogen_sulphide_rate = models.DecimalField(blank=True, max_digits=4, decimal_places=2, verbose_name='Сероводород, мг/л')
+    additional_info = models.TextField(blank=True, verbose_name='Дополнительная информация')
 
     class Meta():
         verbose_name = 'запрос на подбор водоподготовки'

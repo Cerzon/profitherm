@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView, FormView
 from django.core.mail import send_mail, mail_admins, mail_managers
 from datetime import datetime, timedelta
 from .models import Article, ArticlePicture, ProfImage, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
-from .forms import CalculationOrderForm, FeedbackForm, FrequentlyAskedQuestionForm, CallbackForm, CalcOrderFileUploadFormSet, QuestionFileUploadFormSet, QuickRequestForm
+from .forms import CalculationOrderForm, FeedbackForm, FrequentlyAskedQuestionForm, WaterTreatmentRequestForm, CallbackForm, CalcOrderFileUploadFormSet, QuestionFileUploadFormSet, WaterAnalysisFileUploadFormSet, QuickRequestForm
 
 # список праздничных нерабочих дней
 FUCKING_HOLIDAYS = (
@@ -855,3 +855,7 @@ class QuickRequestFormView(FormView):
             message += ', а также посчитал нужным сообщить следующее:\n {0}'.format(form.cleaned_data['additional_info'])
         mail_managers(subject, message)
         return HttpResponse('<p>Ваш запрос отправлен специалисту. Письмо с предварительной оценкой стоимости проектных работ будет отправлено на указанный Вами адрес электронной почты.</p>')
+
+
+class WaterTreatmentRequestFormView(FormView):
+    pass
