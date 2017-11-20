@@ -858,4 +858,6 @@ class QuickRequestFormView(FormView):
 
 
 class WaterTreatmentRequestFormView(FormView):
-    pass
+    template_name = 'forms/water_treatment_request_form.html'
+    form_class = WaterTreatmentRequestForm
+    
