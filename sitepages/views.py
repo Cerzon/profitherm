@@ -765,10 +765,10 @@ class PortfolioDetailView(View):
     template = 'pages/portfolio_detail.html'
 
     def get(self, request, gallery_name):
-        if not gallery_name[-6:] == '-album':
-            return HttpResponseRedirect(reverse_lazy('portfolio_list'))
+        #if not gallery_name[-6:] == '-album':
+        #    return HttpResponseRedirect(reverse_lazy('portfolio_list'))
         album = get_object_or_404(ImageGallery, name=gallery_name)
-        if not album.is_published:
+        if not album.is_published or not gallery_name[-6:] == '-album':
             raise Http404('Gallery does not exist any more or not published yet')
         styles = set()
         scripts = set()
