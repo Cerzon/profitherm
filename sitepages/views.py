@@ -765,6 +765,8 @@ class PortfolioDetailView(View):
     template = 'pages/portfolio_detail.html'
 
     def get(self, request, gallery_name):
+        if not gallery_name[-6:] == '-album':
+            return HttpResponseRedirect('/')
         album = get_object_or_404(ImageGallery, name=gallery_name)
         if not album.is_published:
             raise Http404('Gallery does not exist any more or not published yet')
