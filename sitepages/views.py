@@ -857,7 +857,7 @@ class QuickRequestFormView(FormView):
         return HttpResponse('<p>Ваш запрос отправлен специалисту. Письмо с предварительной оценкой стоимости проектных работ будет отправлено на указанный Вами адрес электронной почты.</p>')
 
 
-class WaterTreatmentRequestFormView(FormView):
-    template_name = 'forms/water_treatment_request_form.html'
+class WaterTreatmentWithRequestFormView(CreateView):
+    template_name = 'pages/water_treatment_with_request_form.html'
     form_class = WaterTreatmentRequestForm
     
