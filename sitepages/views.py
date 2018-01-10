@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from django.views.generic.edit import CreateView, FormView
 from django.core.mail import send_mail, mail_admins, mail_managers
 from datetime import datetime, timedelta
-from .models import Article, ArticlePicture, ProfImage, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
+from .models import Article, ArticlePicture, ProfImage, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion, WaterTreatmentRequest
 from .forms import CalculationOrderForm, FeedbackForm, FrequentlyAskedQuestionForm, WaterTreatmentRequestForm, CallbackForm, CalcOrderFileUploadFormSet, QuestionFileUploadFormSet, WaterAnalysisFileUploadFormSet, QuickRequestForm
 
 # список праздничных нерабочих дней
@@ -860,6 +860,8 @@ class QuickRequestFormView(FormView):
 class WaterTreatmentWithRequestFormView(CreateView):
     template_name = 'pages/water_treatment_with_request_form.html'
     form_class = WaterTreatmentRequestForm
+    model = WaterTreatmentRequest
+    success_url = reverse_lazy('wt_request_success')
     
 
 class WaterTreatmentRequestSend(View):
