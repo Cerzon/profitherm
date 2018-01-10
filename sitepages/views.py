@@ -861,3 +861,7 @@ class WaterTreatmentWithRequestFormView(CreateView):
     template_name = 'pages/water_treatment_with_request_form.html'
     form_class = WaterTreatmentRequestForm
     
+
+class WaterTreatmentRequestSend(View):
+    template = 'pages/water_treatment_request_success.html'
+    mail_template = 'emails/water_treatment_request_mail.html'
