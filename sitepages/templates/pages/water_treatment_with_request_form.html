@@ -1,3 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+{{ block.super }}
+{% for style in styles %}
+<link rel="stylesheet" type="text/css" href="{% static style %}" />
+{% endfor %}
+{% endblock stylesheets %}
+
+{% block scripts %}
+{{ block.super }}
+{% for script in scripts %}
+<script type="text/javascript" src="{% static script %}"></script>
+{% endfor %}
+<script type="text/javascript" src="{% static 'js/jquery.attachments.control.js' %}"></script>
+{% endblock scripts %}
+
+{% block maincontent %}
+{% for article in articles %}
+<article>
+    <header class="article">
+        <h1>{{ article.title }}</h1>
+    </header>
+    {% if article.teaser %}
+        {{ article.body|truncatewords_html:80 }}
+        <p class="no-indent pinned"><a href="{{ article.get_absolute_url }}" class="readmore-link">читать дальше</a></p>
+    {% else %}
+        {{ article.body }}
+    {% endif %}
+</article>
+{% endfor %}
 <form enctype="multipart/form-data" action="" method="POST">
     {% csrf_token %}
     {{ form.non_field_errors }}
@@ -34,3 +66,4 @@
     </div>
     <div class="form-field align-center"><input type="submit" value="Отправить" class="button main-submit" /></div>
 </form>
+{% endblock maincontent %}
