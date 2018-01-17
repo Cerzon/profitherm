@@ -1,0 +1,22 @@
+<p>{{ wt_request.user_name|default:'Аноним' }} хочет предложение на систему водоподготовки.</p>
+<dl>
+{% if wt_request.values_in_fields %}
+<dt>Данные о хим.составе:</dt>
+{% if wt_request.hardness_generic_rate %}<dd>Общая жётскость: {{ wt_request.hardness_generic_rate }} мг-экв./л</dd>{% endif %}
+{% if wt_request.iron_generic_rate %}<dd>Железо общее: {{ wt_request.iron_generic_rate }} мг/л</dd>{% endif %}
+{% if wt_request.hydrogen_sulphide_rate %}<dd>Сероводород: {{ wt_request.hydrogen_sulphide_rate }} мг/л</dd>{% endif %}
+{% endif %}
+{% if wt_request.attachments.all %}
+<dt>Приложенные файлы:</dt>
+{% for attachment in wt_request.attachments.all %}
+<dd><a href="http://profitherm.ru{{ attachment.afile.url }}">{{ attachment.filename }}</a></dd>
+{% endfor %}
+{% endif %}
+{% if wt_request.additional_info %}
+<dt>Дополнительная информация:</dt>
+<dd>{{ wt_request.additional_info }}</dd>
+{% endif %}
+<dt>Контакты:</dt>
+<dd>Телефон {{ wt_request.user_phone|default:'не указан' }}</dd>
+<dd>Эл.почта {{ wt_request.user_email }}</dd>
+</dl>

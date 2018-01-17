@@ -157,6 +157,15 @@ class WaterTreatmentRequest(models.Model):
     def __str__(self):
         return 'Запрос #{0} от {1}'.format(self.pk, self.date_created.strftime('%d %b %Y'))
 
+    def values_in_fields(self):
+        if self.hardness_generic_rate:
+            return True
+        if self.iron_generic_rate:
+            return True
+        if self.hydrogen_sulphide_rate:
+            return True
+        return False
+
 
 def upload_folder(instance, filename):
     if instance.calculation_order:
