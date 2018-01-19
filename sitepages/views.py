@@ -960,7 +960,7 @@ class WaterTreatmentWithRequestFormView(CreateView):
 
 
 class WaterTreatmentRequestSend(View):
-    template = 'pages/water_treatment_request_success.html'
+    template = 'pages/wt_request_success.html'
     mail_template = 'emails/water_treatment_request_mail.html'
 
     def get(self, request):

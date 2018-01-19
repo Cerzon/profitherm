@@ -33,6 +33,7 @@
 <form enctype="multipart/form-data" action="" method="POST">
     {% csrf_token %}
     {{ form.non_field_errors }}
+    <header><h2>Контактные данные</h2></header>
     {% if form.user_name.errors %}<div class="landed">{{ form.user_name.errors }}</div>{% endif %}
     <div class="form-field flex-container cross-end dotted-bottom">
         <label for="{{ form.user_name.id_for_label }}" class="single-width required-field">Ваше имя:</label>
@@ -48,6 +49,7 @@
         <label for="{{ form.user_phone.id_for_label }}" class="single-width">Контактный телефон:</label>
         <div class="triple-width wide-field{% if form.user_phone.errors %} error-field{% endif %}">{{ form.user_phone }}</div>
     </div>
+    <header><h2>Анализ воды</h2></header>
     {% if form.hardness_generic_rate.errors %}<div class="landed">{{ form.hardness_generic_rate.errors }}</div>{% endif %}
     <div class="form-field flex-container cross-end dotted-bottom">
         <label for="{{ form.hardness_generic_rate.id_for_label }}" class="single-width">Общая жётскость, мг-экв./л:</label>

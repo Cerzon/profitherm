@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^raschet-otopleniya/$', views.CalculationOrderAddView.as_view(), name='calculation_order_add'),
     url(r'^raschet-otopleniya/order-send/$', views.CalculationOrderSuccess.as_view(), name='calculation_order_success'),
     url(r'^vodoochistka/$', views.WaterTreatmentWithRequestFormView.as_view(), name='water_treatment'),
-    url(r'^vodoochistka/order-send/$', views.WaterTreatmentRequestSend.as_view(), name='wt_request_success'),
+    url(r'^vodoochistka/wtrequest-send/$', views.WaterTreatmentRequestSend.as_view(), name='wt_request_success'),
     url(r'^forms/quick-request/$', views.QuickRequestFormView.as_view(), name='quick_request_form'),
     url(r'^(?P<page_name>[\-\w]+)/$', views.InfoPage.as_view(), name='info_page'),
 ]
