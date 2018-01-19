@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import StaticPage, Article, ArticlePicture, ProfImage, ImageGallery, Figure, DeployTemplate, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
+from .models import StaticPage, Article, ArticlePicture, ProfImage, ImageGallery, Figure, DeployTemplate, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion, WaterTreatmentRequest
 
 # Register your models here.
 
@@ -86,6 +86,43 @@ class CalculationOrderAdmin(admin.ModelAdmin):
         }),
     )
 admin.site.register(CalculationOrder, CalculationOrderAdmin)
+
+
+class WaterTreatmentRequestAdmin(admin.ModelAdmin):
+    inlines = [
+        AttachmentInline,
+    ]
+    readonly_fields = (
+        'user_name',
+        'user_phone',
+        'user_email',
+        'hardness_generic_rate',
+        'iron_generic_rate',
+        'hydrogen_sulphide_rate',
+        'additional_info',
+    )
+    fieldsets = (
+        ('Заказчик', {
+            'fields': (
+                'user_name',
+                'user_phone',
+                'user_email',
+            )
+        }),
+        ('Анализ воды', {
+            'fields': (
+                'hardness_generic_rate',
+                'iron_generic_rate',
+                'hydrogen_sulphide_rate',
+            )
+        }),
+        ('Доп.материалы', {
+            'fields': (
+                'additional_info',
+            )
+        }),
+    )
+admin.site.register(WaterTreatmentRequest, WaterTreatmentRequestAdmin)
 
 
 class FrequentlyAskedQuestionAdmin(admin.ModelAdmin):

@@ -140,11 +140,40 @@ class CalculationOrder(models.Model):
         return services_list
 
 
+class WaterTreatmentRequest(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True)
+    user_name = models.CharField(max_length=120, verbose_name='Контактное лицо')
+    user_phone = models.CharField(blank=True, max_length=24, verbose_name='Контактный телефон')
+    user_email = models.EmailField(verbose_name='Адрес электронной почты')
+    hardness_generic_rate = models.DecimalField(blank=True, null=True, max_digits=3, decimal_places=1, verbose_name='Общая жётскость, мг-экв./л')
+    iron_generic_rate = models.DecimalField(blank=True, null=True, max_digits=4, decimal_places=2, verbose_name='Железо общее, мг/л')
+    hydrogen_sulphide_rate = models.DecimalField(blank=True, null=True, max_digits=4, decimal_places=2, verbose_name='Сероводород, мг/л')
+    additional_info = models.TextField(blank=True, verbose_name='Дополнительная информация')
+
+    class Meta():
+        verbose_name = 'запрос на подбор водоподготовки'
+        verbose_name_plural = 'запросы на подбор водоподготовки'
+
+    def __str__(self):
+        return 'Запрос #{0} от {1}'.format(self.pk, self.date_created.strftime('%d %b %Y'))
+
+    def values_in_fields(self):
+        if self.hardness_generic_rate:
+            return True
+        if self.iron_generic_rate:
+            return True
+        if self.hydrogen_sulphide_rate:
+            return True
+        return False
+
+
 def upload_folder(instance, filename):
     if instance.calculation_order:
         folder = 'calc_order/{}'.format(instance.calculation_order.pk)
     elif instance.question:
         folder = 'faq/{}'.format(instance.question.pk)
+    elif instance.water_treatment_request:
+        folder = 'water_treatment/{}'.format(instance.water_treatment_request.pk)
     else:
         folder = 'dummy'
     return 'uploads/{0}/{1}'.format(folder, filename)
@@ -154,6 +183,7 @@ class Attachment(models.Model):
     afile = models.FileField(upload_to=upload_folder, verbose_name='Дополнительные материалы')
     calculation_order = models.ForeignKey(CalculationOrder, on_delete=models.CASCADE, null=True, related_name='attachments')
     question = models.ForeignKey(FrequentlyAskedQuestion, on_delete=models.CASCADE, null=True, related_name='attachments')
+    water_treatment_request = models.ForeignKey(WaterTreatmentRequest, on_delete=models.CASCADE, null=True, related_name='attachments')
 
     class Meta():
         ordering = ['calculation_order', 'question']
@@ -169,6 +199,8 @@ class Attachment(models.Model):
             attachment_owner = 'К заказу #{0} от {1}'.format(self.calculation_order.pk, self.calculation_order.date_created.strftime('%d %b %Y'))
         elif self.question:
             attachment_owner = 'К вопросу #{0} от {1}'.format(self.question.pk, self.question.date_created.strftime('%d %b %Y'))
+        elif self.water_treatment_request:
+            attachment_owner = 'К запросу на водоподготовку #{0} от {1}'.format(self.water_treatment_request.pk, self.water_treatment_request.date_created.strftime('%d %b %Y'))
         return '{0} / Файл {1}'.format(attachment_owner, self.filename())
 
 

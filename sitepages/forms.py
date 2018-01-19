@@ -1,7 +1,7 @@
 from django.forms import Form, ModelForm, CharField, IntegerField, EmailField, Textarea, inlineformset_factory
 from django.core import validators
 from django.core.mail import send_mail, mail_admins, mail_managers
-from .models import CalculationOrder, Feedback, Attachment, FrequentlyAskedQuestion
+from .models import CalculationOrder, Feedback, Attachment, FrequentlyAskedQuestion, WaterTreatmentRequest
 
 class CalculationOrderForm(ModelForm):
     user_phone = CharField(validators=[
@@ -10,6 +10,16 @@ class CalculationOrderForm(ModelForm):
 
     class Meta():
         model = CalculationOrder
+        exclude = ['date_created']
+
+
+class WaterTreatmentRequestForm(ModelForm):
+    user_phone = CharField(required=False, validators=[
+        validators.RegexValidator(
+            regex='^\+?\d?( ?\(? ?|-?)\d{3}( ?\)? ?|\-?)\d{3}( |\-)?\d{2}( |\-)?\d{2}$')])
+
+    class Meta():
+        model = WaterTreatmentRequest
         exclude = ['date_created']
 
 
@@ -43,3 +53,4 @@ class QuickRequestForm(Form):
 
 CalcOrderFileUploadFormSet = inlineformset_factory(CalculationOrder, Attachment, fields=('afile',), extra=5)
 QuestionFileUploadFormSet = inlineformset_factory(FrequentlyAskedQuestion, Attachment, fields=('afile',), extra=5)
+WaterAnalysisFileUploadFormSet = inlineformset_factory(WaterTreatmentRequest, Attachment, fields=('afile',), extra=5)
