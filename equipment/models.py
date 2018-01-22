@@ -128,3 +128,60 @@ class BaseProduct(models.Model):
 
     def __str__(self):
         return '{0} . {1}'.format(self.vendor_code, self.product_name)
+
+
+class Boiler(BaseProduct):
+    """Котёл водогрейный"""
+
+    MOUNT_TYPE_CHOICES = (
+        ('wlmnt', 'Настенный'),
+        ('floor', 'Напольный'),
+    )
+    FUEL_TYPE_CHOICES = (
+        ('gastrad', 'Газовый'),
+        ('gascond', 'Газовый конденсационный'),
+        ('solidfl', 'Твердотопливный'),
+        ('electro', 'Электрический'),
+        ('univers', 'Универсальный'),
+    )
+    CIRCUIT_AMOUNT_CHOICES = (
+        ('single', 'Одноконтурный'),
+        ('double', 'Двухконтурный'),
+    )
+    CONTROL_TYPE_CHOICES = (
+        ('absent', 'Без панели управления'),
+        ('manual', 'Ручная панель управления'),
+        ('weathr', 'Погодозависимая автоматика'),
+    )
+    SECOND_CIRCUIT_TYPE_CHOICES = (
+        ('htexch', 'Проточный теплообменник'),
+        ('buffer', 'Встроенный бойлер'),
+    )
+    BODY_MATERIAL_CHOICES = (
+        ('goose', 'Чугун'),
+        ('steel', 'Сталь'),
+        ('coper', 'Медь'),
+    )
+    FLUE_GAS_EXTRACTION_CHOICES = (
+        ('atmo', 'Естественная тяга'),
+        ('vent', 'Принудительное дымоудаление'),
+    )
+    COAXIAL_FLUE_NOZZLE_CHOICES = (
+        ('060_100', '60/100 мм'),
+        ('080_125', '80/125 мм'),
+        ('110_150', '110/150 мм'),
+    )
+
+    mount_type = models.CharField(max_length=5, choices=MOUNT_TYPE_CHOICES, default='wlmnt', verbose_name='Тип установки')
+    fuel_type = models.CharField(max_length=7, choices=FUEL_TYPE_CHOICES, default='gastrad', verbose_name='Вид топлива')
+    body_material = models.CharField(max_length=5, choices=BODY_MATERIAL_CHOICES, default='steel', verbose_name='Материал первичного теплообменника котла')
+    power_max = models.PositiveSmallIntegerField(verbose_name='Масимальная мощность, кВт')
+    power_min = models.PositiveSmallIntegerField(verbose_name='Минимальная мощность, кВт')
+    stage_amount = models.PositiveSmallIntegerField(default=1, verbose_name='Количество ступеней')
+    flame_modulation = models.BooleanField(default=True, verbose_name='Модуляция пламени')
+    flue_gas_extraction = models.CharField(max_length=4, choices=FLUE_GAS_EXTRACTION_CHOICES, default='atmo', verbose_name='Отвод дымовых газов')
+    flue_nozzle_diameter = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='Диаметр патрубка дымохода, мм')
+    coaxial_flue_nozzle_diameter = models.CharField(blank=True, null=True, choices=COAXIAL_FLUE_NOZZLE_CHOICES, verbose_name='Диаметр коаксиального дымохода')
+    circuit_amount = models.CharField(max_length=6, choices=CIRCUIT_AMOUNT_CHOICES, default='single', verbose_name='Кол-во контуров')
+    control_type = models.CharField(max_length=6, choices=CONTROL_TYPE_CHOICES, default='absent', verbose_name='Панель управления')
+    second_circuit_type = models.CharField(max_length=6, choices=SECOND_CIRCUIT_TYPE_CHOICES, default='htexch', verbose_name='Тип контура ГВС')
