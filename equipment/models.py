@@ -144,17 +144,14 @@ class Boiler(BaseProduct):
         ('electro', 'Электрический'),
         ('univers', 'Универсальный'),
     )
-    CIRCUIT_AMOUNT_CHOICES = (
-        ('single', 'Одноконтурный'),
-        ('double', 'Двухконтурный'),
-    )
     CONTROL_TYPE_CHOICES = (
         ('absent', 'Без панели управления'),
         ('manual', 'Ручная панель управления'),
         ('weathr', 'Погодозависимая автоматика'),
     )
-    SECOND_CIRCUIT_TYPE_CHOICES = (
-        ('htexch', 'Проточный теплообменник'),
+    WATER_HEATER_TYPE_CHOICES = (
+        ('absent', 'Без контура ГВС'),
+        ('stream', 'Проточный теплообменник'),
         ('buffer', 'Встроенный бойлер'),
     )
     BODY_MATERIAL_CHOICES = (
@@ -163,8 +160,9 @@ class Boiler(BaseProduct):
         ('coper', 'Медь'),
     )
     FLUE_GAS_EXTRACTION_CHOICES = (
+        ('ntnd', 'Не требуется'),
         ('atmo', 'Естественная тяга'),
-        ('vent', 'Принудительное дымоудаление'),
+        ('trbo', 'Принудительное дымоудаление'),
     )
     COAXIAL_FLUE_NOZZLE_CHOICES = (
         ('060_100', '60/100 мм'),
@@ -182,6 +180,9 @@ class Boiler(BaseProduct):
     flue_gas_extraction = models.CharField(max_length=4, choices=FLUE_GAS_EXTRACTION_CHOICES, default='atmo', verbose_name='Отвод дымовых газов')
     flue_nozzle_diameter = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='Диаметр патрубка дымохода, мм')
     coaxial_flue_nozzle_diameter = models.CharField(blank=True, null=True, choices=COAXIAL_FLUE_NOZZLE_CHOICES, verbose_name='Диаметр коаксиального дымохода')
-    circuit_amount = models.CharField(max_length=6, choices=CIRCUIT_AMOUNT_CHOICES, default='single', verbose_name='Кол-во контуров')
     control_type = models.CharField(max_length=6, choices=CONTROL_TYPE_CHOICES, default='absent', verbose_name='Панель управления')
-    second_circuit_type = models.CharField(max_length=6, choices=SECOND_CIRCUIT_TYPE_CHOICES, default='htexch', verbose_name='Тип контура ГВС')
+    water_heater_type = models.CharField(max_length=6, choices=WATER_HEATER_TYPE_CHOICES, default='stream', verbose_name='Тип контура ГВС')
+    water_heater_capacity = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='Объём встроенного бойлера, л')
+    water_heater_perfomance = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='Производительность ГВС, л/мин')
+    external_water_heater_ready = models.BooleanField(default=False, verbose_name='Штатное подключение внешнего водонагревателя')
+    electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='Потребляемая электрическая мощность, кВт')
