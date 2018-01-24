@@ -186,3 +186,9 @@ class Boiler(BaseProduct):
     water_heater_perfomance = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='Производительность ГВС, л/мин')
     external_water_heater_ready = models.BooleanField(default=False, verbose_name='Штатное подключение внешнего водонагревателя')
     electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='Потребляемая электрическая мощность, кВт')
+
+
+class ControlPanel(BaseProduct):
+    """Панели управления котлов и контроллеры"""
+
+    pass
