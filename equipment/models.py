@@ -117,6 +117,8 @@ class BaseProduct(models.Model):
     vendor_code = models.CharField(max_length=40, verbose_name='артикул')
     product_name = models.CharField(max_length=120, verbose_name='наименование')
     product_fullname = models.TextField(blank=True, verbose_name='полное наименование')
+    product_description = models.TextField(blank=True, verbose_name='описание')
+    product_mass = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='масса, кг')
     product_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, verbose_name='каталожная цена')
     price_unit = models.ForeignKey(StockKeepingUnit, on_delete=models.PROTECT, related_name='+')
     price_currency = models.ForeignKey(PriceCurrency, on_delete=models.PROTECT, related_name='product_set')
@@ -158,6 +160,7 @@ class Boiler(BaseProduct):
         ('goose', 'Чугун'),
         ('steel', 'Сталь'),
         ('coper', 'Медь'),
+        ('alloy', 'Сплав'),
     )
     FLUE_GAS_EXTRACTION_CHOICES = (
         ('ntnd', 'Не требуется'),
@@ -170,25 +173,68 @@ class Boiler(BaseProduct):
         ('110_150', '110/150 мм'),
     )
 
-    mount_type = models.CharField(max_length=5, choices=MOUNT_TYPE_CHOICES, default='wlmnt', verbose_name='Тип установки')
-    fuel_type = models.CharField(max_length=7, choices=FUEL_TYPE_CHOICES, default='gastrad', verbose_name='Вид топлива')
-    body_material = models.CharField(max_length=5, choices=BODY_MATERIAL_CHOICES, default='steel', verbose_name='Материал первичного теплообменника котла')
-    power_max = models.PositiveSmallIntegerField(verbose_name='Масимальная мощность, кВт')
-    power_min = models.PositiveSmallIntegerField(verbose_name='Минимальная мощность, кВт')
-    stage_amount = models.PositiveSmallIntegerField(default=1, verbose_name='Количество ступеней')
-    flame_modulation = models.BooleanField(default=True, verbose_name='Модуляция пламени')
-    flue_gas_extraction = models.CharField(max_length=4, choices=FLUE_GAS_EXTRACTION_CHOICES, default='atmo', verbose_name='Отвод дымовых газов')
-    flue_nozzle_diameter = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='Диаметр патрубка дымохода, мм')
-    coaxial_flue_nozzle_diameter = models.CharField(blank=True, null=True, choices=COAXIAL_FLUE_NOZZLE_CHOICES, verbose_name='Диаметр коаксиального дымохода')
-    control_type = models.CharField(max_length=6, choices=CONTROL_TYPE_CHOICES, default='absent', verbose_name='Панель управления')
-    water_heater_type = models.CharField(max_length=6, choices=WATER_HEATER_TYPE_CHOICES, default='stream', verbose_name='Тип контура ГВС')
-    water_heater_capacity = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='Объём встроенного бойлера, л')
-    water_heater_perfomance = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='Производительность ГВС, л/мин')
-    external_water_heater_ready = models.BooleanField(default=False, verbose_name='Штатное подключение внешнего водонагревателя')
-    electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='Потребляемая электрическая мощность, кВт')
+    mount_type = models.CharField(max_length=5, choices=MOUNT_TYPE_CHOICES, default='wlmnt', verbose_name='тип установки')
+    fuel_type = models.CharField(max_length=7, choices=FUEL_TYPE_CHOICES, default='gastrad', verbose_name='вид топлива')
+    body_material = models.CharField(max_length=5, choices=BODY_MATERIAL_CHOICES, default='steel', verbose_name='материал первичного теплообменника котла')
+    water_capacity = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='объем теплообменника, л')
+    power_max = models.PositiveSmallIntegerField(verbose_name='масимальная мощность, кВт')
+    power_min = models.PositiveSmallIntegerField(verbose_name='минимальная мощность, кВт')
+    stage_amount = models.PositiveSmallIntegerField(default=1, verbose_name='количество ступеней')
+    flame_modulation = models.BooleanField(default=True, verbose_name='модуляция пламени')
+    flue_gas_extraction = models.CharField(max_length=4, choices=FLUE_GAS_EXTRACTION_CHOICES, default='atmo', verbose_name='отвод дымовых газов')
+    flue_nozzle_diameter = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='диаметр патрубка дымохода, мм')
+    coaxial_flue_nozzle_diameter = models.CharField(blank=True, null=True, choices=COAXIAL_FLUE_NOZZLE_CHOICES, verbose_name='диаметр коаксиального дымохода')
+    control_type = models.CharField(max_length=6, choices=CONTROL_TYPE_CHOICES, default='absent', verbose_name='панель управления')
+    water_heater_type = models.CharField(max_length=6, choices=WATER_HEATER_TYPE_CHOICES, default='stream', verbose_name='тип контура ГВС')
+    water_heater_capacity = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='объём встроенного бойлера, л')
+    water_heater_perfomance = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='производительность ГВС, л/мин')
+    is_external_water_heater_ready = models.BooleanField(default=False, verbose_name='штатное подключение внешнего водонагревателя')
+    electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
 
 
 class ControlPanel(BaseProduct):
     """Панели управления котлов и контроллеры"""
+
+    is_standalone = models.BooleanField(default=False, verbose_name='можно использовать как самостоятельный контроллер')
+    boilers = models.ManyToManyField(Boiler)
+    is_automatic = models.BooleanField(default=True, verbose_name='автоматическое регулирование')
+    is_weather_depended = models.BooleanField(default=True, verbose_name='погодозависимое управление')
+    weather_dependency_notes = models.TextField(blank=True, verbose_name='условия для работы контроллера в погодозависимом режиме')
+    is_room_temp_depended = models.BooleanField(default=True, verbose_name='регулирование по комнатной температуре')
+    room_temp_dependency_notes = models.TextField(blank=True, verbose_name='условия для работы контроллера по комнатной температуре')
+    is_remote_control = models.BooleanField(default=False, verbose_name='возможность дистанционного управления')
+    remote_control_notes = models.TextField(blank=True, verbose_name='условия для дистанционного управления')
+    is_water_heater_control = models.BooleanField(default=True, verbose_name='управление контуром нагрева воды')
+    water_heater_control_notes = models.TextField(blank=True, verbose_name='условия для управления нагревом воды')
+    straight_circuits_control = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='количество управляемых прямых контуров')
+    straight_circuits_control_notes = models.TextField(blank=True, verbose_name='условия для подключения прямых контуров')
+    mixed_circuits_control = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='количество управляемых смесительных контуров')
+    mixed_circuits_control_notes = models.TextField(blank=True, verbose_name='условия для подключения смесительных контуров')
+
+
+class ExtensionControlModule(BaseProduct):
+    """Платы расширения, модули, блоки дистанционного управления и термостаты"""
+
+    panels = models.ManyToManyField(ControlPanel)
+    is_remote_control = models.BooleanField(default=False, verbose_name='является модулем дистанционного управления')
+    is_programmable = models.BooleanField(default=False, verbose_name='возможность программирования')
+    programms_count = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='количество программ')
+
+
+class Sensor(BaseProduct):
+    """Датчики для плат, модулей и панелей управления"""
+
+    panels = models.ManyToManyField(ControlPanel)
+    modules = models.ManyToManyField(ExtensionControlModule)
+
+
+class WaterHeater(BaseProduct):
+    """Бойлеры косвенного нагрева"""
+
+    pass
+
+
+class HydraulicUnit(BaseProduct):
+    """Комплекты штуцеров, крестовин и патрубков для гидравлического соединения"""
 
     pass
