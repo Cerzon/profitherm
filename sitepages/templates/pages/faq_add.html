@@ -51,7 +51,7 @@
     {% if form.question_text.errors %}<div class="landed">{{ form.question_text.errors }}</div>{% endif %}
     <div class="form-field label-above dotted-bottom">
         <label for="{{ form.question_text.id_for_label }}" class="required-field">Ваш вопрос:</label>
-        <div class="wide-field{% if form.user_email.errors %} error-field{% endif %}">{{ form.question_text }}</div>
+        <div class="wide-field{% if form.question_text.errors %} error-field{% endif %}">{{ form.question_text }}</div>
     </div>
     <div class="form-field label-above" id="attachment-fields">
         <label>Загруженные файлы:</label>

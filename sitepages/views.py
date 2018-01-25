@@ -8,8 +8,8 @@ from django.template.loader import render_to_string
 from django.views.generic.edit import CreateView, FormView
 from django.core.mail import send_mail, mail_admins, mail_managers
 from datetime import datetime, timedelta
-from .models import Article, ArticlePicture, ProfImage, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion
-from .forms import CalculationOrderForm, FeedbackForm, FrequentlyAskedQuestionForm, CallbackForm, CalcOrderFileUploadFormSet, QuestionFileUploadFormSet, QuickRequestForm
+from .models import Article, ArticlePicture, ProfImage, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion, WaterTreatmentRequest
+from .forms import CalculationOrderForm, FeedbackForm, FrequentlyAskedQuestionForm, WaterTreatmentRequestForm, CallbackForm, CalcOrderFileUploadFormSet, QuestionFileUploadFormSet, WaterAnalysisFileUploadFormSet, QuickRequestForm
 
 # список праздничных нерабочих дней
 FUCKING_HOLIDAYS = (
@@ -21,23 +21,29 @@ FUCKING_HOLIDAYS = (
     (23, 2,),
     (8, 3,),
     (1, 5,),
+    (2, 5,),
     (9, 5,),
     (12, 6,),
     (4, 11,),
-    (31, 12,),
     # перенесённые с выходных дней
     (3, 1,),
     (4, 1,),
     (5, 1,),
-    (6, 1,),
-    (24, 2,),
+    (8, 1,),
+    (9, 3,),
+    (30, 4,),
     (8, 5,),
-    (6, 11,),
+    (11, 6,),
+    (5, 11,),
+    (31, 12,),
 )
 
 # список дат суббот и воскресений, на которые перенесены рабочие дни
 WORKDAY_WEEKENDS = (
     # (число, месяц,),
+    (28, 4,),
+    (9, 6,),
+    (29, 12,),
 )
 
 
@@ -765,8 +771,10 @@ class PortfolioDetailView(View):
     template = 'pages/portfolio_detail.html'
 
     def get(self, request, gallery_name):
+        #if not gallery_name[-6:] == '-album':
+        #    return HttpResponseRedirect(reverse_lazy('portfolio_list'))
         album = get_object_or_404(ImageGallery, name=gallery_name)
-        if not album.is_published:
+        if not album.is_published or not gallery_name[-6:] == '-album':
             raise Http404('Gallery does not exist any more or not published yet')
         styles = set()
         scripts = set()
@@ -855,3 +863,130 @@ class QuickRequestFormView(FormView):
             message += ', а также посчитал нужным сообщить следующее:\n {0}'.format(form.cleaned_data['additional_info'])
         mail_managers(subject, message)
         return HttpResponse('<p>Ваш запрос отправлен специалисту. Письмо с предварительной оценкой стоимости проектных работ будет отправлено на указанный Вами адрес электронной почты.</p>')
+
+
+class WaterTreatmentWithRequestFormView(CreateView):
+    template_name = 'pages/water_treatment_with_request_form.html'
+    form_class = WaterTreatmentRequestForm
+    model = WaterTreatmentRequest
+    success_url = reverse_lazy('wt_request_success')
+    
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        upload_form = WaterAnalysisFileUploadFormSet()
+        page_name = reverse_lazy('water_treatment').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_name)
+        except ObjectDoesNotExist:
+            page_detail = None
+        else:
+            if not page_detail.is_published:
+                page_detail = None
+        if page_detail:
+            page_articles = page_detail.articles.filter(is_published=True).order_by('pagelink__position')
+            if page_articles:
+                article_list = list()
+                styles = set()
+                scripts = set()
+                for article in page_articles:
+                    styles = styles.union(article.get_styles())
+                    scripts = scripts.union(article.get_scripts())
+                    pictures = article.pictures.order_by('picturelink__position').select_related('deploy_template')
+                    if pictures:
+                        picture_list = list()
+                        for picture in pictures:
+                            styles = styles.union(picture.get_styles())
+                            scripts = scripts.union(picture.get_scripts())
+                            picture_list.append(picture.get_render())
+                    else:
+                        picture_list = None
+                    tpl = Template(article.content)
+                    ctx = Context({'pictures' : picture_list})
+                    article_body = tpl.render(ctx)
+                    article_list.append({
+                        'id' : article.id,
+                        'slug' : article.name,
+                        'title' : article.title,
+                        'body' : article_body,
+                        'teaser' : article.teaser_on_page,
+                        'get_absolute_url' : article.get_absolute_url(),
+                        'date_created' : article.date_created,
+                        'date_modified' : article.date_modified,
+                    })
+            else:
+                article_list = None
+                styles = None
+                scripts = None
+        else:
+            article_list = None
+            styles = None
+            scripts = None
+        return self.render_to_response(self.get_context_data(
+                page_detail=page_detail,
+                articles=article_list,
+                styles=styles,
+                scripts=scripts,
+                form=form,
+                upload_form=upload_form,
+            )
+        )
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        upload_form = WaterAnalysisFileUploadFormSet(self.request.POST, self.request.FILES)
+        if form.is_valid() and upload_form.is_valid():
+            return self.form_valid(form, upload_form)
+        else:
+            return self.form_invalid(form, upload_form)
+
+    def form_valid(self, form, upload_form):
+        self.object = form.save()
+        upload_form.instance = self.object
+        upload_form.save()
+        self.request.session['wt_request_success'] = self.object.pk
+        return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, upload_form):
+        page_name = reverse_lazy('water_treatment').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_name)
+        except ObjectDoesNotExist:
+            page_detail = None
+        else:
+            if not page_detail.is_published:
+                page_detail = None
+        return self.render_to_response(self.get_context_data(
+                page_detail=page_detail,
+                form=form,
+                upload_form=upload_form,
+            )
+        )
+
+
+class WaterTreatmentRequestSend(View):
+    template = 'pages/wt_request_success.html'
+    mail_template = 'emails/water_treatment_request_mail.html'
+
+    def get(self, request):
+        if request.session.get('wt_request_success', False):
+            wt_request = WaterTreatmentRequest.objects.select_related().get(pk=request.session['wt_request_success'])
+            del request.session['wt_request_success']
+            mail_subj = 'Запрос на подбор водоподготовки #{}'.format(wt_request.pk)
+            mail_msg = render_to_string(self.mail_template, {'wt_request' : wt_request})
+            mail_managers(mail_subj, mail_msg, html_message=mail_msg)
+            page_name = reverse_lazy('wt_request_success').split('/')[-2]
+            try:
+                page_detail = StaticPage.objects.get(name=page_name)
+                if not page_detail.is_published: page_detail = None
+            except ObjectDoesNotExist:
+                page_detail = None
+            return render(request, self.template, {
+                'page_detail' : page_detail,
+                'wt_request' : wt_request,
+            })
+        else:
+            return HttpResponseRedirect('/')
