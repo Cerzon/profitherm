@@ -157,10 +157,10 @@ class Radiator(BaseProduct):
         ('alumn', 'Алюминий'),
         ('goose', 'Чугун'),
         ('coopr', 'Медь'),
-        ('bimtl', 'Сталь и алюминий'),
+        ('bimtl', 'Сталь/алюминий'),
         ('plast', 'Пластик'),
     )
-    INTAKE_SIDE_CHOICES (
+    INTAKE_SIDE_CHOICES = (
         ('side', 'Боковое'),
         ('down', 'Нижнее'),
         ('othr', 'Другое'),
@@ -170,11 +170,15 @@ class Radiator(BaseProduct):
     std_mount_type = models.CharField(max_length=7, choices=STD_MOUNT_TYPE_CHOICES, default='wallmnt', verbose_name='стандартное размещение')
     material = models.CharField(max_length=5, choices=MATERIAL_CHOICES, default='steel', verbose_name='материал')
     is_wall_mount = models.BooleanField(default=True, verbose_name='возможность настенного монтажа')
-    wall_mount_notes = models.TextField(blank=True, null=True, verbose_name='условия для настенного монтажа')
+    wall_mount_notes = models.TextField(blank=True, null=True, verbose_name='информация настенном монтаже')
     is_onfloor_mount = models.BooleanField(default=True, verbose_name='возможность напольного монтажа')
-    onfloor_mount_notes = models.TextField(blank=True, null=True, verbose_name='условия для напольного монтажа')
+    onfloor_mount_notes = models.TextField(blank=True, null=True, verbose_name='информация о напольном монтаже')
     intake_side = models.CharField(max_length=4, choices=INTAKE_SIDE_CHOICES, default='side', verbose_name='тип подключения')
     intake_axis_space = models.PositiveSmallIntegerField(blank=True, null=True, default=500, verbose_name='межосевое расстояние, мм')
+    length = models.PositiveSmallIntegerField(verbose_name='длина, мм')
+    height = models.PositiveSmallIntegerField(verbose_name='высота, мм')
+    depth = models.PositiveSmallIntegerField(verbose_name='глубина (ширина), мм')
+    output_power = models.PositiveSmallIntegerField(verbose_name='мощность, Вт')
 
 
 class Boiler(BaseProduct):
@@ -221,9 +225,9 @@ class Boiler(BaseProduct):
     fuel_type = models.CharField(max_length=7, choices=FUEL_TYPE_CHOICES, default='gastrad', verbose_name='вид топлива')
     body_material = models.CharField(max_length=5, choices=BODY_MATERIAL_CHOICES, default='steel', verbose_name='материал первичного теплообменника котла')
     water_capacity = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='объем теплообменника, л')
-    power_max = models.PositiveSmallIntegerField(verbose_name='масимальная мощность, кВт')
-    power_min = models.PositiveSmallIntegerField(verbose_name='минимальная мощность, кВт')
-    stage_amount = models.PositiveSmallIntegerField(default=1, verbose_name='количество ступеней')
+    output_power_max = models.PositiveSmallIntegerField(verbose_name='масимальная мощность, кВт')
+    output_power_min = models.PositiveSmallIntegerField(verbose_name='минимальная мощность, кВт')
+    power_stage_amount = models.PositiveSmallIntegerField(default=1, verbose_name='количество ступеней')
     flame_modulation = models.BooleanField(default=True, verbose_name='модуляция пламени')
     flue_gas_extraction = models.CharField(max_length=4, choices=FLUE_GAS_EXTRACTION_CHOICES, default='atmo', verbose_name='отвод дымовых газов')
     flue_nozzle_diameter = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='диаметр патрубка дымохода, мм')
