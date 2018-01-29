@@ -120,8 +120,9 @@ class EquipmentCategory(models.Model):
     ecat_slug = models.SlugField(max_length=30)
     is_published = models.BooleanField(default=False)
     ecat_name = models.CharField(max_length=50)
-    ecat_image = models.ForeignKey(ProfImage, on_delete=models.PROTECT, related_name='category_set')
-    ecat_description = models.TextField(blank=True)
+    ecat_image = models.ForeignKey(ProfImage, on_delete=models.SET_NULL, null=True, related_name='category_set')
+    ecat_description = models.TextField(blank=True, null=True)
+    ecat_parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, related_name='ecat_childrens')
 
     class Meta():
         verbose_name = 'категория оборудования'
@@ -160,33 +161,33 @@ class Radiator(BaseProduct):
     """Отопительные приборы - радиаторы, конвекторы, польные конвекторы etc"""
 
     FORM_TYPE_CHOICES = (
-        ('panel', 'Панельный'),
-        ('sectn', 'Секционный'),
-        ('tubes', 'Трубчатый'),
-        ('floor', 'Внутрипольный'),
-        ('palce', 'Дворцовый'),
-        ('plint', 'Плинтусный'),
-        ('ceiln', 'Потолочный'),
+        ('panel', 'Панельный',),
+        ('sectn', 'Секционный',),
+        ('tubes', 'Трубчатый',),
+        ('floor', 'Внутрипольный',),
+        ('palce', 'Дворцовый',),
+        ('plint', 'Плинтусный',),
+        ('ceiln', 'Потолочный',),
     )
     STD_MOUNT_TYPE_CHOICES = (
-        ('wallmnt', 'Настенный'),
-        ('onfloor', 'Напольный'),
-        ('infloor', 'Внутрипольный'),
-        ('plinthb', 'Плинтусный'),
-        ('ceiling', 'Потолочный'),
+        ('wallmnt', 'Настенный',),
+        ('onfloor', 'Напольный',),
+        ('infloor', 'Внутрипольный',),
+        ('plinthb', 'Плинтусный',),
+        ('ceiling', 'Потолочный',),
     )
     MATERIAL_CHOICES = (
-        ('steel', 'Сталь'),
-        ('alumn', 'Алюминий'),
-        ('goose', 'Чугун'),
-        ('coopr', 'Медь'),
-        ('bimtl', 'Сталь/алюминий'),
-        ('plast', 'Пластик'),
+        ('steel', 'Чёрная сталь',),
+        ('alumn', 'Алюминий',),
+        ('goose', 'Чугун',),
+        ('coopr', 'Медь',),
+        ('bimtl', 'Биметалл сталь/алюминий',),
+        ('plast', 'Пластик',),
     )
     INTAKE_SIDE_CHOICES = (
-        ('side', 'Боковое'),
-        ('down', 'Нижнее'),
-        ('othr', 'Другое'),
+        ('side', 'Боковое',),
+        ('down', 'Нижнее',),
+        ('othr', 'Другое',),
     )
 
     form_type = models.CharField(max_length=5, choices=FORM_TYPE_CHOICES, default='panel', verbose_name='тип радиатора')
@@ -203,8 +204,7 @@ class Radiator(BaseProduct):
     water_capacity = models.DecimalField(blank=True, null=True, max_digits=4, decimal_places=2, verbose_name='объём воды в радиаторе, л')
     connection_gear_size = models.CharField(blank=True, null=True, max_length=3, choices=GEAR_SIZE_CHOICES, verbose_name='размер присоединительной резьбы')
     connection_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='информация о присоединении', help_text='резьба наружняя/внутренняя/НГ и уплотнение')
-    operating_pressure = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='максимальное рабочее давление, бар')
-    test_pressure = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='опрессовочное давление, бар')
+    op_overpressure = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True, verbose_name='максимальное рабочее давление, бар')
     is_builtin_regulation = models.BooleanField(default=False, verbose_name='встроенный терморегулятор')
     regulation_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='информация о встроенном терморегуляторе')
     electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
@@ -215,59 +215,61 @@ class Radiator(BaseProduct):
 class Boiler(BaseProduct):
     """Котёл водогрейный"""
 
+    MOUNT_TYPE_CHOICES = (
+        ('wallmnt', 'Настенный',),
+        ('onfloor', 'Напольный',),
+    )
     FUEL_TYPE_CHOICES = (
-        ('gastrad', 'Газовый'),
-        ('gascond', 'Газовый конденсационный'),
-        ('solidfl', 'Твердотопливный'),
-        ('electro', 'Электрический'),
-        ('univers', 'Универсальный'),
+        ('gastrad', 'Газовый',),
+        ('gascond', 'Газовый конденсационный',),
+        ('solidfl', 'Твердотопливный',),
+        ('electro', 'Электрический',),
+        ('univers', 'Универсальный',),
     )
     CONTROL_TYPE_CHOICES = (
-        ('absent', 'Без панели управления'),
-        ('manual', 'Ручная панель управления'),
-        ('weathr', 'Погодозависимая автоматика'),
+        ('absent', 'Без панели управления',),
+        ('manual', 'Ручная панель управления',),
+        ('weathr', 'Погодозависимая автоматика',),
     )
     WATER_HEATER_TYPE_CHOICES = (
-        ('absent', 'Без контура ГВС'),
-        ('stream', 'Проточный теплообменник'),
-        ('buffer', 'Встроенный бойлер'),
+        ('absent', 'Без контура ГВС',),
+        ('stream', 'Проточный теплообменник',),
+        ('buffer', 'Встроенный бойлер',),
     )
     BODY_MATERIAL_CHOICES = (
-        ('goose', 'Чугун'),
-        ('steel', 'Сталь'),
-        ('coper', 'Медь'),
-        ('alloy', 'Сплав'),
+        ('goose', 'Чугун',),
+        ('steel', 'Сталь',),
+        ('coper', 'Медь',),
+        ('alloy', 'Сплав',),
     )
     FLUE_GAS_EXTRACTION_CHOICES = (
-        ('ntnd', 'Не требуется'),
-        ('atmo', 'Естественная тяга'),
-        ('trbo', 'Принудительное дымоудаление'),
+        ('ntnd', 'Не требуется',),
+        ('atmo', 'Естественная тяга',),
+        ('trbo', 'Принудительное дымоудаление',),
     )
     COAXIAL_FLUE_NOZZLE_CHOICES = (
-        ('060_100', '60/100 мм'),
-        ('080_125', '80/125 мм'),
-        ('110_150', '110/150 мм'),
+        ('060_100', '60/100 мм',),
+        ('080_125', '80/125 мм',),
+        ('110_150', '110/150 мм',),
     )
 
-    is_wall_mount = models.BooleanField(default=True, verbose_name='настенный')
-    mount_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='информация о расположении')
+    mount_type = models.CharField(max_length=7, choices=MOUNT_TYPE_CHOICES, default='wallmnt', verbose_name='тип монтажа')
     fuel_type = models.CharField(max_length=7, choices=FUEL_TYPE_CHOICES, default='gastrad', verbose_name='вид топлива')
     body_material = models.CharField(max_length=5, choices=BODY_MATERIAL_CHOICES, default='steel', verbose_name='материал первичного теплообменника котла')
-    water_capacity = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='объем теплообменника, л')
-    primary_operating_pressure = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='максимальное рабочее давление, бар')
+    primary_op_overpressure = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True, verbose_name='максимальное рабочее давление, бар')
     output_power_max = models.PositiveSmallIntegerField(verbose_name='масимальная мощность, кВт')
-    output_power_min = models.PositiveSmallIntegerField(verbose_name='минимальная мощность, кВт')
+    output_power_min = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='минимальная мощность, кВт')
     power_stage_amount = models.PositiveSmallIntegerField(default=1, verbose_name='количество ступеней')
     flame_modulation = models.BooleanField(default=True, verbose_name='модуляция пламени')
     flue_gas_extraction = models.CharField(max_length=4, choices=FLUE_GAS_EXTRACTION_CHOICES, default='atmo', verbose_name='отвод дымовых газов')
     flue_nozzle_diameter = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='диаметр патрубка дымохода, мм')
     coaxial_flue_nozzle_diameter = models.CharField(blank=True, null=True, choices=COAXIAL_FLUE_NOZZLE_CHOICES, verbose_name='диаметр коаксиального дымохода')
     control_type = models.CharField(max_length=6, choices=CONTROL_TYPE_CHOICES, default='absent', verbose_name='панель управления')
-    water_heater_type = models.CharField(max_length=6, choices=WATER_HEATER_TYPE_CHOICES, default='stream', verbose_name='тип контура ГВС')
-    water_heater_capacity = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='объём встроенного бойлера, л')
-    water_heater_perfomance = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='производительность ГВС, л/мин')
-    water_heater_perfomance_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения о производительности ГВС')
-    water_heater_operating_pressure = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='максимальное давление в системе ГВС, бар')
+    wh_type = models.CharField(max_length=6, choices=WATER_HEATER_TYPE_CHOICES, default='stream', verbose_name='тип контура ГВС')
+    wh_capacity = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='объём встроенного бойлера, л')
+    wh_perfomance = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='производительность ГВС, л/мин')
+    wh_perfomance_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения о производительности ГВС')
+    wh_op_overpressure = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True, verbose_name='максимальное давление в системе ГВС, бар')
     is_external_water_heater_ready = models.BooleanField(default=False, verbose_name='штатное подключение внешнего водонагревателя')
     electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
     voltage = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='напряжение питания, В')
@@ -311,7 +313,6 @@ class ExtensionControlModule(BaseProduct):
     radiators = models.ManyToManyField(Radiator)
     is_remote_control = models.BooleanField(default=False, verbose_name='является модулем дистанционного управления')
     is_programmable = models.BooleanField(default=False, verbose_name='возможность программирования')
-    programms_count = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='количество программ')
     electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
     voltage = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='напряжение питания, В')
     voltage_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по электропитанию')
@@ -330,19 +331,19 @@ class Sensor(BaseProduct):
 class WaterHeater(BaseProduct):
     """Водонагреватели проточные и накопительные"""
     HEATING_TYPE_CHOICES = (
-        ('ind', 'Косвенный нагрев'),
-        ('gas', 'Газовый'),
-        ('elc', 'Электрический'),
+        ('ind', 'Косвенный нагрев',),
+        ('gas', 'Газовый',),
+        ('elc', 'Электрический',),
     )
     ORIENTATION_CHOICES = (
-        ('horz', 'Горизонтальный'),
-        ('vert', 'Вертикальный'),
-        ('univ', 'Универсальный'),
+        ('horz', 'Горизонтальный',),
+        ('vert', 'Вертикальный',),
+        ('univ', 'Универсальный',),
     )
     CONTROL_PANEL_CHOICES = (
-        ('absent', 'Отсутствует'),
-        ('manual', 'Ручная'),
-        ('electr', 'Электронная')
+        ('absent', 'Отсутствует',),
+        ('manual', 'Ручная',),
+        ('electr', 'Электронная',),
     )
 
     heating_type = models.CharField(max_length=3, choices=HEATING_TYPE_CHOICES, default='ind', verbose_name='тип нагревателя')
@@ -354,8 +355,8 @@ class WaterHeater(BaseProduct):
     onfloor_mount_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения о напольном монтаже')
     orientation = models.CharField(max_length=4, choices=ORIENTATION_CHOICES, default='vert', verbose_name='расположение')
     orientation_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения о расположении')
-    primary_operating_pressure = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='максимальное рабочее давление в первичном контуре, бар')
-    water_heater_operating_pressure = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='максимальное давление в системе ГВС, бар')
+    primary_op_overpressure = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True, verbose_name='максимальное рабочее давление в первичном контуре, бар')
+    wh_op_overpressure = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True, verbose_name='максимальное давление в системе ГВС, бар')
     perfomance = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='производительность, л/мин')
     perfomance_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по производительности')
     electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=4, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
@@ -368,6 +369,30 @@ class WaterHeater(BaseProduct):
     height = models.PositiveSmallIntegerField(verbose_name='высота, мм')
     width = models.PositiveSmallIntegerField(verbose_name='ширина, мм')
     depth = models.PositiveSmallIntegerField(verbose_name='глубина, мм')
+
+
+class ExpansionVessel(BaseProduct):
+    """Расширительные баки для отопления и ГВС"""
+
+    PURPOSE_CHOICES = (
+        ('heating', 'Система отопления/охлаждения',),
+        ('waterss', 'Система водоснабжения',),
+    )
+    ORIENTATION_CHOICES = (
+        ('horz', 'Горизонтальный',),
+        ('vert', 'Вертикальный',),
+        ('univ', 'Универсальный',),
+    )
+
+    purpose = models.CharField(max_length=7, choices=PURPOSE_CHOICES, default='heating', verbose_name='назначение')
+    nominal_volume = models.PositiveSmallIntegerField(verbose_name='номинальный объём, л')
+    useful_volume = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='полезный объём, л')
+    op_overpressure = models.DecimalField(max_digits=3, decimal_places=1, verbose_name='максимальное рабочее давление, бар')
+    gas_inlet_pressure = models.DecimalField(max_digits=3, decimal_places=1, verbose_name='предустановленное давление воздуха в мембране, бар')
+    is_changeable_membrane = models.BooleanField(default=False, verbose_name='заменяемая мембрана')
+    foot_construction = models.BooleanField(defalt=False, verbose_name='ножки для напольной установки')
+    orientation = models.CharField(max_length=4, choices=ORIENTATION_CHOICES, verbose_name='расположение')
+    connection_gear_size = models.CharField(max_length=3, choices=GEAR_SIZE_CHOICES, verbose_name='размер присоединительной резьбы')
 
 
 class HydraulicUnit(BaseProduct):
