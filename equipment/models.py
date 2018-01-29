@@ -169,7 +169,7 @@ class Radiator(BaseProduct):
         ('plint', 'Плинтусный',),
         ('ceiln', 'Потолочный',),
     )
-    STD_MOUNT_TYPE_CHOICES = (
+    MOUNT_TYPE_CHOICES = (
         ('wallmnt', 'Настенный',),
         ('onfloor', 'Напольный',),
         ('infloor', 'Внутрипольный',),
@@ -191,7 +191,7 @@ class Radiator(BaseProduct):
     )
 
     form_type = models.CharField(max_length=5, choices=FORM_TYPE_CHOICES, default='panel', verbose_name='тип радиатора')
-    std_mount_type = models.CharField(max_length=7, choices=STD_MOUNT_TYPE_CHOICES, default='wallmnt', verbose_name='стандартное размещение')
+    mount_type = models.CharField(max_length=7, choices=MOUNT_TYPE_CHOICES, default='wallmnt', verbose_name='стандартное размещение')
     mount_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='информация о монтаже')
     material = models.CharField(max_length=5, choices=MATERIAL_CHOICES, default='steel', verbose_name='материал')
     intake_side = models.CharField(max_length=4, choices=INTAKE_SIDE_CHOICES, default='side', verbose_name='тип подключения')
@@ -284,7 +284,7 @@ class ControlPanel(BaseProduct):
     """Панели управления котлов и контроллеры"""
 
     is_standalone = models.BooleanField(default=False, verbose_name='можно использовать как самостоятельный контроллер')
-    boilers = models.ManyToManyField(Boiler)
+    boilers = models.ManyToManyField(Boiler, blank=True)
     is_automatic = models.BooleanField(default=True, verbose_name='автоматическое регулирование')
     is_weather_depended = models.BooleanField(default=True, verbose_name='погодозависимое управление')
     weather_dependency_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='условия для работы контроллера в погодозависимом режиме')
@@ -309,8 +309,8 @@ class ControlPanel(BaseProduct):
 class ExtensionControlModule(BaseProduct):
     """Платы расширения, модули, блоки дистанционного управления и термостаты"""
 
-    panels = models.ManyToManyField(ControlPanel)
-    radiators = models.ManyToManyField(Radiator)
+    panels = models.ManyToManyField(ControlPanel, blank=True)
+    radiators = models.ManyToManyField(Radiator, blank=True)
     is_remote_control = models.BooleanField(default=False, verbose_name='является модулем дистанционного управления')
     is_programmable = models.BooleanField(default=False, verbose_name='возможность программирования')
     electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
@@ -324,8 +324,8 @@ class ExtensionControlModule(BaseProduct):
 class Sensor(BaseProduct):
     """Датчики для плат, модулей и панелей управления"""
 
-    panels = models.ManyToManyField(ControlPanel)
-    modules = models.ManyToManyField(ExtensionControlModule)
+    panels = models.ManyToManyField(ControlPanel, blank=True)
+    modules = models.ManyToManyField(ExtensionControlModule, blank=True)
 
 
 class WaterHeater(BaseProduct):
@@ -365,7 +365,7 @@ class WaterHeater(BaseProduct):
     full_capacity_heating_time = models.DecimalField(blank=True, null=True, max_digits=3, decimal_places=2, verbose_name='время нагрева, ч')
     heating_time_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения о времени нагрева')
     control_panel = models.CharField(max_length=6, default='absent', verbose_name='панель управления')
-    shell_color = models.CharField(max_length=20, verbose_name='цвет')
+    color = models.CharField(max_length=20, verbose_name='цвет')
     height = models.PositiveSmallIntegerField(verbose_name='высота, мм')
     width = models.PositiveSmallIntegerField(verbose_name='ширина, мм')
     depth = models.PositiveSmallIntegerField(verbose_name='глубина, мм')
@@ -387,15 +387,34 @@ class ExpansionVessel(BaseProduct):
     purpose = models.CharField(max_length=7, choices=PURPOSE_CHOICES, default='heating', verbose_name='назначение')
     nominal_volume = models.PositiveSmallIntegerField(verbose_name='номинальный объём, л')
     useful_volume = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='полезный объём, л')
+    op_temperature = models.PositiveSmallIntegerField(verbose_name='допустимая температура, град.С')
     op_overpressure = models.DecimalField(max_digits=3, decimal_places=1, verbose_name='максимальное рабочее давление, бар')
     gas_inlet_pressure = models.DecimalField(max_digits=3, decimal_places=1, verbose_name='предустановленное давление воздуха в мембране, бар')
     is_changeable_membrane = models.BooleanField(default=False, verbose_name='заменяемая мембрана')
     foot_construction = models.BooleanField(defalt=False, verbose_name='ножки для напольной установки')
     orientation = models.CharField(max_length=4, choices=ORIENTATION_CHOICES, verbose_name='расположение')
     connection_gear_size = models.CharField(max_length=3, choices=GEAR_SIZE_CHOICES, verbose_name='размер присоединительной резьбы')
+    color = models.CharField(max_length=20, verbose_name='цвет')
+    diameter = models.PositiveSmallIntegerField(verbose_name='диаметр, мм')
+    height = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='высота, мм')
+    length = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='длина, мм')
 
 
-class HydraulicUnit(BaseProduct):
-    """Комплекты штуцеров, крестовин и патрубков для гидравлического соединения"""
+class Pump(BaseProduct):
+    """Насосы самые разные"""
 
-    pass
+    PURPOSE_CHOICES = (
+        ('circulation', 'Циркуляционный',),
+        ('groundwater', 'Дренажный',),
+        ('submercible', 'Погружной/колодезный',),
+        ('boreholesbm', 'Скважинный',),
+        ('selfpriming', 'Самовсасывающий',),
+        ('pressurebst', 'Повысительный',),
+        ('sewagesbmrc', 'Фекальный',),
+    )
+
+    purpose = models.CharField(max_length=11, choices=PURPOSE_CHOICES, default='circulation', verbose_name='назначение')
+    head_max = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='максимальный напор, м')
+    head_min = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='минимальный напор, м')
+    flow_max = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='максимальный расход, куб.м/ч')
+    flow_min = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='минимальный расход, куб.м/ч')
