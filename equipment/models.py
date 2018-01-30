@@ -418,3 +418,6 @@ class Pump(BaseProduct):
     head_min = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='минимальный напор, м')
     flow_max = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='максимальный расход, куб.м/ч')
     flow_min = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='минимальный расход, куб.м/ч')
+    electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=4, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
+    voltage = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='напряжение питания, В')
+    voltage_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по электропитанию')
