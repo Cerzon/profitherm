@@ -212,6 +212,29 @@ class Radiator(BaseProduct):
     voltage_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по электропитанию')
 
 
+class Pump(BaseProduct):
+    """Насосы самые разные"""
+
+    PURPOSE_CHOICES = (
+        ('circulation', 'Циркуляционный',),
+        ('groundwater', 'Дренажный',),
+        ('submercible', 'Погружной/колодезный',),
+        ('boreholesbm', 'Скважинный',),
+        ('selfpriming', 'Самовсасывающий',),
+        ('pressurebst', 'Повысительный',),
+        ('sewagesbmrc', 'Фекальный',),
+    )
+
+    purpose = models.CharField(max_length=11, choices=PURPOSE_CHOICES, default='circulation', verbose_name='назначение')
+    head_max = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='максимальный напор, м')
+    head_min = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='минимальный напор, м')
+    flow_max = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='максимальный расход, куб.м/ч')
+    flow_min = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='минимальный расход, куб.м/ч')
+    electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=4, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
+    voltage = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='напряжение питания, В')
+    voltage_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по электропитанию')
+
+
 class Boiler(BaseProduct):
     """Котёл водогрейный"""
 
@@ -398,26 +421,3 @@ class ExpansionVessel(BaseProduct):
     diameter = models.PositiveSmallIntegerField(verbose_name='диаметр, мм')
     height = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='высота, мм')
     length = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='длина, мм')
-
-
-class Pump(BaseProduct):
-    """Насосы самые разные"""
-
-    PURPOSE_CHOICES = (
-        ('circulation', 'Циркуляционный',),
-        ('groundwater', 'Дренажный',),
-        ('submercible', 'Погружной/колодезный',),
-        ('boreholesbm', 'Скважинный',),
-        ('selfpriming', 'Самовсасывающий',),
-        ('pressurebst', 'Повысительный',),
-        ('sewagesbmrc', 'Фекальный',),
-    )
-
-    purpose = models.CharField(max_length=11, choices=PURPOSE_CHOICES, default='circulation', verbose_name='назначение')
-    head_max = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='максимальный напор, м')
-    head_min = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='минимальный напор, м')
-    flow_max = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='максимальный расход, куб.м/ч')
-    flow_min = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='минимальный расход, куб.м/ч')
-    electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=4, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
-    voltage = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='напряжение питания, В')
-    voltage_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по электропитанию')
