@@ -145,7 +145,7 @@ class BaseProduct(models.Model):
     product_mass = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='масса, кг')
     product_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, verbose_name='каталожная цена')
     price_unit = models.ForeignKey(StockKeepingUnit, on_delete=models.PROTECT, related_name='+')
-    price_currency = models.ForeignKey(PriceCurrency, on_delete=models.PROTECT, related_name='product_set')
+    price_currency = models.ForeignKey(PriceCurrency, on_delete=models.PROTECT, related_name='+')
     trade_unit = models.ForeignKey(StockKeepingUnit, on_delete=models.PROTECT, related_name='+')
     trade_unit_multiplier = models.PositiveSmallIntegerField(default=1, verbose_name='кратность единицы продажи')
     complectation = models.TextField(verbose_name='комплектация')
@@ -228,9 +228,22 @@ class Pump(BaseProduct):
     purpose = models.CharField(max_length=11, choices=PURPOSE_CHOICES, default='circulation', verbose_name='назначение')
     head_max = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='максимальный напор, м')
     head_min = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='минимальный напор, м')
+    head_optimal = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='напор при максимальном КПД, м')
     flow_max = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='максимальный расход, куб.м/ч')
     flow_min = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='минимальный расход, куб.м/ч')
+    flow_optimal = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='расход при максимальном КПД, куб.м/ч')
+    electonic_regulation = models.BooleanField(default=False, verbose_name='частотное регулирование')
+    flow_switch = models.BooleanField(default=False, verbose_name='наличие поплавка')
     electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=4, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
+    voltage = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='напряжение питания, В')
+    voltage_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по электропитанию')
+
+
+class PumpControl(BaseProduct):
+    """Шкаф управления насосами"""
+
+    pumps = models.ManyToManyField(Pump)
+    overamperage = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='допустимый ток, А')
     voltage = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='напряжение питания, В')
     voltage_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по электропитанию')
 
@@ -286,7 +299,7 @@ class Boiler(BaseProduct):
     flame_modulation = models.BooleanField(default=True, verbose_name='модуляция пламени')
     flue_gas_extraction = models.CharField(max_length=4, choices=FLUE_GAS_EXTRACTION_CHOICES, default='atmo', verbose_name='отвод дымовых газов')
     flue_nozzle_diameter = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='диаметр патрубка дымохода, мм')
-    coaxial_flue_nozzle_diameter = models.CharField(blank=True, null=True, choices=COAXIAL_FLUE_NOZZLE_CHOICES, verbose_name='диаметр коаксиального дымохода')
+    coaxial_flue_nozzle_diameter = models.CharField(blank=True, null=True, max_length=7, choices=COAXIAL_FLUE_NOZZLE_CHOICES, verbose_name='диаметр коаксиального дымохода')
     control_type = models.CharField(max_length=6, choices=CONTROL_TYPE_CHOICES, default='absent', verbose_name='панель управления')
     wh_type = models.CharField(max_length=6, choices=WATER_HEATER_TYPE_CHOICES, default='stream', verbose_name='тип контура ГВС')
     wh_capacity = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='объём встроенного бойлера, л')
@@ -349,6 +362,7 @@ class Sensor(BaseProduct):
 
     panels = models.ManyToManyField(ControlPanel, blank=True)
     modules = models.ManyToManyField(ExtensionControlModule, blank=True)
+    pumpcontrols = models.ManyToManyField(PumpControl, blank=True)
 
 
 class WaterHeater(BaseProduct):
@@ -374,7 +388,7 @@ class WaterHeater(BaseProduct):
     capacity = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='объём, л')
     is_wall_mount = models.BooleanField(default=False, verbose_name='настенный монтаж')
     wall_mount_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения о настенном монтаже')
-    is_onfloor_mount = models.BooleanField(delault=True, verbose_name='напольный монтаж')
+    is_onfloor_mount = models.BooleanField(default=True, verbose_name='напольный монтаж')
     onfloor_mount_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения о напольном монтаже')
     orientation = models.CharField(max_length=4, choices=ORIENTATION_CHOICES, default='vert', verbose_name='расположение')
     orientation_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения о расположении')
@@ -414,7 +428,7 @@ class ExpansionVessel(BaseProduct):
     op_overpressure = models.DecimalField(max_digits=3, decimal_places=1, verbose_name='максимальное рабочее давление, бар')
     gas_inlet_pressure = models.DecimalField(max_digits=3, decimal_places=1, verbose_name='предустановленное давление воздуха в мембране, бар')
     is_changeable_membrane = models.BooleanField(default=False, verbose_name='заменяемая мембрана')
-    foot_construction = models.BooleanField(defalt=False, verbose_name='ножки для напольной установки')
+    foot_construction = models.BooleanField(default=False, verbose_name='ножки для напольной установки')
     orientation = models.CharField(max_length=4, choices=ORIENTATION_CHOICES, verbose_name='расположение')
     connection_gear_size = models.CharField(max_length=3, choices=GEAR_SIZE_CHOICES, verbose_name='размер присоединительной резьбы')
     color = models.CharField(max_length=20, verbose_name='цвет')
