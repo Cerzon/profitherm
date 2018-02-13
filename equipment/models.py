@@ -53,7 +53,7 @@ class StockKeepingUnit(models.Model):
     "Единица товарного учёта"
 
     sku_name = models.CharField(max_length=16, verbose_name='название')
-    sku_display_name = models.CharField(blank=True, max_length=30, verbose_name='отображаемое название', help_text='включая html-тэги типа <sup></sup> и т.п.')
+    sku_display_name = models.CharField(blank=True, max_length=30, verbose_name='отображаемое название', help_text='включая html-тэги типа < sup >< /sup > и т.п.')
 
     class Meta():
         verbose_name = 'товарная единица'
@@ -66,11 +66,11 @@ class StockKeepingUnit(models.Model):
 class PriceCurrency(models.Model):
     "Валюта"
 
-    currency_code = models.CharField(max_length=10)
-    currency_name = models.CharField(max_length=30)
-    currency_display_name = models.CharField(blank=True, max_length=30)
-    currency_exchange_rate = models.DecimalField(max_digits=7, decimal_places=4, default=1)
-    is_default = models.BooleanField(default=False)
+    currency_code = models.CharField(max_length=10, verbose_name='код валюты в банковской системе')
+    currency_name = models.CharField(max_length=30, verbose_name='внутреннее название валюты')
+    currency_display_name = models.CharField(blank=True, max_length=30, verbose_name='отображение валюты')
+    currency_exchange_rate = models.DecimalField(max_digits=7, decimal_places=4, default=1, verbose_name='курс к основной валюте')
+    is_default = models.BooleanField(default=False, verbose_name='основная валюта')
     
     class Meta():
         verbose_name = 'валюта исчисления'
@@ -83,12 +83,12 @@ class PriceCurrency(models.Model):
 class BrandName(models.Model):
     "Марка"
 
-    brand_slug = models.SlugField(max_length=20)
-    brand_name = models.CharField(max_length=20)
-    brand_homeland = models.CharField(max_length=2, choices=COUNTRY_LIST)
-    brand_display_name = models.CharField(blank=True, max_length=50)
-    brand_logo_img = models.ForeignKey(ProfImage, on_delete=models.PROTECT, related_name='brand_set')
-    brand_description = models.TextField(blank=True)
+    brand_slug = models.SlugField(max_length=20, verbose_name='название для url')
+    brand_name = models.CharField(max_length=20, verbose_name='название')
+    brand_homeland = models.CharField(max_length=2, choices=COUNTRY_LIST, verbose_name='родина брэнда')
+    brand_display_name = models.CharField(blank=True, max_length=50, verbose_name='отображаемое название', help_text='если оставить поле пустым, будет отображаться название')
+    brand_logo_img = models.ForeignKey(ProfImage, on_delete=models.SET_NULL, blank=True, null=True, related_name='brand_set', verbose_name='логотип')
+    brand_description = models.TextField(blank=True, verbose_name='описание')
 
     class Meta():
         verbose_name = 'марка оборудования'
@@ -101,10 +101,10 @@ class BrandName(models.Model):
 class Manufacturer(models.Model):
     "Производитель"
 
-    factory_slug = models.SlugField(max_length=20)
-    factory_name = models.CharField(max_length=100)
-    factory_homeland = models.CharField(max_length=2, choices=COUNTRY_LIST)
-    factory_description = models.TextField(blank=True)
+    factory_slug = models.SlugField(max_length=20, verbose_name='название для url')
+    factory_name = models.CharField(max_length=100, verbose_name='название завода/производителя')
+    factory_homeland = models.CharField(max_length=2, choices=COUNTRY_LIST, verbose_name='расположение завода')
+    factory_description = models.TextField(blank=True, verbose_name='описание')
 
     class Meta():
         verbose_name = 'завод изготовитель'
@@ -117,12 +117,12 @@ class Manufacturer(models.Model):
 class EquipmentCategory(models.Model):
     "Категория оборудования, она же каталожный узел"
 
-    ecat_slug = models.SlugField(max_length=30)
-    is_published = models.BooleanField(default=False)
+    ecat_slug = models.SlugField(max_length=30, verbose_name='название для url')
+    is_published = models.BooleanField(default=False, verbose_name='опубликовано')
     ecat_name = models.CharField(max_length=50)
-    ecat_image = models.ForeignKey(ProfImage, on_delete=models.SET_NULL, null=True, related_name='category_set')
+    ecat_image = models.ForeignKey(ProfImage, on_delete=models.SET_NULL, blank=True, null=True, related_name='category_set')
     ecat_description = models.TextField(blank=True, null=True)
-    ecat_parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, related_name='ecat_childrens')
+    ecat_parent = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, related_name='ecat_childrens')
 
     class Meta():
         verbose_name = 'категория оборудования'
@@ -136,19 +136,21 @@ class BaseProduct(models.Model):
     """Базовый класс товара с набором
     общих свойств и атрибутов"""
 
-    product_slug = models.SlugField(max_length=60)
-    is_published = models.BooleanField(default=False)
+    product_slug = models.SlugField(max_length=60, verbose_name='название для url')
+    is_published = models.BooleanField(default=False, verbose_name='опубликовано')
     vendor_code = models.CharField(max_length=40, verbose_name='артикул')
+    product_brand = models.ForeignKey(BrandName, on_delete=models.PROTECT, blank=True, null=True, related_name='+', verbose_name='марка')
+    product_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.SET_NULL, blank=True, null=True, related_name='+', verbose_name='производитель')
     product_name = models.CharField(max_length=120, verbose_name='наименование')
     product_fullname = models.TextField(blank=True, verbose_name='полное наименование')
     product_description = models.TextField(blank=True, verbose_name='описание')
     product_mass = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='масса, кг')
-    product_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, verbose_name='каталожная цена')
-    price_unit = models.ForeignKey(StockKeepingUnit, on_delete=models.PROTECT, related_name='+')
-    price_currency = models.ForeignKey(PriceCurrency, on_delete=models.PROTECT, related_name='+')
-    trade_unit = models.ForeignKey(StockKeepingUnit, on_delete=models.PROTECT, related_name='+')
+    product_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, verbose_name='каталожная цена')
+    price_unit = models.ForeignKey(StockKeepingUnit, on_delete=models.PROTECT, related_name='+', verbose_name='Цена за')
+    price_currency = models.ForeignKey(PriceCurrency, on_delete=models.PROTECT, related_name='+', verbose_name='валюта прайса')
+    trade_unit = models.ForeignKey(StockKeepingUnit, on_delete=models.PROTECT, related_name='+', verbose_name='единица продажи')
     trade_unit_multiplier = models.PositiveSmallIntegerField(default=1, verbose_name='кратность единицы продажи')
-    complectation = models.TextField(verbose_name='комплектация')
+    complectation = models.TextField(blank=True, null=True, verbose_name='комплектация')
 
     class Meta():
         abstract = True
@@ -211,6 +213,10 @@ class Radiator(BaseProduct):
     voltage = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='напряжение питания, В')
     voltage_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по электропитанию')
 
+    class Meta():
+        verbose_name = 'радиатор'
+        verbose_name_plural = 'товары - радиаторы'
+
 
 class Pump(BaseProduct):
     """Насосы самые разные"""
@@ -232,20 +238,35 @@ class Pump(BaseProduct):
     flow_max = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='максимальный расход, куб.м/ч')
     flow_min = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='минимальный расход, куб.м/ч')
     flow_optimal = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='расход при максимальном КПД, куб.м/ч')
+    inline_height = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='монтажная высота, мм')
     electonic_regulation = models.BooleanField(default=False, verbose_name='частотное регулирование')
     flow_switch = models.BooleanField(default=False, verbose_name='наличие поплавка')
     electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=4, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
     voltage = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='напряжение питания, В')
     voltage_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по электропитанию')
+    height = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='высота, мм')
+    width = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='ширина, мм')
+    depth = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='глубина, мм')
+
+    class Meta():
+        verbose_name = 'насос'
+        verbose_name_plural = 'товары - насосы'
 
 
 class PumpControl(BaseProduct):
     """Шкаф управления насосами"""
 
-    pumps = models.ManyToManyField(Pump)
+    pumps = models.ManyToManyField(Pump, verbose_name='подходит для насосов')
     overamperage = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='допустимый ток, А')
     voltage = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='напряжение питания, В')
     voltage_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по электропитанию')
+    height = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='высота, мм')
+    width = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='ширина, мм')
+    depth = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='глубина, мм')
+
+    class Meta():
+        verbose_name = 'шкаф управления'
+        verbose_name_plural = 'товары - шкафы управления'
 
 
 class Boiler(BaseProduct):
@@ -315,12 +336,16 @@ class Boiler(BaseProduct):
     width = models.PositiveSmallIntegerField(verbose_name='ширина, мм')
     depth = models.PositiveSmallIntegerField(verbose_name='глубина, мм')
 
+    class Meta():
+        verbose_name = 'котёл'
+        verbose_name_plural = 'товары - котлы'
+
 
 class ControlPanel(BaseProduct):
     """Панели управления котлов и контроллеры"""
 
     is_standalone = models.BooleanField(default=False, verbose_name='можно использовать как самостоятельный контроллер')
-    boilers = models.ManyToManyField(Boiler, blank=True)
+    boilers = models.ManyToManyField(Boiler, blank=True, verbose_name='подходит для котлов')
     is_automatic = models.BooleanField(default=True, verbose_name='автоматическое регулирование')
     is_weather_depended = models.BooleanField(default=True, verbose_name='погодозависимое управление')
     weather_dependency_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='условия для работы контроллера в погодозависимом режиме')
@@ -337,32 +362,44 @@ class ControlPanel(BaseProduct):
     electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
     voltage = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='напряжение питания, В')
     voltage_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по электропитанию')
-    height = models.PositiveSmallIntegerField(verbose_name='высота, мм')
-    width = models.PositiveSmallIntegerField(verbose_name='ширина, мм')
-    depth = models.PositiveSmallIntegerField(verbose_name='глубина, мм')
+    height = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='высота, мм')
+    width = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='ширина, мм')
+    depth = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='глубина, мм')
+
+    class Meta():
+        verbose_name = 'панель управления'
+        verbose_name_plural = 'товары - панели управления'
 
 
 class ExtensionControlModule(BaseProduct):
     """Платы расширения, модули, блоки дистанционного управления и термостаты"""
 
-    panels = models.ManyToManyField(ControlPanel, blank=True)
-    radiators = models.ManyToManyField(Radiator, blank=True)
+    panels = models.ManyToManyField(ControlPanel, blank=True, verbose_name='подходит для панелей управления')
+    radiators = models.ManyToManyField(Radiator, blank=True, verbose_name='подходит для радиаторов')
     is_remote_control = models.BooleanField(default=False, verbose_name='является модулем дистанционного управления')
     is_programmable = models.BooleanField(default=False, verbose_name='возможность программирования')
     electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
     voltage = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='напряжение питания, В')
     voltage_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по электропитанию')
-    height = models.PositiveSmallIntegerField(verbose_name='высота, мм')
-    width = models.PositiveSmallIntegerField(verbose_name='ширина, мм')
-    depth = models.PositiveSmallIntegerField(verbose_name='глубина, мм')
+    height = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='высота, мм')
+    width = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='ширина, мм')
+    depth = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='глубина, мм')
+
+    class Meta():
+        verbose_name = 'модуль расширения или термостат'
+        verbose_name_plural = 'товары - модули расширения и термостаты'
 
 
 class Sensor(BaseProduct):
     """Датчики для плат, модулей и панелей управления"""
 
-    panels = models.ManyToManyField(ControlPanel, blank=True)
-    modules = models.ManyToManyField(ExtensionControlModule, blank=True)
-    pumpcontrols = models.ManyToManyField(PumpControl, blank=True)
+    panels = models.ManyToManyField(ControlPanel, blank=True, verbose_name='подходит для панелей управления')
+    modules = models.ManyToManyField(ExtensionControlModule, blank=True, verbose_name='подходит для модулей управления')
+    pumpcontrols = models.ManyToManyField(PumpControl, blank=True, verbose_name='подходит для шкафов управления')
+
+    class Meta():
+        verbose_name = 'датчик'
+        verbose_name_plural = 'товары - датчики'
 
 
 class WaterHeater(BaseProduct):
@@ -407,6 +444,10 @@ class WaterHeater(BaseProduct):
     width = models.PositiveSmallIntegerField(verbose_name='ширина, мм')
     depth = models.PositiveSmallIntegerField(verbose_name='глубина, мм')
 
+    class Meta():
+        verbose_name = 'водонагреватель'
+        verbose_name_plural = 'товары - водонагреватели'
+
 
 class ExpansionVessel(BaseProduct):
     """Расширительные баки для отопления и ГВС"""
@@ -435,3 +476,7 @@ class ExpansionVessel(BaseProduct):
     diameter = models.PositiveSmallIntegerField(verbose_name='диаметр, мм')
     height = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='высота, мм')
     length = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='длина, мм')
+
+    class Meta():
+        verbose_name = 'экспанзомат'
+        verbose_name_plural = 'товары - экспанзоматы'
