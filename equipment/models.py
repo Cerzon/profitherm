@@ -129,16 +129,7 @@ class EquipmentCategory(models.Model):
         verbose_name_plural = 'категории оборудования'
 
     def __str__(self):
-        ecat_path, ecat_depth = self.get_full_path()
-        return '{0}{1} : {2}'.format('- '*ecat_depth, self.ecat_name, ecat_path)
-
-    def get_full_path(self, depth=0):
-        if self.ecat_parent:
-            deeper = depth + 1
-            parent, result_depth = self.ecat_parent.get_full_path(depth=deeper)
-            return '{0}/{1}'.format(parent, self.ecat_slug), result_depth
-        else:
-            return self.ecat_slug, depth
+        return self.ecat_name
 
 
 class BaseProduct(models.Model):
