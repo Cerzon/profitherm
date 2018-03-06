@@ -127,6 +127,7 @@ class EquipmentCategory(models.Model):
     class Meta():
         verbose_name = 'категория оборудования'
         verbose_name_plural = 'категории оборудования'
+        unique_together = ('ecat_slug', 'ecat_parent')
 
     def __str__(self):
         return self.ecat_name
