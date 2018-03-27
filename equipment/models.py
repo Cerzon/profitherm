@@ -133,7 +133,7 @@ class EquipmentCategory(models.Model):
         return self.ecat_name
 
 
-class BaseProduct(models.Model):
+class Product(models.Model):
     """Базовый класс товара с набором
     общих свойств и атрибутов"""
 
@@ -142,8 +142,9 @@ class BaseProduct(models.Model):
     vendor_code = models.CharField(max_length=40, verbose_name='артикул')
     product_brand = models.ForeignKey(BrandName, on_delete=models.PROTECT, blank=True, null=True, related_name='+', verbose_name='марка')
     product_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.SET_NULL, blank=True, null=True, related_name='+', verbose_name='производитель')
-    product_name = models.CharField(max_length=120, verbose_name='наименование')
+    product_name = models.CharField(max_length=200, verbose_name='наименование')
     product_fullname = models.TextField(blank=True, verbose_name='полное наименование')
+    product_series = models.CharField(blank=True, max_length=120, verbose_name='название линейки/серии')
     product_description = models.TextField(blank=True, verbose_name='описание')
     product_mass = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='масса, кг')
     product_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, verbose_name='каталожная цена')
@@ -154,13 +155,13 @@ class BaseProduct(models.Model):
     complectation = models.TextField(blank=True, null=True, verbose_name='комплектация')
 
     class Meta():
-        abstract = True
+        ordering = ['product_brand', 'product_series', 'product_name']
 
     def __str__(self):
         return '{0} . {1}'.format(self.vendor_code, self.product_name)
 
 
-class Radiator(BaseProduct):
+class Radiator(models.Model):
     """Отопительные приборы - радиаторы, конвекторы, польные конвекторы etc"""
 
     FORM_TYPE_CHOICES = (
@@ -193,6 +194,7 @@ class Radiator(BaseProduct):
         ('othr', 'Другое',),
     )
 
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
     form_type = models.CharField(max_length=5, choices=FORM_TYPE_CHOICES, default='panel', verbose_name='тип радиатора')
     mount_type = models.CharField(max_length=7, choices=MOUNT_TYPE_CHOICES, default='wallmnt', verbose_name='стандартное размещение')
     mount_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='информация о монтаже')
@@ -219,7 +221,7 @@ class Radiator(BaseProduct):
         verbose_name_plural = 'товары - радиаторы'
 
 
-class Pump(BaseProduct):
+class Pump(models.Model):
     """Насосы самые разные"""
 
     PURPOSE_CHOICES = (
@@ -232,6 +234,7 @@ class Pump(BaseProduct):
         ('sewagesbmrc', 'Фекальный',),
     )
 
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
     purpose = models.CharField(max_length=11, choices=PURPOSE_CHOICES, default='circulation', verbose_name='назначение')
     head_max = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='максимальный напор, м')
     head_min = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='минимальный напор, м')
@@ -254,10 +257,10 @@ class Pump(BaseProduct):
         verbose_name_plural = 'товары - насосы'
 
 
-class PumpControl(BaseProduct):
+class PumpControl(models.Model):
     """Шкаф управления насосами"""
 
-    pumps = models.ManyToManyField(Pump, verbose_name='подходит для насосов')
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
     overamperage = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='допустимый ток, А')
     voltage = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='напряжение питания, В')
     voltage_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по электропитанию')
@@ -270,7 +273,7 @@ class PumpControl(BaseProduct):
         verbose_name_plural = 'товары - шкафы управления'
 
 
-class Boiler(BaseProduct):
+class Boiler(models.Model):
     """Котёл водогрейный"""
 
     MOUNT_TYPE_CHOICES = (
@@ -311,6 +314,7 @@ class Boiler(BaseProduct):
         ('110_150', '110/150 мм',),
     )
 
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
     mount_type = models.CharField(max_length=7, choices=MOUNT_TYPE_CHOICES, default='wallmnt', verbose_name='тип монтажа')
     fuel_type = models.CharField(max_length=7, choices=FUEL_TYPE_CHOICES, default='gastrad', verbose_name='вид топлива')
     body_material = models.CharField(max_length=5, choices=BODY_MATERIAL_CHOICES, default='steel', verbose_name='материал первичного теплообменника котла')
@@ -342,11 +346,11 @@ class Boiler(BaseProduct):
         verbose_name_plural = 'товары - котлы'
 
 
-class ControlPanel(BaseProduct):
+class ControlPanel(models.Model):
     """Панели управления котлов и контроллеры"""
 
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
     is_standalone = models.BooleanField(default=False, verbose_name='можно использовать как самостоятельный контроллер')
-    boilers = models.ManyToManyField(Boiler, blank=True, verbose_name='подходит для котлов')
     is_automatic = models.BooleanField(default=True, verbose_name='автоматическое регулирование')
     is_weather_depended = models.BooleanField(default=True, verbose_name='погодозависимое управление')
     weather_dependency_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='условия для работы контроллера в погодозависимом режиме')
@@ -372,11 +376,10 @@ class ControlPanel(BaseProduct):
         verbose_name_plural = 'товары - панели управления'
 
 
-class ExtensionControlModule(BaseProduct):
+class ExtensionControlModule(models.Model):
     """Платы расширения, модули, блоки дистанционного управления и термостаты"""
 
-    panels = models.ManyToManyField(ControlPanel, blank=True, verbose_name='подходит для панелей управления')
-    radiators = models.ManyToManyField(Radiator, blank=True, verbose_name='подходит для радиаторов')
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
     is_remote_control = models.BooleanField(default=False, verbose_name='является модулем дистанционного управления')
     is_programmable = models.BooleanField(default=False, verbose_name='возможность программирования')
     electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
@@ -391,19 +394,22 @@ class ExtensionControlModule(BaseProduct):
         verbose_name_plural = 'товары - модули расширения и термостаты'
 
 
-class Sensor(BaseProduct):
+class Sensor(models.Model):
     """Датчики для плат, модулей и панелей управления"""
+    SENSOR_TYPE_CHOICES = (
+        ('sbmersbl', 'Погружной',),
+        ('overhead', 'Накладной',),
+    )
 
-    panels = models.ManyToManyField(ControlPanel, blank=True, verbose_name='подходит для панелей управления')
-    modules = models.ManyToManyField(ExtensionControlModule, blank=True, verbose_name='подходит для модулей управления')
-    pumpcontrols = models.ManyToManyField(PumpControl, blank=True, verbose_name='подходит для шкафов управления')
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='extention')
+    sensor_type = models.CharField(max_length=8, choices=SENSOR_TYPE_CHOICES, verbose_name='тип датчика')
 
     class Meta():
         verbose_name = 'датчик'
         verbose_name_plural = 'товары - датчики'
 
 
-class WaterHeater(BaseProduct):
+class WaterHeater(models.Model):
     """Водонагреватели проточные и накопительные"""
     HEATING_TYPE_CHOICES = (
         ('ind', 'Косвенный нагрев',),
@@ -421,6 +427,7 @@ class WaterHeater(BaseProduct):
         ('electr', 'Электронная',),
     )
 
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
     heating_type = models.CharField(max_length=3, choices=HEATING_TYPE_CHOICES, default='ind', verbose_name='тип нагревателя')
     is_buffer = models.BooleanField(default=True, verbose_name='накопительный')
     capacity = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='объём, л')
@@ -450,7 +457,7 @@ class WaterHeater(BaseProduct):
         verbose_name_plural = 'товары - водонагреватели'
 
 
-class ExpansionVessel(BaseProduct):
+class ExpansionVessel(models.Model):
     """Расширительные баки для отопления и ГВС"""
 
     PURPOSE_CHOICES = (
@@ -463,6 +470,7 @@ class ExpansionVessel(BaseProduct):
         ('univ', 'Универсальный',),
     )
 
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
     purpose = models.CharField(max_length=7, choices=PURPOSE_CHOICES, default='heating', verbose_name='назначение')
     nominal_volume = models.PositiveSmallIntegerField(verbose_name='номинальный объём, л')
     useful_volume = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='полезный объём, л')
