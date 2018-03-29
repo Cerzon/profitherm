@@ -52,24 +52,24 @@ DN_SIZE_CHOICES = (
 class StockKeepingUnit(models.Model):
     "Единица товарного учёта"
 
-    sku_name = models.CharField(max_length=16, verbose_name='название')
-    sku_display_name = models.CharField(blank=True, max_length=30, verbose_name='отображаемое название', help_text='включая html-тэги типа < sup >< /sup > и т.п.')
+    name = models.CharField(max_length=16, verbose_name='название')
+    display_name = models.CharField(blank=True, max_length=30, verbose_name='отображаемое название', help_text='включая html-тэги типа < sup >< /sup > и т.п.')
 
     class Meta():
         verbose_name = 'товарная единица'
         verbose_name_plural = 'товарные единицы'
 
     def __str__(self):
-        return self.sku_name
+        return self.name
 
 
 class PriceCurrency(models.Model):
     "Валюта"
 
-    currency_code = models.CharField(max_length=10, verbose_name='код валюты в банковской системе')
-    currency_name = models.CharField(max_length=30, verbose_name='внутреннее название валюты')
-    currency_display_name = models.CharField(blank=True, max_length=30, verbose_name='отображение валюты')
-    currency_exchange_rate = models.DecimalField(max_digits=7, decimal_places=4, default=1, verbose_name='курс к основной валюте')
+    code = models.CharField(max_length=10, verbose_name='код валюты в банковской системе')
+    name = models.CharField(max_length=30, verbose_name='внутреннее название валюты')
+    display_name = models.CharField(blank=True, max_length=30, verbose_name='отображение валюты')
+    exchange_rate = models.DecimalField(max_digits=7, decimal_places=4, default=1, verbose_name='курс к основной валюте')
     is_default = models.BooleanField(default=False, verbose_name='основная валюта')
     
     class Meta():
@@ -77,77 +77,99 @@ class PriceCurrency(models.Model):
         verbose_name_plural = 'валюты исчисления'
 
     def __str__(self):
-        return self.currency_name
+        return self.name
 
 
 class BrandName(models.Model):
     "Марка"
 
-    brand_slug = models.SlugField(max_length=20, verbose_name='название для url')
-    brand_name = models.CharField(max_length=20, verbose_name='название')
-    brand_homeland = models.CharField(max_length=2, choices=COUNTRY_LIST, verbose_name='родина брэнда')
-    brand_display_name = models.CharField(blank=True, max_length=50, verbose_name='отображаемое название', help_text='если оставить поле пустым, будет отображаться название')
-    brand_logo_img = models.ForeignKey(ProfImage, on_delete=models.SET_NULL, blank=True, null=True, related_name='brand_set', verbose_name='логотип')
-    brand_description = models.TextField(blank=True, verbose_name='описание')
+    slug = models.SlugField(max_length=20, verbose_name='название для url')
+    name = models.CharField(max_length=20, verbose_name='название')
+    homeland = models.CharField(max_length=2, choices=COUNTRY_LIST, verbose_name='родина брэнда')
+    display_name = models.CharField(blank=True, max_length=50, verbose_name='отображаемое название', help_text='если оставить поле пустым, будет отображаться название')
+    logo_img = models.ForeignKey(ProfImage, on_delete=models.SET_NULL, blank=True, null=True, related_name='brand_set', verbose_name='логотип')
+    description = models.TextField(blank=True, verbose_name='описание')
 
     class Meta():
         verbose_name = 'марка оборудования'
         verbose_name_plural = 'марки оборудования'
 
     def __str__(self):
-        return self.brand_name
+        return self.name
 
 
 class Manufacturer(models.Model):
     "Производитель"
 
-    factory_slug = models.SlugField(max_length=20, verbose_name='название для url')
-    factory_name = models.CharField(max_length=100, verbose_name='название завода/производителя')
-    factory_homeland = models.CharField(max_length=2, choices=COUNTRY_LIST, verbose_name='расположение завода')
-    factory_description = models.TextField(blank=True, verbose_name='описание')
+    slug = models.SlugField(max_length=20, verbose_name='название для url')
+    name = models.CharField(max_length=100, verbose_name='название завода/производителя')
+    homeland = models.CharField(max_length=2, choices=COUNTRY_LIST, verbose_name='расположение завода')
+    description = models.TextField(blank=True, verbose_name='описание')
 
     class Meta():
         verbose_name = 'завод изготовитель'
         verbose_name_plural = 'заводы изготовители'
 
     def __str__(self):
-        return self.factory_name
+        return self.name
 
 
 class EquipmentCategory(models.Model):
     "Категория оборудования, она же каталожный узел"
 
-    ecat_slug = models.SlugField(max_length=30, verbose_name='название для url')
+    slug = models.SlugField(max_length=30, verbose_name='название для url')
     is_published = models.BooleanField(default=False, verbose_name='опубликовано')
-    ecat_name = models.CharField(max_length=50)
-    ecat_image = models.ForeignKey(ProfImage, on_delete=models.SET_NULL, blank=True, null=True, related_name='category_set')
-    ecat_description = models.TextField(blank=True, null=True)
-    ecat_parent = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, related_name='ecat_childrens')
+    name = models.CharField(max_length=50)
+    image = models.ForeignKey(ProfImage, on_delete=models.SET_NULL, blank=True, null=True, related_name='category_set')
+    description = models.TextField(blank=True, null=True)
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, related_name='ecat_childrens')
 
     class Meta():
         verbose_name = 'категория оборудования'
         verbose_name_plural = 'категории оборудования'
-        unique_together = ('ecat_slug', 'ecat_parent')
+        unique_together = ('slug', 'parent')
 
     def __str__(self):
-        return self.ecat_name
+        return self.name
+
+
+class ProductSeries(models.Model):
+    """Линейка/серия товаров"""
+    PRODUCT_TYPE_CHOICES = (
+        ('rdtr', 'Радиаторы',),
+        ('pump', 'Насосы',),
+        ('pmct', 'Шкафы управления',),
+        ('bolr', 'Котлы',),
+        ('blct', 'Панели управления для котлов',),
+        ('ctmd', 'Модули управления и настенные блоки',),
+        ('wtht', 'Водонагреватели',),
+        ('xpvs', 'Расширительные баки',),
+    )
+
+    product_type = models.CharField(max_length=4, choices=PRODUCT_TYPE_CHOICES, verbose_name='относится к товарам')
+    brand = models.ForeignKey(BrandName, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='марка')
+    name = models.CharField(max_length=120, verbose_name='название')
+    description = models.TextField(blank=True, null=True, verbose_name='описание')
+    common_image = models.ForeignKey(ProfImage, on_delete=models.SET_NULL, blank=True, null=True, related_name='+')
+
+    def __str__(self):
+        return '{0} : {1}'.format(self.brand.name, self.name)
 
 
 class Product(models.Model):
     """Базовый класс товара с набором
     общих свойств и атрибутов"""
 
-    product_slug = models.SlugField(max_length=60, verbose_name='название для url')
+    slug = models.SlugField(max_length=60, verbose_name='название для url')
     is_published = models.BooleanField(default=False, verbose_name='опубликовано')
     vendor_code = models.CharField(max_length=40, verbose_name='артикул')
-    product_brand = models.ForeignKey(BrandName, on_delete=models.PROTECT, blank=True, null=True, related_name='+', verbose_name='марка')
-    product_manufacturer = models.ForeignKey(Manufacturer, on_delete=models.SET_NULL, blank=True, null=True, related_name='+', verbose_name='производитель')
-    product_name = models.CharField(max_length=200, verbose_name='наименование')
-    product_fullname = models.TextField(blank=True, verbose_name='полное наименование')
-    product_series = models.CharField(blank=True, max_length=120, verbose_name='название линейки/серии')
-    product_description = models.TextField(blank=True, verbose_name='описание')
-    product_mass = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='масса, кг')
-    product_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, verbose_name='каталожная цена')
+    brand = models.ForeignKey(BrandName, on_delete=models.PROTECT, blank=True, null=True, related_name='+', verbose_name='марка')
+    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.SET_NULL, blank=True, null=True, related_name='+', verbose_name='производитель')
+    name = models.CharField(max_length=200, verbose_name='наименование')
+    fullname = models.TextField(blank=True, verbose_name='полное наименование')
+    description = models.TextField(blank=True, verbose_name='описание')
+    mass = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='масса, кг')
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, verbose_name='каталожная цена')
     price_unit = models.ForeignKey(StockKeepingUnit, on_delete=models.PROTECT, related_name='+', verbose_name='Цена за')
     price_currency = models.ForeignKey(PriceCurrency, on_delete=models.PROTECT, related_name='+', verbose_name='валюта прайса')
     trade_unit = models.ForeignKey(StockKeepingUnit, on_delete=models.PROTECT, related_name='+', verbose_name='единица продажи')
@@ -155,10 +177,10 @@ class Product(models.Model):
     complectation = models.TextField(blank=True, null=True, verbose_name='комплектация')
 
     class Meta():
-        ordering = ['product_brand', 'product_series', 'product_name']
+        ordering = ['brand', 'name']
 
     def __str__(self):
-        return '{0} . {1}'.format(self.vendor_code, self.product_name)
+        return '{0} . {1}'.format(self.vendor_code, self.name)
 
 
 class Radiator(Product):
@@ -194,7 +216,8 @@ class Radiator(Product):
         ('othr', 'Другое',),
     )
 
-    #product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, parent_link=True)
+    series = models.ForeignKey(ProductSeries, on_delete=models.SET_NULL, blank=True, null=True, limit_choices_to={'product_type' : 'rdtr'}, verbose_name='название серии/линейки')
     form_type = models.CharField(max_length=5, choices=FORM_TYPE_CHOICES, default='panel', verbose_name='тип радиатора')
     mount_type = models.CharField(max_length=7, choices=MOUNT_TYPE_CHOICES, default='wallmnt', verbose_name='стандартное размещение')
     mount_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='информация о монтаже')
@@ -234,7 +257,8 @@ class Pump(Product):
         ('sewagesbmrc', 'Фекальный',),
     )
 
-    #product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, parent_link=True)
+    series = models.ForeignKey(ProductSeries, on_delete=models.SET_NULL, blank=True, null=True, limit_choices_to={'product_type' : 'pump'}, verbose_name='название серии/линейки')
     purpose = models.CharField(max_length=11, choices=PURPOSE_CHOICES, default='circulation', verbose_name='назначение')
     head_max = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='максимальный напор, м')
     head_min = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='минимальный напор, м')
@@ -260,7 +284,8 @@ class Pump(Product):
 class PumpControl(Product):
     """Шкаф управления насосами"""
 
-    #product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, parent_link=True)
+    series = models.ForeignKey(ProductSeries, on_delete=models.SET_NULL, blank=True, null=True, limit_choices_to={'product_type' : 'pmct'}, verbose_name='название серии/линейки')
     overamperage = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='допустимый ток, А')
     voltage = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='напряжение питания, В')
     voltage_notes = models.CharField(blank=True, null=True, max_length=250, verbose_name='дополнительные сведения по электропитанию')
@@ -314,7 +339,8 @@ class Boiler(Product):
         ('110_150', '110/150 мм',),
     )
 
-    #product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, parent_link=True)
+    series = models.ForeignKey(ProductSeries, on_delete=models.SET_NULL, blank=True, null=True, limit_choices_to={'product_type' : 'bolr'}, verbose_name='название серии/линейки')
     mount_type = models.CharField(max_length=7, choices=MOUNT_TYPE_CHOICES, default='wallmnt', verbose_name='тип монтажа')
     fuel_type = models.CharField(max_length=7, choices=FUEL_TYPE_CHOICES, default='gastrad', verbose_name='вид топлива')
     body_material = models.CharField(max_length=5, choices=BODY_MATERIAL_CHOICES, default='steel', verbose_name='материал первичного теплообменника котла')
@@ -349,7 +375,8 @@ class Boiler(Product):
 class ControlPanel(Product):
     """Панели управления котлов и контроллеры"""
 
-    #product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, parent_link=True)
+    series = models.ForeignKey(ProductSeries, on_delete=models.SET_NULL, blank=True, null=True, limit_choices_to={'product_type' : 'blct'}, verbose_name='название серии/линейки')
     is_standalone = models.BooleanField(default=False, verbose_name='можно использовать как самостоятельный контроллер')
     is_automatic = models.BooleanField(default=True, verbose_name='автоматическое регулирование')
     is_weather_depended = models.BooleanField(default=True, verbose_name='погодозависимое управление')
@@ -379,7 +406,8 @@ class ControlPanel(Product):
 class ExtensionControlModule(Product):
     """Платы расширения, модули, блоки дистанционного управления и термостаты"""
 
-    #product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, parent_link=True)
+    series = models.ForeignKey(ProductSeries, on_delete=models.SET_NULL, blank=True, null=True, limit_choices_to={'product_type' : 'ctmd'}, verbose_name='название серии/линейки')
     is_remote_control = models.BooleanField(default=False, verbose_name='является модулем дистанционного управления')
     is_programmable = models.BooleanField(default=False, verbose_name='возможность программирования')
     electric_power_consumption = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='потребляемая электрическая мощность, кВт')
@@ -401,7 +429,7 @@ class Sensor(Product):
         ('overhead', 'Накладной',),
     )
 
-    #product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='extention')
+    product = models.OneToOneField(Product, parent_link=True)
     sensor_type = models.CharField(blank=True, null=True, max_length=8, choices=SENSOR_TYPE_CHOICES, verbose_name='тип датчика')
 
     class Meta():
@@ -427,7 +455,8 @@ class WaterHeater(models.Model):
         ('electr', 'Электронная',),
     )
 
-    #product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, parent_link=True)
+    series = models.ForeignKey(ProductSeries, on_delete=models.SET_NULL, blank=True, null=True, limit_choices_to={'product_type' : 'wtht'}, verbose_name='название серии/линейки')
     heating_type = models.CharField(max_length=3, choices=HEATING_TYPE_CHOICES, default='ind', verbose_name='тип нагревателя')
     is_buffer = models.BooleanField(default=True, verbose_name='накопительный')
     capacity = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='объём, л')
@@ -470,7 +499,8 @@ class ExpansionVessel(Product):
         ('univ', 'Универсальный',),
     )
 
-    #product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, parent_link=True)
+    series = models.ForeignKey(ProductSeries, on_delete=models.SET_NULL, blank=True, null=True, limit_choices_to={'product_type' : 'xpvs'}, verbose_name='название серии/линейки')
     purpose = models.CharField(max_length=7, choices=PURPOSE_CHOICES, default='heating', verbose_name='назначение')
     nominal_volume = models.PositiveSmallIntegerField(verbose_name='номинальный объём, л')
     useful_volume = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2, verbose_name='полезный объём, л')
