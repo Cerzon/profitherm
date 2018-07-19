@@ -190,9 +190,9 @@ nav#topmenu {
 }
 
 div#topimgveil {
-    background-image: url("/static/img/veil02.png");
-    background-position: center center;
-    background-repeat: no-repeat;
+    background-image: url("/static/img/veil03.png");
+    background-position: center top;
+    background-repeat: repeat-y;
 }
 
 div#page-wrapper {
@@ -359,7 +359,7 @@ div.loader-spinner {
 
 @media only screen and (max-width: 2600px) {
     div#topimgveil {
-        background-size: 100% 100%;
+        background-size: 100% auto;
     }
 }
 
