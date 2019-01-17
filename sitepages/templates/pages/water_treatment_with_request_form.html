@@ -32,6 +32,7 @@
 {% endfor %}
 <form enctype="multipart/form-data" action="" method="POST">
     {% csrf_token %}
+    <input type='hidden' name='g-recaptcha-response' id='g-recaptcha-response'>
     {{ form.non_field_errors }}
     <header><h2>Контактные данные</h2></header>
     {% if form.user_name.errors %}<div class="landed">{{ form.user_name.errors }}</div>{% endif %}
@@ -83,4 +84,13 @@
     </div>
     <div class="form-field align-center"><input type="submit" value="Отправить" class="button main-submit" /></div>
 </form>
+<script src='https://www.google.com/recaptcha/api.js?render={{ recaptcha_public_key }}'></script>
+<script>
+    grecaptcha.ready(function() {
+        grecaptcha.execute('{{ recaptcha_public_key }}', {action: 'watertreatmen_request_add'})
+        .then(function(token) {
+            document.getElementById('g-recaptcha-response').value = token;
+        });
+    });
+</script>
 {% endblock maincontent %}

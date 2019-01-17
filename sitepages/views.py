@@ -7,6 +7,7 @@ from django.template import Template, Context
 from django.template.loader import render_to_string
 from django.views.generic.edit import CreateView, FormView
 from django.core.mail import send_mail, mail_admins, mail_managers
+from django.conf import settings
 from datetime import datetime, timedelta
 from .models import Article, ArticlePicture, ProfImage, ImageGallery, Figure, StaticPage, PageArticle, CalculationOrder, Attachment, Feedback, FrequentlyAskedQuestion, WaterTreatmentRequest
 from .forms import CalculationOrderForm, FeedbackForm, FrequentlyAskedQuestionForm, WaterTreatmentRequestForm, CallbackForm, CalcOrderFileUploadFormSet, QuestionFileUploadFormSet, WaterAnalysisFileUploadFormSet, QuickRequestForm
@@ -207,6 +208,7 @@ class CalculationOrderAddView(CreateView):
                 form=form,
                 upload_form=upload_form,
                 faq_list=faq_list,
+                recaptcha_public_key=settings.RECAPTCHA_PUBLIC_KEY,
             )
         )
 
@@ -242,6 +244,7 @@ class CalculationOrderAddView(CreateView):
                 form=form,
                 upload_form=upload_form,
                 faq_list=faq_list,
+                recaptcha_public_key=settings.RECAPTCHA_PUBLIC_KEY,
             )
         )
 
@@ -407,6 +410,7 @@ class FeedbackAddView(CreateView):
                 scripts=scripts,
                 form=form,
                 faq_list=faq_list,
+                recaptcha_public_key=settings.RECAPTCHA_PUBLIC_KEY,
             )
         )
 
@@ -437,6 +441,7 @@ class FeedbackAddView(CreateView):
                 page_detail=page_detail,
                 form=form,
                 faq_list=faq_list,
+                recaptcha_public_key=settings.RECAPTCHA_PUBLIC_KEY,
             )
         )
 
@@ -593,6 +598,7 @@ class FrequentlyAskedQuestionAddView(CreateView):
                 scripts=scripts,
                 form=form,
                 upload_form=upload_form,
+                recaptcha_public_key=settings.RECAPTCHA_PUBLIC_KEY,
             )
         )
 
@@ -626,6 +632,7 @@ class FrequentlyAskedQuestionAddView(CreateView):
                 page_detail=page_detail,
                 form=form,
                 upload_form=upload_form,
+                recaptcha_public_key=settings.RECAPTCHA_PUBLIC_KEY,
             )
         )
 
@@ -922,6 +929,7 @@ class WaterTreatmentWithRequestFormView(CreateView):
                 scripts=scripts,
                 form=form,
                 upload_form=upload_form,
+                recaptcha_public_key=settings.RECAPTCHA_PUBLIC_KEY,
             )
         )
 
@@ -955,6 +963,7 @@ class WaterTreatmentWithRequestFormView(CreateView):
                 page_detail=page_detail,
                 form=form,
                 upload_form=upload_form,
+                recaptcha_public_key=settings.RECAPTCHA_PUBLIC_KEY,
             )
         )
 
