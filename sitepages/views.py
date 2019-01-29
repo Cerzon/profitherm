@@ -460,6 +460,7 @@ class FeedbackSendView(View):
             mail_msg = 'Собственно сабж'
             grecaptcha_score = request.session.get('grecaptcha_score', False)
             if grecaptcha_score:
+                del request.session['grecaptcha_score']
                 mail_msg += '. Написано человеком с вероятностью {0}%'.format(grecaptcha_score * 100)
             mail_managers(mail_subj, mail_msg)
             page_name = reverse_lazy('feedback_success').split('/')[-2]
@@ -624,6 +625,9 @@ class FrequentlyAskedQuestionAddView(CreateView):
         upload_form.instance = self.object
         upload_form.save()
         self.request.session['faq_success'] = self.object.pk
+        grecaptcha_response = requests.post(settings.RECAPTCHA_VERIFY_SERVER, data={'secret' : settings.RECAPTCHA_PRIVATE_KEY, 'response' : self.request.POST.get('g-recaptcha-response', '')})
+        if grecaptcha_response.json()['success']:
+            self.request.session['grecaptcha_score'] = grecaptcha_response.json()['score']
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, upload_form):
@@ -654,6 +658,10 @@ class FrequentlyAskedQuestionSendView(View):
             del request.session['faq_success']
             mail_subj = 'Задан новый вопрос'
             mail_msg = render_to_string(self.mail_template, {'question' : question})
+            grecaptcha_score = request.session.get('grecaptcha_score', False)
+            if grecaptcha_score:
+                del request.session['grecaptcha_score']
+                mail_msg += '<p>Написано человеком с вероятностью {0}%</p>'.format(grecaptcha_score * 100)
             mail_managers(mail_subj, mail_msg, html_message=mail_msg)
             page_name = reverse_lazy('faq_success').split('/')[-2]
             try:
@@ -955,6 +963,9 @@ class WaterTreatmentWithRequestFormView(CreateView):
         upload_form.instance = self.object
         upload_form.save()
         self.request.session['wt_request_success'] = self.object.pk
+        grecaptcha_response = requests.post(settings.RECAPTCHA_VERIFY_SERVER, data={'secret' : settings.RECAPTCHA_PRIVATE_KEY, 'response' : self.request.POST.get('g-recaptcha-response', '')})
+        if grecaptcha_response.json()['success']:
+            self.request.session['grecaptcha_score'] = grecaptcha_response.json()['score']
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, upload_form):
@@ -985,6 +996,10 @@ class WaterTreatmentRequestSend(View):
             del request.session['wt_request_success']
             mail_subj = 'Запрос на подбор водоподготовки #{}'.format(wt_request.pk)
             mail_msg = render_to_string(self.mail_template, {'wt_request' : wt_request})
+            grecaptcha_score = request.session.get('grecaptcha_score', False)
+            if grecaptcha_score:
+                del request.session['grecaptcha_score']
+                mail_msg += '<p>Написано человеком с вероятностью {0}%</p>'.format(grecaptcha_score * 100)
             mail_managers(mail_subj, mail_msg, html_message=mail_msg)
             page_name = reverse_lazy('wt_request_success').split('/')[-2]
             try:
