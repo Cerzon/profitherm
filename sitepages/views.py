@@ -1,3 +1,4 @@
+import requests
 from django.urls import reverse_lazy
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render
@@ -426,6 +427,9 @@ class FeedbackAddView(CreateView):
     def form_valid(self, form):
         self.object = form.save()
         self.request.session['feedback_success'] = self.object.pk
+        grecaptcha_response = requests.post(settings.RECAPTCHA_VERIFY_SERVER, data={'secret' : settings.RECAPTCHA_PRIVATE_KEY, 'response' : form.cleaned_data['g-recaptcha-response']})
+        if grecaptcha_response.json()['success']:
+            self.request.session['grecaptcha_score'] = grecaptcha_response.json()['score']
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form):
@@ -454,6 +458,9 @@ class FeedbackSendView(View):
             del request.session['feedback_success']
             mail_subj = 'Добавлен новый отзыв'
             mail_msg = 'Собственно сабж'
+            grecaptcha_score = request.session.get('grecaptcha_score', False)
+            if grecaptcha_score:
+                mail_msg += '. Написано человеком с вероятностью {0}%'.format(grecaptcha_score * 100)
             mail_managers(mail_subj, mail_msg)
             page_name = reverse_lazy('feedback_success').split('/')[-2]
             try:
