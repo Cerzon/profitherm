@@ -461,7 +461,7 @@ class FeedbackSendView(View):
             grecaptcha_score = request.session.get('grecaptcha_score', False)
             if grecaptcha_score:
                 del request.session['grecaptcha_score']
-                mail_msg += '. Написано человеком с вероятностью {0}%'.format(grecaptcha_score * 100)
+                mail_msg += '. С вероятностью {0}% написано человеком.'.format(grecaptcha_score * 100)
             mail_managers(mail_subj, mail_msg)
             page_name = reverse_lazy('feedback_success').split('/')[-2]
             try:
@@ -661,7 +661,7 @@ class FrequentlyAskedQuestionSendView(View):
             grecaptcha_score = request.session.get('grecaptcha_score', False)
             if grecaptcha_score:
                 del request.session['grecaptcha_score']
-                mail_msg += '<p>Написано человеком с вероятностью {0}%</p>'.format(grecaptcha_score * 100)
+                mail_msg += '<p>С вероятностью {0}% написано человеком.</p>'.format(grecaptcha_score * 100)
             mail_managers(mail_subj, mail_msg, html_message=mail_msg)
             page_name = reverse_lazy('faq_success').split('/')[-2]
             try:
@@ -999,7 +999,7 @@ class WaterTreatmentRequestSend(View):
             grecaptcha_score = request.session.get('grecaptcha_score', False)
             if grecaptcha_score:
                 del request.session['grecaptcha_score']
-                mail_msg += '<p>Написано человеком с вероятностью {0}%</p>'.format(grecaptcha_score * 100)
+                mail_msg += '<p>С вероятностью {0}% написано человеком.</p>'.format(grecaptcha_score * 100)
             mail_managers(mail_subj, mail_msg, html_message=mail_msg)
             page_name = reverse_lazy('wt_request_success').split('/')[-2]
             try:
