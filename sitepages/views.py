@@ -884,6 +884,7 @@ class WaterTreatmentWithRequestFormView(CreateView):
     form_class = WaterTreatmentRequestForm
     model = WaterTreatmentRequest
     success_url = reverse_lazy('wt_request_success')
+    recaptcha_failed_url = reverse_lazy('recaptcha_failed')
     
     def get(self, request, *args, **kwargs):
         self.object = None
@@ -966,6 +967,8 @@ class WaterTreatmentWithRequestFormView(CreateView):
         grecaptcha_response = requests.post(settings.RECAPTCHA_VERIFY_SERVER, data={'secret' : settings.RECAPTCHA_PRIVATE_KEY, 'response' : self.request.POST.get('g-recaptcha-response', '')})
         if grecaptcha_response.json()['success']:
             self.request.session['grecaptcha_score'] = grecaptcha_response.json()['score']
+        else:
+            return HttpResponseRedirect(self.recaptcha_failed_url)
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, upload_form):
@@ -1013,3 +1016,18 @@ class WaterTreatmentRequestSend(View):
             })
         else:
             return HttpResponseRedirect('/')
+
+
+class RecaptchaFailed(View):
+    template = 'pages/recaptcha_failed.html'
+
+    def get(self, request):
+        page_name = reverse_lazy('recaptcha_failed').split('/')[-2]
+        try:
+            page_detail = StaticPage.objects.get(name=page_name)
+            if not page_detail.is_published: page_detail = None
+        except ObjectDoesNotExist:
+            page_detail = None
+        return render(request, self.template, {
+            'page_detail' : page_detail,
+        })

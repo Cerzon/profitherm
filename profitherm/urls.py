@@ -36,5 +36,6 @@ urlpatterns = [
     url(r'^vodoochistka/$', views.WaterTreatmentWithRequestFormView.as_view(), name='water_treatment'),
     url(r'^vodoochistka/wtrequest-send/$', views.WaterTreatmentRequestSend.as_view(), name='wt_request_success'),
     url(r'^forms/quick-request/$', views.QuickRequestFormView.as_view(), name='quick_request_form'),
+    url(r'^recaptcha-verification-failed/$', views.RecaptchaFailed.as_view(), name='recaptcha_failed'),
     url(r'^(?P<page_name>[\-\w]+)/$', views.InfoPage.as_view(), name='info_page'),
 ]
