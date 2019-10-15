@@ -174,6 +174,18 @@ class ImageGalleryAdmin(admin.ModelAdmin):
     list_editable = ('deploy_template', 'position', 'name',)
 admin.site.register(ImageGallery, ImageGalleryAdmin)
 
+class FigureAdmin(admin.ModelAdmin):
+    list_display = (
+        '__str__',
+        'image_gallery',
+        'image',
+    )
+    list_filter = (
+        'image_gallery',
+    )
+
+admin.site.register(Figure, FigureAdmin)
+
 
 class ArticlePictureInline(admin.StackedInline):
     model = ArticlePicture
